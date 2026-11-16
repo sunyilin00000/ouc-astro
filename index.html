@@ -374,6 +374,26 @@
       *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
       #seaCanvas { cursor: default; }
     }
+  
+    /* ===== v1.1 桌面网页化改造（手机壳 → 全宽桌面站 + 顶部导航 + 会徽） ===== */
+    .mobile-shell { width: min(1480px, 100%); height: 100vh; max-height: none; }
+    /* 底部 Tab 栏移到顶部，横向导航 */
+    .tabbar { order: -1; display: flex; justify-content: flex-end; align-items: center; gap: 4px; min-height: 56px; padding: 8px 22px; border-top: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+    .tabbar.role-hidden { grid-template-columns: none; }
+    .tabbar .nav-btn { flex-direction: row; gap: 8px; padding: 9px 18px; border-radius: 10px; font-size: 12px; width: auto; }
+    /* 会徽 */
+    .assoc-logo { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1px rgba(230, 199, 143, 0.28), 0 10px 34px rgba(0, 0, 0, 0.55); }
+    .app-logo { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1px rgba(230, 199, 143, 0.25), 0 4px 16px rgba(0, 0, 0, 0.5); }
+    .app-brand { gap: 14px; }
+    @media (min-width: 960px) {
+      /* 登录页：左侧品牌区 + 右侧登录卡，两栏 */
+      .login-screen { display: grid; grid-template-columns: 1.1fr 1fr; align-content: center; align-items: center; gap: 80px; padding: 64px 96px; }
+      .login-brand { max-width: 560px; }
+      .login-card { max-width: 460px; width: 100%; justify-self: start; }
+      .login-footer { grid-column: 1 / -1; justify-self: start; margin-top: 20px; }
+      /* 顶栏更舒展 */
+      .app-top { padding: 14px 44px; }
+    }
   </style>
 </head>
 <body>
@@ -385,7 +405,7 @@
     <!-- ============ 登录 ============ -->
     <section class="screen login-screen" id="loginScreen">
       <div class="login-brand">
-        <span class="assoc-orbit" aria-hidden="true"><i></i></span>
+        <img class="assoc-logo" src="logo.png" alt="中国海洋大学天文协会会徽" />
         <p class="assoc-cn">中国海洋大学</p>
         <p class="assoc-title">天文协会</p>
         <p class="assoc-en">OUC ASTRONOMY ASSOCIATION</p>
@@ -433,7 +453,7 @@
     <section class="screen app-screen" id="appScreen" hidden>
       <header class="app-top">
         <div class="app-brand">
-          <span class="app-orbit" aria-hidden="true"></span>
+          <img class="app-logo" src="logo.png" alt="会徽" />
           <span class="app-brand-copy">
             <strong>中国海洋大学天文协会</strong>
             <span>OUC ASTRONOMY · MEMBER PORTAL</span>

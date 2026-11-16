@@ -1,1861 +1,659 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#050912" />
-  <meta name="description" content="中国海洋大学天文协会 · 星海课堂。工作台、我的课程、学习资源、实验数据与控制台。技术支持：星环终端。" />
-  <title>登录 · 中国海洋大学天文协会</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap"
-    rel="stylesheet"
-    media="print"
-    onload="this.media='all'"
-  />
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #050912;
-      --bg-deep: #02040a;
-      --panel: rgba(10, 17, 31, 0.7);
-      --panel-soft: rgba(255, 255, 255, 0.025);
-      --line: rgba(255, 255, 255, 0.075);
-      --line-strong: rgba(230, 199, 143, 0.28);
-      --gold: #e6c78f;
-      --gold-bright: #f8ebd0;
-      --ice: #9cc9e8;
-      --mint: #8ec9ae;
-      --text: #f3f6fc;
-      --muted: #98a2b6;
-      --faint: #647086;
-      --danger: #ff9a9a;
-      --font: "Montserrat", "Noto Sans SC", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
-      --font-cn: "Noto Sans SC", "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
-      --font-en: "Montserrat", "Inter", "Segoe UI", sans-serif;
-      --ease: cubic-bezier(0.25, 1, 0.5, 1);
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>中国海洋大学天文协会 · 星海课堂</title>
+<meta name="description" content="中国海洋大学天文协会官方网站 · 行远书院指导 · 普及天文知识，引导会员探索星空" />
+<style>
+    :root{
+      --bg:#04070f; --bg2:#070d1a; --ink:#eaf2fb; --muted:#93a7c4; --faint:#5c7194;
+      --star:#7cc7ff; --blue:#2f7fe0; --gold:#e6c78f; --line:rgba(124,167,220,.14);
+      --card:rgba(13,22,40,.55); --radius:18px;
+      --font:"PingFang SC","MiSans","HarmonyOS Sans SC","Source Han Sans SC","Microsoft YaHei",sans-serif;
     }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; height: 100%; }
-    html { scrollbar-width: none; -ms-overflow-style: none; }
-    ::-webkit-scrollbar { width: 0; height: 0; display: none; }
-    body {
-      overflow: hidden;
-      background:
-        radial-gradient(ellipse 60% 46% at 50% 12%, rgba(65, 96, 164, 0.18), transparent 68%),
-        radial-gradient(ellipse 48% 36% at 82% 78%, rgba(116, 78, 170, 0.13), transparent 70%),
-        var(--bg);
-      color: var(--text);
-      font-family: var(--font);
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
-    button, input, textarea, select { font: inherit; }
-    button { -webkit-tap-highlight-color: transparent; }
-    a { color: inherit; text-decoration: none; }
-    [hidden] { display: none !important; }
-    ::selection { background: rgba(230, 199, 143, 0.24); color: #fff8e8; }
-    button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visible {
-      outline: 1px solid rgba(230, 199, 143, 0.68);
-      outline-offset: 3px;
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--ink);font-family:var(--font);font-weight:300;overflow-x:hidden;line-height:1.85;font-size:16px}
+    ::selection{background:rgba(124,199,255,.3)}
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%}
+    .wrap{width:min(1280px,94%);margin:0 auto}
+
+    /* ===== 顶栏 ===== */
+    .topbar{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;align-items:center;gap:22px;
+      padding:14px 3vw;background:rgba(4,7,15,.62);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+    .brand{display:flex;align-items:center;gap:12px;min-width:0}
+    .brand img{width:42px;height:42px;border-radius:50%;box-shadow:0 0 0 1px rgba(230,199,143,.35),0 4px 18px rgba(0,0,0,.5)}
+    .brand-name{font-size:17px;font-weight:500;letter-spacing:.06em;white-space:nowrap}
+    .brand-sub{display:block;font-size:10px;color:var(--faint);letter-spacing:.22em;text-transform:uppercase}
+    .nav{display:flex;gap:4px;margin-left:auto}
+    .nav a{padding:10px 20px;border-radius:999px;font-size:15px;color:var(--muted);letter-spacing:.08em;transition:.25s}
+    .nav a:hover{color:var(--ink);background:rgba(124,199,255,.08)}
+    .tb-btn{padding:10px 20px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);
+      font-size:14px;cursor:pointer;font-family:inherit;letter-spacing:.08em;transition:.25s;white-space:nowrap}
+    .tb-btn:hover{border-color:var(--star);color:var(--star)}
+    .tb-btn.gold{border-color:rgba(230,199,143,.5);color:var(--gold)}
+    .tb-btn.gold:hover{background:rgba(230,199,143,.1)}
+    .tb-user{display:flex;align-items:center;gap:10px}
+    .tb-user .avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;
+      background:linear-gradient(135deg,#1c3a63,#0d1b33);border:1px solid var(--line);color:var(--star);font-size:13px}
+    .tb-user .uname{font-size:13px;color:var(--ink)}
+
+    /* ===== Hero ===== */
+    .hero{position:relative;min-height:100vh;display:grid;place-items:center;overflow:hidden}
+    #stars{position:absolute;inset:0;width:100%;height:100%}
+    .nebula{position:absolute;width:60vmax;height:60vmax;border-radius:50%;pointer-events:none;filter:blur(90px);opacity:.5;will-change:transform}
+    .nebula.n1{background:radial-gradient(circle,rgba(47,127,224,.28),transparent 60%);top:-20vmax;left:-15vmax}
+    .nebula.n2{background:radial-gradient(circle,rgba(124,199,255,.16),transparent 60%);bottom:-25vmax;right:-15vmax}
+    .hero-inner{position:relative;text-align:center;padding:120px 5vw 80px;max-width:1000px}
+    .hero-eyebrow{display:inline-flex;align-items:center;gap:10px;padding:9px 22px;border:1px solid var(--line);
+      border-radius:999px;font-size:12px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase}
+    .hero-eyebrow i{width:6px;height:6px;border-radius:50%;background:var(--star);box-shadow:0 0 12px var(--star)}
+    .hero h1{margin:34px 0 8px;font-size:clamp(44px,7.5vw,92px);font-weight:600;letter-spacing:.14em;line-height:1.15}
+    .hero h1 .thin{font-weight:200;color:var(--star)}
+    .hero-slogan{font-size:clamp(16px,2vw,23px);color:var(--muted);letter-spacing:.28em;margin-top:10px}
+    .hero-managed{margin-top:24px;font-size:14px;color:var(--faint);letter-spacing:.12em}
+    .hero-managed b{color:var(--gold);font-weight:500}
+    .hero-cta{display:flex;gap:16px;justify-content:center;margin-top:44px;flex-wrap:wrap}
+    .cta{display:inline-flex;align-items:center;gap:10px;padding:15px 42px;border-radius:999px;font-size:15px;
+      letter-spacing:.14em;cursor:pointer;font-family:inherit;transition:.3s;border:1px solid transparent}
+    .cta.primary{background:linear-gradient(135deg,#2f7fe0,#1c5cb8);color:#fff;box-shadow:0 12px 40px rgba(47,127,224,.35)}
+    .cta.primary:hover{transform:translateY(-3px);box-shadow:0 18px 55px rgba(47,127,224,.5)}
+    .cta.ghost{border-color:var(--line);color:var(--ink)}
+    .cta.ghost:hover{border-color:var(--star);color:var(--star);transform:translateY(-3px)}
+    .scroll-hint{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);color:var(--faint);
+      font-size:10px;letter-spacing:.4em;text-transform:uppercase;display:grid;justify-items:center;gap:10px}
+    .scroll-hint::after{content:"";width:1px;height:44px;background:linear-gradient(var(--star),transparent);animation:drip 2.2s ease-in-out infinite}
+    @keyframes drip{0%,100%{opacity:.3}50%{opacity:1}}
+
+    /* ===== 通用区块 ===== */
+    section{position:relative;padding:110px 0}
+    .sec-head{text-align:center;margin-bottom:64px}
+    .sec-kicker{font-size:12px;letter-spacing:.4em;color:var(--star);text-transform:uppercase}
+    .sec-title{margin-top:16px;font-size:clamp(34px,4.4vw,56px);font-weight:500;letter-spacing:.1em}
+    .sec-line{width:64px;height:1px;margin:24px auto 0;background:linear-gradient(90deg,transparent,var(--star),transparent)}
+    .reveal{opacity:0;transform:translateY(36px);transition:opacity .9s cubic-bezier(.22,1,.36,1),transform .9s cubic-bezier(.22,1,.36,1)}
+    .reveal.in{opacity:1;transform:none}
+    .reveal.d1{transition-delay:.12s}.reveal.d2{transition-delay:.24s}.reveal.d3{transition-delay:.36s}
+
+    /* ===== 关于 ===== */
+    .about-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+    .about-copy p{color:var(--muted);font-size:15px;margin-bottom:18px;text-align:justify}
+    .about-copy p b{color:var(--ink);font-weight:500}
+    .about-copy .hl{color:var(--gold)}
+    .stats{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .stat{padding:30px 26px;border:1px solid var(--line);border-radius:var(--radius);background:var(--card);backdrop-filter:blur(8px)}
+    .stat b{display:block;font-size:42px;font-weight:600;color:var(--star);font-variant-numeric:tabular-nums}
+    .stat span{font-size:13px;color:var(--faint);letter-spacing:.1em}
+
+    /* ===== 活动板块 ===== */
+    .act-block{margin-bottom:90px}
+    .act-head{display:flex;align-items:baseline;gap:18px;margin-bottom:30px}
+    .act-no{font-size:14px;color:var(--faint);letter-spacing:.3em}
+    .act-name{font-size:clamp(26px,3.1vw,40px);font-weight:500;letter-spacing:.12em}
+    .act-desc{color:var(--muted);font-size:15px;margin:-18px 0 30px 46px;max-width:680px;overflow:hidden;max-height:100px;transition:max-height .45s,opacity .4s,margin .45s}
+    .act-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+    .act-card{position:relative;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--card);
+      transition:transform .4s cubic-bezier(.22,1,.36,1),border-color .4s,box-shadow .4s}
+    .act-card:hover{transform:translateY(-8px);border-color:rgba(124,199,255,.4);box-shadow:0 24px 60px rgba(0,0,0,.45)}
+    .act-img{height:215px;background:
+      radial-gradient(circle at 30% 20%,rgba(124,199,255,.25),transparent 50%),
+      radial-gradient(circle at 75% 80%,rgba(47,127,224,.3),transparent 55%),
+      linear-gradient(160deg,#0a1526,#060b16);display:grid;place-items:center;position:relative;overflow:hidden}
+    .act-img::before{content:"";position:absolute;inset:0;background-image:radial-gradient(1px 1px at 20% 30%,#fff,transparent),
+      radial-gradient(1px 1px at 70% 20%,#cfe6ff,transparent),radial-gradient(1.5px 1.5px at 40% 70%,#fff,transparent),
+      radial-gradient(1px 1px at 85% 60%,#9fc4ff,transparent),radial-gradient(1px 1px at 55% 45%,#fff,transparent)}
+    .act-img span{font-size:40px;filter:drop-shadow(0 0 18px rgba(124,199,255,.6))}
+    .act-body{padding:20px 22px 24px}
+    .act-tag{display:inline-block;padding:4px 14px;border:1px solid rgba(124,199,255,.35);border-radius:999px;
+      font-size:11px;color:var(--star);letter-spacing:.2em;margin-bottom:12px}
+    .act-body h4{font-size:19px;font-weight:500;letter-spacing:.06em;margin-bottom:8px}
+    .act-body p{font-size:14.5px;color:var(--muted)}
+
+    /* ===== 成员墙 ===== */
+    .dept{margin-bottom:56px}
+    .dept-head{display:flex;align-items:center;gap:14px;margin-bottom:24px}
+    .dept-name{font-size:21px;font-weight:500;letter-spacing:.16em}
+    .dept-count{font-size:12px;color:var(--faint);border:1px solid var(--line);border-radius:999px;padding:2px 12px}
+    .dept-line{flex:1;height:1px;background:var(--line)}
+    .member-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+    .m-card{display:flex;gap:16px;padding:22px;border:1px solid var(--line);border-radius:var(--radius);
+      background:var(--card);transition:.35s;align-items:flex-start}
+    .m-card:hover{transform:translateY(-4px);border-color:rgba(230,199,143,.4)}
+    .m-ava{flex:0 0 54px;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;
+      background:linear-gradient(135deg,#1c3a63,#0c1830);color:var(--star);font-size:20px;font-weight:500;border:1px solid var(--line)}
+    .m-info{min-width:0}
+    .m-name{font-size:17px;font-weight:500;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .m-role{font-size:10px;padding:3px 10px;border-radius:999px;border:1px solid rgba(230,199,143,.4);color:var(--gold);letter-spacing:.1em}
+    .m-role.admin{border-color:rgba(255,139,139,.5);color:#f0a8a8}
+    .m-meta{font-size:13px;color:var(--faint);margin-top:5px;line-height:1.7}
+    .m-meta b{color:var(--muted);font-weight:400}
+    .m-bio{font-size:13.5px;color:var(--muted);margin-top:7px;font-style:italic}
+
+    /* ===== 底部 CTA ===== */
+    .join-panel{position:relative;text-align:center;padding:110px 6vw;border:1px solid var(--line);border-radius:28px;
+      background:radial-gradient(ellipse at 50% 0%,rgba(47,127,224,.16),transparent 60%),var(--card);overflow:hidden}
+    .join-panel h2{font-size:clamp(34px,5vw,60px);font-weight:600;letter-spacing:.18em}
+    .join-panel p{color:var(--muted);margin:20px auto 40px;max-width:560px;font-size:16.5px}
+
+    /* ===== 页脚 ===== */
+    footer{border-top:1px solid var(--line);padding:48px 0;color:var(--faint);font-size:13px;letter-spacing:.06em}
+    .foot-grid{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+    .foot-grid a{color:var(--muted);margin-left:20px}
+    .foot-grid a:hover{color:var(--star)}
+
+    /* ===== 弹窗通用 ===== */
+    .modal{position:fixed;inset:0;z-index:100;display:none;place-items:center;padding:24px;
+      background:rgba(2,5,10,.72);backdrop-filter:blur(10px)}
+    .modal.open{display:grid}
+    .modal-card{width:min(420px,100%);border:1px solid var(--line);border-radius:22px;padding:38px;
+      background:linear-gradient(170deg,#0b1526,#070d1a);box-shadow:0 40px 100px rgba(0,0,0,.6)}
+    .modal-card h3{font-size:22px;font-weight:500;letter-spacing:.14em;margin-bottom:6px}
+    .modal-card .sub{font-size:13px;color:var(--faint);margin-bottom:26px}
+    .field{margin-bottom:18px}
+    .field label{display:block;font-size:10px;letter-spacing:.28em;color:var(--faint);text-transform:uppercase;margin-bottom:8px}
+    .field input{width:100%;padding:14px 18px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.03);
+      color:var(--ink);font-size:15px;font-family:inherit;outline:none;transition:.25s}
+    .field input:focus{border-color:var(--star);box-shadow:0 0 0 3px rgba(124,199,255,.12)}
+    .modal-btn{width:100%;padding:15px;border:0;border-radius:12px;cursor:pointer;font-family:inherit;
+      font-size:16px;letter-spacing:.2em;color:#fff;background:linear-gradient(135deg,#2f7fe0,#1c5cb8);transition:.3s}
+    .modal-btn:hover{filter:brightness(1.15)}
+    .modal-btn:disabled{opacity:.5;cursor:not-allowed}
+    .modal-msg{min-height:20px;margin-top:14px;font-size:12px;text-align:center}
+    .modal-msg.error{color:#f0a8a8}.modal-msg.ok{color:#a9dcc3}
+    .modal-close{position:absolute;top:16px;right:20px;background:none;border:0;color:var(--faint);font-size:22px;cursor:pointer}
+    .modal-others{margin-top:20px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:center;gap:22px;font-size:12px}
+    .modal-others a{color:var(--muted)}
+    .modal-others a:hover{color:var(--star)}
+    .modal-wrap{position:relative}
+
+    /* ===== 月历 ===== */
+    .cal-card{width:min(560px,100%)}
+    .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+    .cal-month{font-size:19px;font-weight:500;letter-spacing:.2em}
+    .cal-nav{display:flex;gap:8px}
+    .cal-nav button{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer}
+    .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+    .cal-dow{text-align:center;font-size:10px;color:var(--faint);letter-spacing:.15em;padding:6px 0}
+    .cal-day{aspect-ratio:1;border:1px solid rgba(124,167,220,.08);border-radius:10px;padding:8px;font-size:13.5px;color:var(--muted);position:relative}
+    .cal-day.today{border-color:var(--star)}
+    .cal-day.has{border-color:rgba(230,199,143,.45);color:var(--gold);cursor:pointer}
+    .cal-day .dot{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold)}
+    .cal-legend{margin-top:16px;font-size:11px;color:var(--faint);display:flex;gap:20px}
+    .cal-events{margin-top:18px;border-top:1px solid var(--line);padding-top:14px;display:grid;gap:8px;max-height:150px;overflow:auto}
+    .cal-ev{font-size:13.5px;color:var(--muted);display:flex;gap:10px}
+    .cal-ev b{color:var(--gold);font-weight:400;white-space:nowrap}
+
+    /* ===== 星环 AI 悬浮窗 ===== */
+    #aiFloat{position:fixed;right:28px;bottom:28px;z-index:60;width:60px;height:60px;border-radius:50%;border:1px solid rgba(124,199,255,.5);
+      background:radial-gradient(circle at 30% 30%,#123055,#070d1a);color:var(--star);font-size:22px;cursor:pointer;
+      box-shadow:0 0 30px rgba(124,199,255,.35);animation:aiBreath 3.4s ease-in-out infinite;font-family:inherit}
+    @keyframes aiBreath{0%,100%{box-shadow:0 0 22px rgba(124,199,255,.25)}50%{box-shadow:0 0 44px rgba(124,199,255,.55)}}
+    #aiFloat:hover{transform:scale(1.08)}
+
+    @media (max-width:900px){
+      .nav{display:none}
+      .about-grid{grid-template-columns:1fr}
+      .act-desc{margin-left:0}
     }
 
-    #bgStars { position: fixed; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; }
-    .bg-haze {
-      position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background:
-        radial-gradient(ellipse 40% 28% at 50% 22%, rgba(70, 110, 190, 0.1), transparent 70%),
-        radial-gradient(ellipse 42% 26% at 76% 72%, rgba(140, 92, 190, 0.08), transparent 70%);
-    }
-    .grain {
-      position: fixed; inset: 0; z-index: 1; opacity: 0.022; mix-blend-mode: soft-light; pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
-    }
-
-    .mobile-shell {
-      position: relative; z-index: 2; display: flex;
-      width: min(460px, 100%); height: 100svh; max-height: 940px;
-      margin: 0 auto; flex-direction: column; overflow: hidden;
-      border-left: 1px solid rgba(255, 255, 255, 0.06);
-      border-right: 1px solid rgba(255, 255, 255, 0.06);
-      background:
-        radial-gradient(ellipse 110% 65% at 50% 0%, rgba(46, 76, 136, 0.22), transparent 62%),
-        linear-gradient(180deg, rgba(7, 12, 23, 0.92), rgba(4, 8, 16, 0.97));
-      box-shadow: 0 0 100px rgba(0, 0, 0, 0.5);
-    }
-    @media (min-width: 601px) {
-      .mobile-shell {
-        margin-top: max(0px, calc((100vh - 940px) / 2));
-        border-radius: 30px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-      }
-    }
-    .screen {
-      display: flex; height: 100%; min-height: 0; flex: 1; flex-direction: column;
-      overflow-y: auto; scrollbar-width: none;
-    }
-    .screen::-webkit-scrollbar { display: none; }
-
-    /* ---------- 登录 ---------- */
-    .login-screen {
-      justify-content: space-between;
-      padding: max(30px, env(safe-area-inset-top)) 24px max(20px, env(safe-area-inset-bottom));
-      background:
-        radial-gradient(ellipse 80% 48% at 50% 20%, rgba(64, 98, 166, 0.2), transparent 60%),
-        radial-gradient(ellipse 70% 42% at 50% 44%, rgba(230, 199, 143, 0.045), transparent 66%);
-    }
-    .login-brand {
-      position: relative; display: flex; align-items: center; flex-direction: column;
-      padding-top: clamp(14px, 3.2vh, 42px); text-align: center;
-    }
-    .assoc-orbit {
-      position: relative; width: 68px; height: 68px; margin-bottom: 22px;
-      border: 1px solid rgba(230, 199, 143, 0.55); border-radius: 50%;
-      box-shadow: 0 0 0 10px rgba(230, 199, 143, 0.02), 0 0 50px rgba(230, 199, 143, 0.1), inset 0 0 28px rgba(156, 201, 232, 0.04);
-    }
-    .assoc-orbit::before {
-      content: ""; position: absolute; inset: 13px; border: 1px solid rgba(156, 201, 232, 0.28);
-      border-radius: 50%; transform: rotate3d(1, 0.35, 0, 66deg);
-    }
-    .assoc-orbit::after {
-      content: ""; position: absolute; left: 50%; top: 50%; width: 7px; height: 7px; border-radius: 50%;
-      background: #fff7e4; box-shadow: 0 0 20px rgba(255, 232, 186, 0.95); transform: translate(-50%, -50%);
-    }
-    .assoc-orbit i {
-      position: absolute; top: 7px; left: 50%; width: 5px; height: 5px; border-radius: 50%;
-      background: var(--gold); box-shadow: 0 0 14px rgba(230, 199, 143, 0.9); transform: translateX(-50%);
-    }
-    .assoc-cn { margin: 0; color: rgba(230, 199, 143, 0.62); font-family: var(--font-cn); font-size: 11px; letter-spacing: 0.24em; }
-    .assoc-title { margin: 10px 0 0; color: #f5f7fc; font-family: var(--font-cn); font-size: 38px; font-weight: 500; letter-spacing: 0.12em; line-height: 1.1; text-indent: 0.12em; }
-    .assoc-en { margin: 12px 0 0; color: rgba(156, 201, 232, 0.42); font-family: var(--font-en); font-size: 6.5px; letter-spacing: 0.32em; text-indent: 0.32em; text-transform: uppercase; }
-    .assoc-sub { margin: 11px 0 0; color: rgba(170, 180, 202, 0.36); font-size: 9px; letter-spacing: 0.14em; }
-    .login-card {
-      margin-top: 24px; padding: 22px 20px; border: 1px solid var(--line); border-radius: 22px;
-      background: linear-gradient(150deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.006) 55%), rgba(8, 14, 26, 0.66);
-      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    }
-    .kicker { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; color: rgba(156, 201, 232, 0.52); font-family: var(--font-en); font-size: 7.5px; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; }
-    .kicker::before { content: ""; width: 18px; height: 1px; background: linear-gradient(90deg, rgba(156, 201, 232, 0.8), transparent); }
-    .login-card h1 { margin: 0; color: #f4f6fb; font-family: var(--font-cn); font-size: 23px; font-weight: 400; letter-spacing: 0.05em; }
-    .login-desc { margin: 8px 0 0; color: rgba(174, 184, 204, 0.46); font-size: 9px; font-weight: 300; line-height: 1.75; }
-    .scan-ready { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 9px 11px; border: 1px solid rgba(142, 201, 174, 0.2); border-radius: 10px; background: rgba(80, 160, 126, 0.06); color: rgba(169, 220, 196, 0.8); font-size: 8.5px; line-height: 1.5; }
-    .scan-ready::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 10px rgba(142, 201, 174, 0.8); }
-    .scan-ready b { color: var(--gold-bright); font-weight: 500; }
-    .field { display: grid; gap: 7px; padding-bottom: 8px; border-bottom: 1px solid rgba(255, 255, 255, 0.16); cursor: text; transition: border-color 320ms var(--ease); }
-    .field:focus-within { border-bottom-color: rgba(230, 199, 143, 0.6); }
-    .field > span { color: rgba(196, 204, 224, 0.4); font-family: var(--font-en); font-size: 7.5px; letter-spacing: 0.18em; text-transform: uppercase; }
-    .field input, .field textarea { width: 100%; padding: 0; border: 0; outline: 0; background: transparent; color: #f5f7fc; font-size: 15px; letter-spacing: 0.03em; caret-color: var(--gold); }
-    .field input { height: 28px; }
-    .field textarea { min-height: 72px; resize: none; line-height: 1.7; font-size: 13px; }
-    .field input::placeholder, .field textarea::placeholder { color: rgba(190, 197, 214, 0.24); }
-    .field input:-webkit-autofill, .field input:-webkit-autofill:focus {
-      -webkit-text-fill-color: #f5f7fc; -webkit-box-shadow: 0 0 0 1000px #080e1a inset;
-      box-shadow: 0 0 0 1000px #080e1a inset; transition: background-color 9999s ease-out 0s;
-    }
-    .login-form { display: grid; gap: 15px; margin-top: 18px; }
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      min-height: 42px; padding: 0 15px; border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 11px; background: rgba(255, 255, 255, 0.03); color: var(--text);
-      font-size: 10.5px; letter-spacing: 0.06em; cursor: pointer;
-      transition: border-color 300ms var(--ease), background-color 300ms var(--ease), transform 300ms var(--ease), opacity 300ms var(--ease);
-    }
-    .btn:hover { border-color: rgba(230, 199, 143, 0.32); background: rgba(230, 199, 143, 0.05); }
-    .btn:active { transform: scale(0.99); }
-    .btn:disabled { opacity: 0.55; cursor: default; }
-    .btn-gold {
-      border-color: rgba(255, 238, 205, 0.58);
-      background: linear-gradient(135deg, #fbf0d6 0%, #e9cf98 40%, #cfa363 74%, #bb8a48 100%);
-      color: #1a1206; font-weight: 600;
-      box-shadow: 0 10px 30px rgba(201, 157, 85, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.65);
-    }
-    .btn-gold:hover { border-color: rgba(255, 244, 220, 0.8); background: linear-gradient(135deg, #fff5dd, #eed7a4 40%, #d7ad6c 74%, #c0904c); color: #17120a; transform: translateY(-1px); }
-    .btn-ghost { border-color: transparent; background: transparent; color: rgba(196, 204, 220, 0.48); font-size: 9.5px; }
-    .btn-ghost:hover { color: var(--gold-bright); background: rgba(255, 255, 255, 0.025); }
-    .login-submit { width: 100%; }
-    .login-msg { min-height: 14px; margin: 9px 0 0; color: rgba(156, 201, 232, 0.6); font-size: 8.5px; line-height: 1.6; }
-    .login-msg.error { color: #f0b0b0; }
-    .login-msg.success { color: #a9dcc4; }
-    .config-hint { margin: 10px 0 0; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.055); color: rgba(150, 158, 180, 0.32); font-family: var(--font-en); font-size: 6.5px; line-height: 1.7; letter-spacing: 0.03em; }
-    .login-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 18px; padding-top: 13px; border-top: 1px solid rgba(255, 255, 255, 0.055); color: rgba(150, 158, 180, 0.34); font-size: 8px; letter-spacing: 0.04em; }
-    .login-footer .support { color: rgba(230, 199, 143, 0.56); font-size: 7.5px; white-space: nowrap; }
-
-    /* ---------- 应用框架 ---------- */
-    .app-screen { overflow: hidden; }
-    .app-top {
-      position: relative; z-index: 20; display: flex; align-items: center; justify-content: space-between; gap: 10px;
-      min-height: 60px; padding: max(11px, env(safe-area-inset-top)) 16px 10px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.055);
-      background: rgba(4, 8, 16, 0.74); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    }
-    .app-brand { display: flex; align-items: center; gap: 9px; min-width: 0; }
-    .app-orbit { position: relative; width: 24px; height: 24px; flex: 0 0 24px; border: 1px solid rgba(230, 199, 143, 0.5); border-radius: 50%; }
-    .app-orbit::before { content: ""; position: absolute; left: -4px; right: -4px; top: 50%; height: 1px; background: linear-gradient(90deg, transparent, rgba(248, 235, 208, 0.8), transparent); transform: rotate(-22deg); }
-    .app-orbit::after { content: ""; position: absolute; left: 50%; top: 50%; width: 4px; height: 4px; border-radius: 50%; background: #fff7e4; box-shadow: 0 0 10px rgba(255, 232, 186, 0.9); transform: translate(-50%, -50%); }
-    .app-brand-copy { display: grid; gap: 1px; }
-    .app-brand-copy strong { color: #eef2fa; font-family: var(--font-cn); font-size: 10px; font-weight: 500; letter-spacing: 0.04em; white-space: nowrap; }
-    .app-brand-copy span { color: var(--faint); font-family: var(--font-en); font-size: 5.5px; letter-spacing: 0.15em; white-space: nowrap; }
-    .app-top-right { display: flex; align-items: center; gap: 8px; }
-    .app-status { display: inline-flex; align-items: center; gap: 6px; padding: 5px 8px; border: 1px solid rgba(142, 201, 174, 0.16); border-radius: 999px; background: rgba(80, 160, 126, 0.04); color: rgba(169, 220, 196, 0.7); font-family: var(--font-en); font-size: 5.5px; letter-spacing: 0.1em; white-space: nowrap; }
-    .app-status::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 8px rgba(142, 201, 174, 0.8); }
-    .app-status.demo { border-color: rgba(255, 196, 110, 0.2); color: rgba(255, 206, 140, 0.7); }
-    .app-status.demo::before { background: #ffc46e; box-shadow: 0 0 8px rgba(255, 196, 110, 0.8); }
-    .app-status.error { border-color: rgba(255, 154, 154, 0.2); color: rgba(255, 170, 170, 0.7); }
-    .app-status.error::before { background: var(--danger); box-shadow: none; }
-    .app-avatar { display: grid; place-items: center; width: 29px; height: 29px; flex: 0 0 29px; border: 1px solid rgba(230, 199, 143, 0.22); border-radius: 50%; background: rgba(230, 199, 143, 0.055); color: var(--gold-bright); font-family: var(--font-cn); font-size: 10px; cursor: pointer; }
-    .app-main { flex: 1; min-height: 0; padding: 13px 16px 18px; overflow-y: auto; scrollbar-width: none; }
-    .app-main::-webkit-scrollbar { display: none; }
-    .breadcrumb { display: flex; align-items: center; gap: 7px; margin: 0 2px 12px; color: rgba(150, 158, 180, 0.36); font-size: 7px; letter-spacing: 0.06em; }
-    .breadcrumb span { color: rgba(255, 255, 255, 0.16); }
-    .breadcrumb b { color: rgba(230, 199, 143, 0.66); font-weight: 500; }
-    .breadcrumb-home { padding: 0; border: 0; background: transparent; color: inherit; font: inherit; letter-spacing: inherit; cursor: pointer; }
-    .breadcrumb-home:hover { color: rgba(230, 199, 143, 0.7); }
-    .page { display: grid; gap: 13px; animation: pageIn 380ms var(--ease) both; }
-    @keyframes pageIn { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
-    .page-head { padding: 2px 2px 0; }
-    .page-head .kicker { margin-bottom: 8px; }
-    .page-title { margin: 0; color: #f5f7fc; font-family: var(--font-cn); font-size: 26px; font-weight: 400; letter-spacing: 0.05em; line-height: 1.2; }
-    .page-sub { margin: 7px 0 0; color: rgba(170, 180, 202, 0.44); font-size: 8.5px; font-weight: 300; letter-spacing: 0.03em; line-height: 1.7; }
-    .card { border: 1px solid var(--line); border-radius: 17px; background: linear-gradient(150deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.006) 58%), rgba(8, 14, 26, 0.62); box-shadow: 0 18px 44px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.04); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
-    .empty-card { display: grid; place-items: center; min-height: 110px; padding: 20px; color: rgba(150, 158, 180, 0.34); font-size: 8.5px; line-height: 1.8; text-align: center; }
-    .support-line { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 3px 0 0; color: rgba(150, 158, 180, 0.3); font-size: 7px; letter-spacing: 0.04em; text-align: center; }
-    .support-line b { color: rgba(230, 199, 143, 0.48); font-weight: 500; }
-
-    /* ---------- 工作台 ---------- */
-    .session-card { position: relative; overflow: hidden; padding: 17px; background: radial-gradient(ellipse 70% 80% at 86% 0%, rgba(230, 199, 143, 0.075), transparent 60%), linear-gradient(150deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.006) 58%), rgba(8, 14, 26, 0.66); }
-    .session-card::after { content: ""; position: absolute; right: -32px; top: -44px; width: 140px; height: 140px; border: 1px solid rgba(230, 199, 143, 0.1); border-radius: 50%; pointer-events: none; }
-    .session-top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .live-pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 7px; border: 1px solid rgba(142, 201, 174, 0.18); border-radius: 999px; background: rgba(80, 160, 126, 0.045); color: rgba(169, 220, 196, 0.72); font-family: var(--font-en); font-size: 5.5px; letter-spacing: 0.08em; }
-    .live-pill::before { content: ""; width: 4px; height: 4px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 8px rgba(142, 201, 174, 0.8); animation: dotBreathe 2.8s ease-in-out infinite; }
-    .session-id { color: rgba(150, 158, 180, 0.4); font-family: var(--font-en); font-size: 6px; letter-spacing: 0.06em; }
-    .session-name { margin: 11px 0 0; color: #f4f6fb; font-family: var(--font-cn); font-size: 18px; font-weight: 400; letter-spacing: 0.04em; line-height: 1.35; }
-    .session-meta { margin: 6px 0 0; color: rgba(174, 184, 204, 0.42); font-size: 8px; letter-spacing: 0.03em; }
-    .session-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 13px; padding-top: 11px; border-top: 1px solid rgba(255, 255, 255, 0.055); }
-    .session-stat { display: grid; gap: 3px; }
-    .session-stat strong { color: #f4f6fb; font-family: var(--font-en); font-size: 16px; font-weight: 400; line-height: 1; }
-    .session-stat span { color: rgba(150, 158, 180, 0.36); font-size: 6.5px; letter-spacing: 0.04em; }
-    .quick-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .quick-card { display: flex; min-height: 76px; padding: 11px; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 8px; border: 1px solid var(--line); border-radius: 13px; background: rgba(255, 255, 255, 0.022); color: var(--text); text-align: left; cursor: pointer; transition: border-color 300ms var(--ease), background-color 300ms var(--ease), transform 300ms var(--ease); }
-    .quick-card:hover { border-color: rgba(230, 199, 143, 0.28); background: rgba(230, 199, 143, 0.04); transform: translateY(-2px); }
-    .quick-icon { display: grid; place-items: center; width: 23px; height: 23px; border: 1px solid rgba(156, 201, 232, 0.18); border-radius: 7px; color: var(--ice); font-size: 10px; }
-    .quick-copy { display: grid; gap: 2px; }
-    .quick-copy strong { color: #eef2fa; font-family: var(--font-cn); font-size: 9px; font-weight: 500; }
-    .quick-copy span { color: rgba(150, 158, 180, 0.38); font-size: 6px; }
-    .tool-grid { display: grid; gap: 12px; }
-    .checkin-card, .ask-card { padding: 15px; }
-    .card-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 10px; }
-    .card-title { margin: 0; color: #eef2fa; font-family: var(--font-cn); font-size: 11px; font-weight: 500; letter-spacing: 0.03em; }
-    .card-meta { color: rgba(156, 201, 232, 0.45); font-family: var(--font-en); font-size: 6px; letter-spacing: 0.06em; }
-    .checkin-inline { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-    .checkin-inline p { margin: 0; color: rgba(174, 184, 204, 0.44); font-size: 8px; line-height: 1.6; }
-    .checkin-inline b { color: var(--gold-bright); font-family: var(--font-en); font-size: 13px; font-weight: 400; letter-spacing: 0.08em; }
-    .checkin-card .btn, .ask-card .btn { min-height: 34px; padding: 0 12px; font-size: 8.5px; }
-    .checkin-status { margin: 9px 0 0; color: rgba(156, 201, 232, 0.55); font-size: 8px; line-height: 1.6; }
-    .checkin-status.success { color: rgba(169, 220, 196, 0.72); }
-    .checkin-status.error { color: #f0b0b0; }
-    .ask-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; }
-    .ask-anon { display: flex; align-items: center; gap: 5px; color: rgba(170, 180, 202, 0.44); font-size: 7.5px; cursor: pointer; }
-    .ask-anon input { accent-color: var(--gold); width: 12px; height: 12px; }
-    .ask-state { min-height: 11px; margin: 6px 0 0; color: rgba(156, 201, 232, 0.54); font-size: 7.5px; line-height: 1.5; }
-    .ask-state.error { color: #f0b0b0; }
-    .feed-card { padding: 15px; }
-    .mini-feed { display: grid; gap: 7px; }
-    .mini-question { padding: 10px 11px; border: 1px solid rgba(255, 255, 255, 0.055); border-radius: 10px; background: rgba(255, 255, 255, 0.018); }
-    .mini-question p { margin: 0; color: rgba(196, 204, 220, 0.68); font-size: 9px; line-height: 1.6; word-break: break-word; }
-    .mini-question span { display: block; margin-top: 5px; color: rgba(150, 158, 180, 0.34); font-size: 6.5px; }
-    .empty-feed { display: grid; place-items: center; min-height: 58px; color: rgba(150, 158, 180, 0.3); font-size: 8px; text-align: center; }
-
-    /* ---------- 课程 / 资源 / 数据 / 控制台 ---------- */
-    .join-card { padding: 14px 15px; }
-    .join-row { display: flex; align-items: flex-end; gap: 10px; }
-    .join-row .field { flex: 1; }
-    .join-row .btn { min-height: 36px; padding: 0 13px; font-size: 8.5px; }
-    .join-state { min-height: 11px; margin: 7px 0 0; color: rgba(156, 201, 232, 0.52); font-size: 7.5px; }
-    .join-state.error { color: #f0b0b0; }
-    .card-grid { display: grid; gap: 9px; }
-    .course-card { padding: 15px; }
-    .course-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
-    .course-role { padding: 3px 7px; border: 1px solid rgba(230, 199, 143, 0.2); border-radius: 999px; color: rgba(230, 199, 143, 0.66); font-family: var(--font-en); font-size: 5.5px; letter-spacing: 0.06em; white-space: nowrap; }
-    .course-name { margin: 8px 0 0; color: #f4f6fb; font-family: var(--font-cn); font-size: 15px; font-weight: 500; letter-spacing: 0.03em; line-height: 1.4; }
-    .course-meta { margin: 6px 0 0; color: rgba(174, 184, 204, 0.42); font-size: 8px; line-height: 1.65; }
-    .course-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(255, 255, 255, 0.055); }
-    .course-foot span { color: rgba(150, 158, 180, 0.34); font-size: 6.5px; }
-    .course-foot .btn { min-height: 30px; padding: 0 10px; font-size: 7.5px; }
-    .resource-card { padding: 14px 15px; }
-    .resource-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .resource-state { padding: 3px 7px; border: 1px solid rgba(142, 201, 174, 0.18); border-radius: 999px; color: rgba(169, 220, 196, 0.66); font-family: var(--font-en); font-size: 5.5px; letter-spacing: 0.05em; }
-    .resource-state.locked { border-color: rgba(255, 255, 255, 0.1); color: rgba(170, 180, 202, 0.4); }
-    .resource-title { margin: 8px 0 0; color: #f4f6fb; font-family: var(--font-cn); font-size: 13px; font-weight: 500; line-height: 1.5; }
-    .resource-desc { margin: 6px 0 0; color: rgba(174, 184, 204, 0.4); font-size: 8px; line-height: 1.7; }
-    .resource-actions { display: flex; justify-content: flex-end; margin-top: 10px; }
-    .resource-actions .btn { min-height: 30px; padding: 0 10px; font-size: 7.5px; }
-    .experiment-card { padding: 12px 14px; cursor: pointer; transition: border-color 260ms var(--ease), background-color 260ms var(--ease); }
-    .experiment-card:hover { border-color: rgba(230, 199, 143, 0.22); }
-    .experiment-card.active { border-color: rgba(230, 199, 143, 0.36); background: rgba(230, 199, 143, 0.035); }
-    .experiment-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .experiment-name { color: #eef2fa; font-family: var(--font-cn); font-size: 10px; font-weight: 500; }
-    .experiment-meta { margin: 5px 0 0; color: rgba(150, 158, 180, 0.36); font-size: 6.5px; }
-    .experiment-chart { padding: 12px 12px 4px; }
-    .experiment-chart svg { display: block; width: 100%; height: 180px; }
-    .experiment-empty { padding: 22px; text-align: center; color: rgba(150, 158, 180, 0.32); font-size: 8px; }
-    .console-metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-    .console-metric { padding: 13px; }
-    .console-metric strong { display: block; color: #f4f6fb; font-family: var(--font-en); font-size: 21px; font-weight: 400; line-height: 1; }
-    .console-metric span { display: block; margin-top: 5px; color: rgba(150, 158, 180, 0.36); font-size: 6.5px; }
-    .console-table { width: 100%; border-collapse: collapse; font-size: 7.5px; }
-    .console-table th { padding: 8px 7px; border-bottom: 1px solid rgba(255, 255, 255, 0.055); color: rgba(150, 158, 180, 0.34); font-weight: 400; text-align: left; white-space: nowrap; }
-    .console-table td { padding: 8px 7px; border-bottom: 1px solid rgba(255, 255, 255, 0.04); color: rgba(196, 204, 220, 0.58); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .console-table tr:last-child td { border-bottom: 0; }
-    .console-note { margin: 0; color: rgba(150, 158, 180, 0.32); font-size: 7px; line-height: 1.7; }
-    .console-role { padding: 3px 7px; border: 1px solid rgba(230, 199, 143, 0.2); border-radius: 999px; color: rgba(230, 199, 143, 0.66); font-family: var(--font-en); font-size: 5.5px; }
-
-    /* ---------- 底栏 ---------- */
-    .tabbar { position: relative; z-index: 30; display: grid; grid-template-columns: repeat(5, 1fr); gap: 2px; min-height: 58px; padding: 5px 7px max(5px, env(safe-area-inset-bottom)); border-top: 1px solid rgba(255, 255, 255, 0.06); background: rgba(4, 8, 16, 0.88); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px); }
-    .tabbar.role-hidden { grid-template-columns: repeat(4, 1fr); }
-    .nav-btn { display: flex; align-items: center; justify-content: center; gap: 2px; flex-direction: column; border: 0; border-radius: 9px; background: transparent; color: rgba(150, 158, 180, 0.45); font-size: 7px; cursor: pointer; transition: color 280ms var(--ease), background-color 280ms var(--ease); }
-    .nav-btn svg { width: 17px; height: 17px; }
-    .nav-btn.active { color: var(--gold-bright); background: rgba(230, 199, 143, 0.055); }
-    .nav-btn.active svg { filter: drop-shadow(0 0 6px rgba(230, 199, 143, 0.3)); }
-
-    /* ---------- 抽屉 / 星海 ---------- */
-    .overlay { position: fixed; inset: 0; z-index: 90; display: flex; align-items: flex-end; justify-content: center; padding: 16px; background: rgba(2, 5, 12, 0.66); backdrop-filter: blur(10px); visibility: hidden; opacity: 0; pointer-events: none; transition: opacity 300ms var(--ease), visibility 0s linear 300ms; }
-    .overlay.open { visibility: visible; opacity: 1; pointer-events: auto; transition: opacity 300ms var(--ease), visibility 0s linear 0s; }
-    .profile-sheet { width: min(400px, 100%); max-height: min(690px, 92svh); padding: 20px; overflow-y: auto; border: 1px solid rgba(255, 255, 255, 0.09); border-radius: 22px; background: linear-gradient(150deg, rgba(20, 27, 45, 0.98), rgba(6, 10, 19, 0.99)); box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5); transform: translateY(20px); transition: transform 380ms var(--ease); }
-    .overlay.open .profile-sheet { transform: translateY(0); }
-    .sheet-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; }
-    .sheet-close { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid rgba(255, 255, 255, 0.09); border-radius: 50%; background: transparent; color: rgba(196, 204, 220, 0.5); font-size: 17px; cursor: pointer; }
-    .profile-row { display: flex; align-items: center; gap: 12px; margin-top: 14px; }
-    .profile-avatar { display: grid; place-items: center; width: 50px; height: 50px; flex: 0 0 50px; border: 1px solid rgba(230, 199, 143, 0.22); border-radius: 50%; background: rgba(230, 199, 143, 0.055); color: var(--gold-bright); font-family: var(--font-cn); font-size: 17px; }
-    .profile-name { margin: 0; color: #f4f6fb; font-family: var(--font-cn); font-size: 16px; font-weight: 500; }
-    .profile-meta { margin: 4px 0 0; color: rgba(170, 180, 202, 0.4); font-size: 7.5px; line-height: 1.6; }
-    .profile-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 15px; }
-    .profile-field { padding: 9px 10px; border: 1px solid rgba(255, 255, 255, 0.055); border-radius: 9px; background: rgba(255, 255, 255, 0.018); }
-    .profile-field span { display: block; color: rgba(150, 158, 180, 0.34); font-family: var(--font-en); font-size: 5.5px; letter-spacing: 0.08em; text-transform: uppercase; }
-    .profile-field b { display: block; margin-top: 4px; color: rgba(226, 232, 244, 0.72); font-size: 8px; font-weight: 400; }
-    .support-card { margin-top: 15px; padding: 14px; border: 1px solid rgba(230, 199, 143, 0.14); border-radius: 13px; background: linear-gradient(150deg, rgba(230, 199, 143, 0.055), rgba(255, 255, 255, 0.01)); }
-    .support-brand { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
-    .support-orbit { position: relative; width: 28px; height: 28px; flex: 0 0 28px; border: 1px solid rgba(230, 199, 143, 0.42); border-radius: 50%; }
-    .support-orbit::before { content: ""; position: absolute; left: -4px; right: -4px; top: 50%; height: 1px; background: linear-gradient(90deg, transparent, rgba(248, 235, 208, 0.8), transparent); transform: rotate(-22deg); }
-    .support-orbit::after { content: ""; position: absolute; left: 50%; top: 50%; width: 4px; height: 4px; border-radius: 50%; background: #fff7e4; box-shadow: 0 0 10px rgba(255, 232, 186, 0.9); transform: translate(-50%, -50%); }
-    .support-brand h3 { margin: 0; color: #f4f6fb; font-family: var(--font-cn); font-size: 13px; font-weight: 500; }
-    .support-brand p { margin: 2px 0 0; color: rgba(230, 199, 143, 0.46); font-family: var(--font-en); font-size: 5.5px; letter-spacing: 0.16em; }
-    .support-card > p { margin: 10px 0 0; color: rgba(174, 184, 204, 0.42); font-size: 7.5px; line-height: 1.8; }
-    .logout-btn { width: 100%; min-height: 38px; margin-top: 14px; border-color: rgba(255, 154, 154, 0.18); color: rgba(255, 170, 170, 0.66); }
-    .sea-overlay { align-items: center; padding: 12px; }
-    .sea-sheet { width: min(860px, 100%); height: min(680px, 94svh); display: flex; flex-direction: column; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.09); border-radius: 20px; background: #03060d; box-shadow: 0 30px 90px rgba(0, 0, 0, 0.55); }
-    .sea-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 14px 16px 10px; border-bottom: 1px solid rgba(255, 255, 255, 0.055); }
-    .sea-head h2 { margin: 0; color: #f4f6fb; font-family: var(--font-cn); font-size: 16px; font-weight: 400; letter-spacing: 0.04em; }
-    .sea-head p { margin: 4px 0 0; color: rgba(170, 180, 202, 0.38); font-size: 7px; line-height: 1.5; }
-    .sea-stage { position: relative; flex: 1; min-height: 0; overflow: hidden; touch-action: none; }
-    #seaCanvas { display: block; width: 100%; height: 100%; cursor: grab; }
-    #seaCanvas.dragging { cursor: grabbing; }
-    .sea-hud { position: absolute; left: 10px; right: 10px; bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px; pointer-events: none; }
-    .sea-zoom { padding: 4px 7px; border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 6px; background: rgba(2, 5, 10, 0.6); color: rgba(156, 201, 232, 0.55); font-family: var(--font-en); font-size: 6px; }
-    .sea-hud .btn { min-height: 25px; padding: 0 8px; font-size: 6.5px; border-radius: 6px; pointer-events: auto; }
-    .sea-info { position: absolute; left: 10px; right: 10px; top: 10px; padding: 10px 12px; border: 1px solid rgba(230, 199, 143, 0.18); border-radius: 11px; background: rgba(4, 9, 18, 0.82); backdrop-filter: blur(16px); }
-    .sea-info h3 { margin: 0; color: #f4f6fb; font-family: var(--font-cn); font-size: 11px; font-weight: 500; }
-    .sea-info p { margin: 5px 0 0; color: rgba(174, 184, 204, 0.46); font-size: 7.5px; line-height: 1.6; }
-    .sea-info .en { color: rgba(156, 201, 232, 0.4); font-family: var(--font-en); font-size: 5.5px; letter-spacing: 0.14em; }
-    .sea-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 9px 14px; border-top: 1px solid rgba(255, 255, 255, 0.055); }
-    .sea-legend { display: flex; flex-wrap: wrap; gap: 5px; }
-    .sea-legend button { padding: 5px 8px; border: 1px solid rgba(255, 255, 255, 0.075); border-radius: 999px; background: rgba(255, 255, 255, 0.02); color: rgba(180, 190, 210, 0.5); font-size: 6.5px; cursor: pointer; }
-    .sea-legend button:hover { border-color: rgba(230, 199, 143, 0.28); color: var(--gold-bright); }
-    .sea-credit { color: rgba(150, 158, 180, 0.28); font-size: 6px; white-space: nowrap; }
-    .sea-credit b { color: rgba(230, 199, 143, 0.44); font-weight: 500; }
-
-    .toast { position: fixed; left: 50%; bottom: 84px; z-index: 120; max-width: min(350px, calc(100vw - 32px)); padding: 9px 13px; border: 1px solid rgba(230, 199, 143, 0.22); border-radius: 9px; background: rgba(6, 11, 21, 0.95); color: rgba(240, 244, 252, 0.9); font-size: 8.5px; line-height: 1.6; box-shadow: 0 16px 44px rgba(0, 0, 0, 0.5); opacity: 0; pointer-events: none; transform: translate(-50%, 10px); transition: opacity 240ms ease, transform 240ms var(--ease); backdrop-filter: blur(16px); }
-    .toast.show { opacity: 1; transform: translate(-50%, 0); }
-    .toast.error { border-color: rgba(255, 154, 154, 0.28); color: #f2bcbc; }
-
-    @keyframes dotBreathe { 0%, 100% { opacity: 0.45; } 50% { opacity: 1; } }
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
-      #seaCanvas { cursor: default; }
-    }
   
-    /* ===== v1.1 桌面网页化改造（手机壳 → 全宽桌面站 + 顶部导航 + 会徽） ===== */
-    .mobile-shell { width: min(1480px, 100%); height: 100vh; max-height: none; }
-    /* 底部 Tab 栏移到顶部，横向导航 */
-    .tabbar { order: -1; display: flex; justify-content: flex-end; align-items: center; gap: 4px; min-height: 56px; padding: 8px 22px; border-top: 0; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
-    .tabbar.role-hidden { grid-template-columns: none; }
-    .tabbar .nav-btn { flex-direction: row; gap: 8px; padding: 9px 18px; border-radius: 10px; font-size: 12px; width: auto; }
-    /* 会徽 */
-    .assoc-logo { width: 84px; height: 84px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1px rgba(230, 199, 143, 0.28), 0 10px 34px rgba(0, 0, 0, 0.55); }
-    .app-logo { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1px rgba(230, 199, 143, 0.25), 0 4px 16px rgba(0, 0, 0, 0.5); }
-    .app-brand { gap: 14px; }
-    @media (min-width: 960px) {
-      /* 登录页：左侧品牌区 + 右侧登录卡，两栏 */
-      .login-screen { display: grid; grid-template-columns: 1.1fr 1fr; align-content: center; align-items: center; gap: 80px; padding: 64px 96px; }
-      .login-brand { max-width: 560px; }
-      .login-card { max-width: 460px; width: 100%; justify-self: start; }
-      .login-footer { grid-column: 1 / -1; justify-self: start; margin-top: 20px; }
-      /* 顶栏更舒展 */
-      .app-top { padding: 14px 44px; }
-    }
+    /* ===== v2.0.1 折叠窗口：活动板块 / 成员部门 可收起，状态记忆 ===== */
+    .collapse-bar{display:flex;justify-content:center;margin:-30px 0 40px}
+    .collapse-all{padding:7px 22px;border:1px solid var(--line);border-radius:999px;background:none;color:var(--muted);
+      font-size:13px;cursor:pointer;font-family:inherit;letter-spacing:.1em;transition:.25s}
+    .collapse-all:hover{color:var(--star);border-color:var(--star)}
+    .act-head,.dept-head{cursor:pointer;user-select:none}
+    .act-head:hover .act-name,.dept-head:hover .dept-name{color:var(--star)}
+    .act-name,.dept-name{transition:color .25s}
+    .chev{margin-left:14px;color:var(--faint);font-size:15px;display:inline-block;transition:transform .4s cubic-bezier(.22,1,.36,1)}
+    .collapsed > .act-head .chev,.collapsed > .dept-head .chev{transform:rotate(-90deg)}
+    .act-cards,.member-grid{overflow:hidden;max-height:1400px;transition:max-height .55s cubic-bezier(.22,1,.36,1),opacity .45s;opacity:1}
+    .collapsed .act-cards,.collapsed .member-grid{max-height:0 !important;opacity:0}
+    .collapsed .act-desc{max-height:0 !important;opacity:0;margin:0}
+    .dept .dept-head{margin-bottom:24px;transition:margin .4s}
+    .collapsed.dept .dept-head{margin-bottom:0}
+    .act-block .act-head{margin-bottom:30px;transition:margin .4s}
+    .collapsed.act-block .act-head{margin-bottom:0}
   </style>
 </head>
 <body>
-  <canvas id="bgStars" aria-hidden="true"></canvas>
-  <div class="bg-haze" aria-hidden="true"></div>
-  <div class="grain" aria-hidden="true"></div>
+  <!-- ===== 顶栏 ===== -->
+  <header class="topbar">
+    <a class="brand" href="#top">
+      <img src="logo.png" alt="会徽" />
+      <span>
+        <span class="brand-name">中国海洋大学天文协会</span>
+        <span class="brand-sub">OUC Astronomy Association</span>
+      </span>
+    </a>
+    <nav class="nav">
+      <a href="#about">协会</a>
+      <a href="#activities">活动</a>
+      <a href="#members">成员</a>
+      <a href="#join">加入</a>
+    </nav>
+    <button class="tb-btn gold" id="calBtn">☷ 社团大事件</button>
+    <a class="tb-btn" href="portal.html" target="_blank">老版工作台</a>
+    <span id="authArea">
+      <button class="tb-btn" id="loginBtn" style="border-color:rgba(124,199,255,.45);color:var(--star)">登录 / 注册</button>
+    </span>
+  </header>
 
-  <div class="mobile-shell">
-    <!-- ============ 登录 ============ -->
-    <section class="screen login-screen" id="loginScreen">
-      <div class="login-brand">
-        <img class="assoc-logo" src="logo.png" alt="中国海洋大学天文协会会徽" />
-        <p class="assoc-cn">中国海洋大学</p>
-        <p class="assoc-title">天文协会</p>
-        <p class="assoc-en">OUC ASTRONOMY ASSOCIATION</p>
-        <p class="assoc-sub">星海课堂 · 成员工作台</p>
+  <!-- ===== Hero ===== -->
+  <section class="hero" id="top">
+    <canvas id="stars"></canvas>
+    <div class="nebula n1"></div><div class="nebula n2"></div>
+    <div class="hero-inner">
+      <span class="hero-eyebrow"><i></i>OUC ASTRONOMY · SINCE 2016</span>
+      <h1>中国海洋大学<br /><span class="thin">天文协会</span></h1>
+      <p class="hero-slogan">普及天文知识 · 引导会员探索星空</p>
+      <p class="hero-managed">指导与管理单位：<b>行远书院</b> · 中国海洋大学通识教育单位</p>
+      <div class="hero-cta">
+        <a class="cta primary" href="#about">走进协会</a>
+        <a class="cta ghost" href="#join">加入我们</a>
       </div>
+    </div>
+    <div class="scroll-hint">SCROLL</div>
+  </section>
 
-      <div>
-        <div class="login-card">
-          <p class="kicker">MEMBER ACCESS / 成员登录</p>
-          <h1>登录星海课堂</h1>
-          <p class="login-desc">使用已注册的星环成员账号登录，无需重复注册。工作台、课程与实验数据会与桌面端星环中枢保持同步。</p>
-
-          <div class="scan-ready" id="scanReady" hidden>扫码已识别 · <b id="scanReadyText">签到</b></div>
-
-          <form class="login-form" id="loginForm" novalidate>
-            <label class="field">
-              <span>账号 / USERNAME</span>
-              <input id="studentId" name="username" type="text" autocomplete="username" placeholder="学号 / 成员账号" maxlength="60" required />
-            </label>
-            <label class="field">
-              <span>密码 / PASSWORD</span>
-              <input id="studentPwd" name="password" type="password" autocomplete="current-password" placeholder="请输入密码" maxlength="120" required />
-            </label>
-            <button class="btn btn-gold login-submit" id="loginBtn" type="submit"><span id="loginBtnLabel">进入星海课堂</span></button>
-          </form>
-
-          <div style="display:flex;align-items:center;gap:10px;margin-top:11px">
-            <span style="flex:1;height:1px;background:rgba(255,255,255,.07)"></span>
-            <button class="btn btn-ghost" id="demoBtn" type="button">体验演示</button>
-            <span style="flex:1;height:1px;background:rgba(255,255,255,.07)"></span>
-          </div>
-
-          <p class="login-msg" id="loginMsg" role="status"></p>
-          <p class="config-hint" id="configHint">成员账号由星环成员系统统一维护 · 通过 memberService.web_login 校验</p>
-        </div>
-
-        <footer class="login-footer">
-          <span>中国海洋大学天文协会</span>
-          <span class="support">技术支持：星环终端</span>
-        </footer>
+  <!-- ===== 关于协会 ===== -->
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="sec-kicker">About Us</p>
+        <h2 class="sec-title">关于协会</h2>
+        <div class="sec-line"></div>
       </div>
-    </section>
-
-    <!-- ============ 应用 ============ -->
-    <section class="screen app-screen" id="appScreen" hidden>
-      <header class="app-top">
-        <div class="app-brand">
-          <img class="app-logo" src="logo.png" alt="会徽" />
-          <span class="app-brand-copy">
-            <strong>中国海洋大学天文协会</strong>
-            <span>OUC ASTRONOMY · MEMBER PORTAL</span>
-          </span>
+      <div class="about-grid">
+        <div class="about-copy reveal">
+          <p>中国海洋大学天文协会成立于 <b>2016 年</b>——当年《数学、天文与物理》课程在中国海洋大学首开，选课学生自发申请成立了这个社团，由学校通识教育单位<span class="hl">行远书院</span>指导与管理。</p>
+          <p>协会以<b>普及天文知识、引导会员探索星空</b>为宗旨，现有注册成员 120 余人，是覆盖全校各年级的校级学术科技类社团，也是<b>高校天文社团联盟</b>成员。</p>
+          <p>2019 年，行远书院建成<b>中国流星监测中国海洋大学子站（CMMO-18）</b>并指导协会运行。子站已监测到火流星近 20 起，获得国际流星组织（IMO）正式编号，是协会学术观测的核心阵地。</p>
+          <p>从"路边天文"到深空摄影，从社课讲坛到跨校联谊——我们把星空带进海大校园，也把海大名字写进夜空。</p>
         </div>
-        <div class="app-top-right">
-          <span class="app-status" id="appStatus">LIVE</span>
-          <button class="app-avatar" id="avatarBtn" type="button" aria-label="打开个人档案"><span id="avatarText">星</span></button>
-        </div>
-      </header>
-
-      <main class="app-main" id="appMain">
-        <nav class="breadcrumb" aria-label="面包屑">
-          <button class="breadcrumb-home" id="breadcrumbHome" type="button">中国海洋大学天文协会</button>
-          <span>/</span>
-          <b id="breadcrumbCurrent">工作台</b>
-        </nav>
-
-        <!-- 工作台 -->
-        <section class="page" id="page-workbench" data-page="workbench">
-          <div class="page-head">
-            <p class="kicker">WORKBENCH / 工作台</p>
-            <h1 class="page-title">工作台</h1>
-            <p class="page-sub">今晚的课堂、签到、提问与数据都在这里汇合。</p>
-          </div>
-
-          <article class="card empty-card" id="workbenchEmpty" hidden>
-            还没有进行中的课程。<br />前往「我的课程」选择一门课程后再开始。
-            <button class="btn" type="button" data-go="courses" style="margin-top:10px">前往我的课程</button>
-          </article>
-
-          <div id="workbenchContent" class="page" style="gap:12px">
-            <article class="card session-card">
-              <div class="session-top">
-                <span class="live-pill" id="wbLive">LIVE</span>
-                <span class="session-id" id="wbSessionId">SESSION / --</span>
-                <span class="session-id" id="wbRole" style="margin-left:auto">--</span>
-              </div>
-              <h2 class="session-name" id="wbCourseName">尚未选择课程</h2>
-              <p class="session-meta" id="wbCourseMeta">请先在「我的课程」中选择课程</p>
-              <div class="session-stats">
-                <div class="session-stat"><strong id="wbCheckinCount">0</strong><span>签到</span></div>
-                <div class="session-stat"><strong id="wbQuestionCount">0</strong><span>提问</span></div>
-                <div class="session-stat"><strong id="wbExperimentCount">0</strong><span>实验</span></div>
-                <div class="session-stat"><strong id="wbSessionStatus">--</strong><span>课次</span></div>
-              </div>
-            </article>
-
-            <div class="quick-grid">
-              <button class="quick-card" type="button" data-go="courses"><span class="quick-icon">▤</span><span class="quick-copy"><strong>我的课程</strong><span>查看与加入</span></span></button>
-              <button class="quick-card" type="button" data-go="resources"><span class="quick-icon">◈</span><span class="quick-copy"><strong>学习资源</strong><span>视频与教程</span></span></button>
-              <button class="quick-card" type="button" id="openSeaBtn"><span class="quick-icon">✦</span><span class="quick-copy"><strong>星海漫游</strong><span>拖动探索</span></span></button>
-            </div>
-
-            <div class="tool-grid">
-              <article class="card checkin-card">
-                <div class="card-head">
-                  <h2 class="card-title">课堂签到</h2>
-                  <span class="card-meta" id="checkinPhase">WAITING</span>
-                </div>
-                <div class="checkin-inline">
-                  <div>
-                    <p id="checkinHintText">当前课次进行中时即可签到</p>
-                    <p id="wbCheckinCode" style="margin:5px 0 0;color:rgba(230,199,143,.5);font-family:var(--font-en);font-size:8px;letter-spacing:.08em"></p>
-                  </div>
-                  <button class="btn btn-gold" id="wbCheckinBtn" type="button">签到</button>
-                </div>
-                <p class="checkin-status" id="wbCheckinStatus">尚未签到</p>
-              </article>
-
-              <article class="card ask-card">
-                <div class="card-head">
-                  <h2 class="card-title">实时提问</h2>
-                  <span class="card-meta">LIVE Q&amp;A</span>
-                </div>
-                <label class="field">
-                  <textarea id="wbAskInput" maxlength="160" placeholder="向课堂提一个问题…"></textarea>
-                </label>
-                <div class="ask-foot">
-                  <label class="ask-anon"><input type="checkbox" id="wbAskAnon" checked /> 匿名提问</label>
-                  <button class="btn btn-gold" id="wbAskBtn" type="button">发送</button>
-                </div>
-                <p class="ask-state" id="wbAskState"></p>
-              </article>
-            </div>
-
-            <article class="card feed-card">
-              <div class="card-head">
-                <h2 class="card-title">最新提问</h2>
-                <span class="card-meta" id="wbQuestionMeta">0 条</span>
-              </div>
-              <div class="mini-feed" id="wbChatFeed">
-                <div class="empty-feed">课堂提问会实时出现在这里</div>
-              </div>
-            </article>
-          </div>
-
-          <p class="support-line">中国海洋大学天文协会 · <b>技术支持：星环终端</b></p>
-        </section>
-
-        <!-- 我的课程 -->
-        <section class="page" id="page-courses" data-page="courses" hidden>
-          <div class="page-head">
-            <p class="kicker">MY COURSES / 我的课程</p>
-            <h1 class="page-title">我的课程</h1>
-            <p class="page-sub">这里只显示你已加入或正在授课的天文课程，课程数据与桌面端星环中枢共享。</p>
-          </div>
-
-          <article class="card join-card">
-            <div class="join-row">
-              <label class="field">
-                <span>加入课程 / 6 位加入码</span>
-                <input id="joinCodeInput" type="text" inputmode="numeric" maxlength="6" placeholder="输入课程加入码" />
-              </label>
-              <button class="btn btn-gold" id="joinCourseBtn" type="button">加入</button>
-            </div>
-            <p class="join-state" id="joinCourseState"></p>
-          </article>
-
-          <div class="card-grid" id="courseGrid"></div>
-          <article class="card empty-card" id="courseEmpty" hidden>还没有可显示的课程。<br />向授课教师获取 6 位加入码后加入课程。</article>
-          <p class="support-line">课程与课堂数据由 <b>星环终端</b> 提供技术支持</p>
-        </section>
-
-        <!-- 学习资源 -->
-        <section class="page" id="page-resources" data-page="resources" hidden>
-          <div class="page-head">
-            <p class="kicker">LEARNING RESOURCES / 学习资源</p>
-            <h1 class="page-title">学习资源</h1>
-            <p class="page-sub">协会的视频教程与学习资料。已解锁的资源可直接打开。</p>
-          </div>
-          <div class="card-grid" id="resourceGrid"></div>
-          <article class="card empty-card" id="resourceEmpty" hidden>暂时没有可显示的学习资源。</article>
-          <p class="support-line">学习资源由 <b>星环终端</b> 提供技术支持</p>
-        </section>
-
-        <!-- 实验数据 -->
-        <section class="page" id="page-experiments" data-page="experiments" hidden>
-          <div class="page-head">
-            <p class="kicker">EXPERIMENT DATA / 实验数据</p>
-            <h1 class="page-title">实验数据</h1>
-            <p class="page-sub">来自当前课程的光变实验记录。选择一条记录查看亮度曲线。</p>
-          </div>
-          <div class="card-grid" id="experimentGrid"></div>
-          <article class="card empty-card" id="experimentEmpty" hidden>当前课程还没有实验数据。<br />进入课堂完成一次光变实验后，记录会同步到这里。</article>
-          <article class="card experiment-chart" id="experimentChartCard" hidden>
-            <div class="card-head">
-              <h2 class="card-title" id="experimentChartTitle">光变曲线</h2>
-              <span class="card-meta" id="experimentChartMeta">--</span>
-            </div>
-            <svg id="experimentChart" viewBox="0 0 420 180" role="img" aria-label="实验光变曲线">
-              <defs>
-                <linearGradient id="expFill" x1="0" x2="0" y1="0" y2="1">
-                  <stop offset="0" stop-color="#e6c78f" stop-opacity="0.18" />
-                  <stop offset="1" stop-color="#e6c78f" stop-opacity="0" />
-                </linearGradient>
-              </defs>
-              <g stroke="rgba(255,255,255,0.055)" stroke-width="1">
-                <line x1="28" y1="28" x2="400" y2="28" />
-                <line x1="28" y1="68" x2="400" y2="68" />
-                <line x1="28" y1="108" x2="400" y2="108" />
-                <line x1="28" y1="148" x2="400" y2="148" />
-                <line x1="28" y1="20" x2="28" y2="148" />
-                <line x1="400" y1="20" x2="400" y2="148" />
-              </g>
-              <path id="expArea" fill="url(#expFill)" d="" />
-              <polyline id="expLine" fill="none" stroke="#e6c78f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" points="" />
-              <g id="expDots"></g>
-            </svg>
-          </article>
-          <p class="support-line">实验数据由 <b>星环终端</b> 提供技术支持</p>
-        </section>
-
-        <!-- 控制台 -->
-        <section class="page" id="page-console" data-page="console" hidden>
-          <div class="page-head">
-            <p class="kicker">CONTROL / 控制台</p>
-            <h1 class="page-title">控制台</h1>
-            <p class="page-sub">仅管理员可见。查看社团成员、课程与课堂运营概览。</p>
-          </div>
-          <article class="card" style="padding:14px 15px;display:flex;align-items:center;justify-content:space-between;gap:10px">
-            <div>
-              <p style="margin:0;color:#eef2fa;font-family:var(--font-cn);font-size:11px;font-weight:500" id="consoleOrgName">天文协会</p>
-              <p style="margin:4px 0 0;color:rgba(150,158,180,.34);font-size:6.5px" id="consoleOrgMeta">ADMIN OVERVIEW</p>
-            </div>
-            <span class="console-role" id="consoleRole">ADMIN</span>
-          </article>
-          <div class="console-metrics">
-            <div class="card console-metric"><strong id="consoleMembers">--</strong><span>成员</span></div>
-            <div class="card console-metric"><strong id="consolePending">--</strong><span>待审核</span></div>
-            <div class="card console-metric"><strong id="consoleCourses">--</strong><span>课程</span></div>
-            <div class="card console-metric"><strong id="consoleCheckins">--</strong><span>本课签到</span></div>
-          </div>
-          <article class="card" style="padding:13px 14px">
-            <div class="card-head"><h2 class="card-title">成员概览</h2><span class="card-meta">READ-ONLY</span></div>
-            <div style="overflow-x:auto"><table class="console-table"><thead><tr><th>成员</th><th>角色</th><th>部门</th></tr></thead><tbody id="consoleMemberRows"><tr><td colspan="3">正在读取…</td></tr></tbody></table></div>
-            <p class="console-note" style="margin-top:12px">网页端先提供只读运营概览；新增、编辑、重置密码与审核等完整操作请在成员管理端完成。</p>
-          </article>
-          <p class="support-line">控制台由 <b>星环终端</b> 提供技术支持</p>
-        </section>
-      </main>
-
-      <nav class="tabbar" id="tabbar" aria-label="协会导航">
-        <button class="nav-btn active" type="button" data-page="workbench" aria-label="工作台">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 11.5 12 4l8 7.5"/><path d="M6.5 10.5V20h11v-9.5"/></svg>
-          工作台
-        </button>
-        <button class="nav-btn" type="button" data-page="courses" aria-label="我的课程">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 5h7v15H4zM13 5h7v15h-7z"/><path d="M6.5 8.5h2M6.5 12h2M15.5 8.5h2M15.5 12h2"/></svg>
-          我的课程
-        </button>
-        <button class="nav-btn" type="button" data-page="resources" aria-label="学习资源">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 4.5h11a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3V4.5Z"/><path d="M8 8h8M8 11.5h5"/></svg>
-          学习资源
-        </button>
-        <button class="nav-btn" type="button" data-page="experiments" aria-label="实验数据">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19h16M6 19V9M12 19V5M18 19v-7"/></svg>
-          实验数据
-        </button>
-        <button class="nav-btn" type="button" data-page="console" id="consoleNav" aria-label="控制台" hidden>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></svg>
-          控制台
-        </button>
-      </nav>
-    </section>
-  </div>
-
-  <!-- 个人档案 / 星海 -->
-  <div class="overlay" id="profileOverlay" aria-hidden="true">
-    <div class="profile-sheet" role="dialog" aria-modal="true" aria-labelledby="profileName">
-      <div class="sheet-top">
-        <p class="kicker" style="margin:0">MEMBER PROFILE / 个人档案</p>
-        <button class="sheet-close" id="profileClose" type="button" aria-label="关闭个人档案">×</button>
-      </div>
-      <div class="profile-row">
-        <div class="profile-avatar" id="profileAvatar">星</div>
-        <div>
-          <h2 class="profile-name" id="profileName">成员</h2>
-          <p class="profile-meta" id="profileUsername">@--</p>
+        <div class="stats">
+          <div class="stat reveal"><b data-count="2016">0</b><span>成立年份</span></div>
+          <div class="stat reveal d1"><b data-count="120">0</b><span>注册成员</span></div>
+          <div class="stat reveal d2"><b>CMMO-18</b><span>流星监测子站 · IMO 编号</span></div>
+          <div class="stat reveal d3"><b data-count="20">0</b><span>已监测火流星（起）</span></div>
         </div>
       </div>
-      <div class="profile-fields">
-        <div class="profile-field"><span>ORG / 社团</span><b id="profileOrg">天文协会</b></div>
-        <div class="profile-field"><span>DEPARTMENT / 部门</span><b id="profileDept">--</b></div>
-        <div class="profile-field"><span>ROLE / 角色</span><b id="profileRole">成员</b></div>
-        <div class="profile-field"><span>STATUS / 状态</span><b id="profileStatus">ACTIVE</b></div>
+    </div>
+  </section>
+
+  <!-- ===== 活动 ===== -->
+  <section id="activities">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="sec-kicker">Activities</p>
+        <h2 class="sec-title">我们的活动</h2>
+        <div class="sec-line"></div>
       </div>
-      <div class="support-card">
-        <p class="kicker" style="margin:0">TECHNICAL SUPPORT</p>
-        <div class="support-brand">
-          <span class="support-orbit" aria-hidden="true"></span>
-          <div><h3>星环终端</h3><p>XINGHUAN TERMINAL</p></div>
+      <div class="collapse-bar"><button class="collapse-all" id="collapseActs">▾ 收起全部活动</button></div>
+
+      <div class="act-block reveal">
+        <div class="act-head"><span class="act-no">01 /</span><span class="act-name">社课系列</span><span class="chev">▾</span></div>
+        <p class="act-desc">从认星入门到轨道力学，由老会员与指导老师主讲的系列社课，是协会知识传承的主线。</p>
+        <div class="act-cards">
+          <article class="act-card"><div class="act-img"><span>✦</span></div><div class="act-body"><span class="act-tag">基础</span><h4>秋季认星课</h4><p>四季星空、行星辨识与望远镜基础操作入门。</p></div></article>
+          <article class="act-card"><div class="act-img"><span>♆</span></div><div class="act-body"><span class="act-tag">进阶</span><h4>深空天体导论</h4><p>梅西耶天体、星云星团观测方法与拍摄规划。</p></div></article>
+          <article class="act-card"><div class="act-img"><span>∑</span></div><div class="act-body"><span class="act-tag">理论</span><h4>轨道与历法</h4><p>从开普勒到轨道根数，看懂星历表与会合周期。</p></div></article>
         </div>
-        <p>中国海洋大学天文协会星海课堂的实时通信、签到、课程与数据能力，由星环终端提供技术支持。</p>
       </div>
-      <button class="btn logout-btn" id="logoutBtn" type="button">退出登录</button>
+
+      <div class="act-block reveal">
+        <div class="act-head"><span class="act-no">02 /</span><span class="act-name">观测活动</span><span class="chev">▾</span></div>
+        <p class="act-desc">走出教室，用眼睛和镜头记录真实星空。CMMO-18 子站全天候守候火流星。</p>
+        <div class="act-cards">
+          <article class="act-card"><div class="act-img"><span>◎</span></div><div class="act-body"><span class="act-tag">品牌</span><h4>路边天文</h4><p>校园路边架起大口径望远镜，邀请全校师生看月亮看土星。</p></div></article>
+          <article class="act-card"><div class="act-img"><span>☄</span></div><div class="act-body"><span class="act-tag">监测</span><h4>CMMO-18 流星监测</h4><p>子站常态化监测，已捕获火流星近 20 起（IMO 编号站）。</p></div></article>
+          <article class="act-card"><div class="act-img"><span>▲</span></div><div class="act-body"><span class="act-tag">出摊</span><h4>暗夜露营观测</h4><p>奔赴郊外暗夜区，银河、深空天体与流星雨马拉松。</p></div></article>
+        </div>
+      </div>
+
+      <div class="act-block reveal">
+        <div class="act-head"><span class="act-no">03 /</span><span class="act-name">联名活动</span><span class="chev">▾</span></div>
+        <p class="act-desc">与兄弟社团、高校天协及专业天文机构联手，把活动办到校园外、办到更大的舞台。</p>
+        <div class="act-cards">
+          <article class="act-card"><div class="act-img"><span>☍</span></div><div class="act-body"><span class="act-tag">校际</span><h4>高校天协联盟联谊</h4><p>联合岛城及全国高校天文社团开展联合观测与学术交流。</p></div></article>
+          <article class="act-card"><div class="act-img"><span>⌖</span></div><div class="act-body"><span class="act-tag">机构</span><h4>青岛市天文爱好者协会</h4><p>合办公众观测日与科普讲座，共享器材与观测资源。</p></div></article>
+          <article class="act-card"><div class="act-img"><span>♁</span></div><div class="act-body"><span class="act-tag">共建</span><h4>青岛观象台合作</h4><p>特邀观象台专家来校报告，会员走进百年观象台研学。</p></div></article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 成员墙 ===== -->
+  <section id="members">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="sec-kicker">Members</p>
+        <h2 class="sec-title">成员墙</h2>
+        <div class="sec-line"></div>
+        <p style="margin-top:18px;color:var(--faint);font-size:13px;letter-spacing:.1em">登录后可编辑自己的名片（校区 / 联系方式 / 简介）· 点击部门标题可收起</p>
+      </div>
+      <div class="collapse-bar"><button class="collapse-all" id="collapseDepts">▾ 收起全部部门</button></div>
+      <div id="deptContainer"></div>
+      <div class="dept reveal">
+        <div class="dept-head"><span class="dept-name">历任成员</span><span class="dept-count">档案整理中</span><span class="dept-line"></span></div>
+        <p style="color:var(--faint);font-size:13px">历届骨干成员档案整理中，欢迎老会员联系管理员补录姓名、届别与去向。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 加入 ===== -->
+  <section id="join">
+    <div class="wrap">
+      <div class="join-panel reveal">
+        <p class="sec-kicker">Join Us</p>
+        <h2>诚邀您的加入</h2>
+        <p>无论你从未认过一颗星，还是已经拍下过自己的第一张深空——这里都有你的位置。<br />注册需邀请码，请联系协会管理员或在招新季现场加入。</p>
+        <button class="cta primary" id="joinLoginBtn">登录 / 注册</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 页脚 ===== -->
+  <footer>
+    <div class="wrap foot-grid">
+      <span>中国海洋大学天文协会 · 指导与管理单位：行远书院 · © 2016–2026</span>
+      <span>
+        <a href="portal.html" target="_blank">老版工作台</a>
+        <a href="https://sunyilin00000.github.io/xinghuan-web/" target="_blank">星环·教学中枢</a>
+        <a href="#top">回到顶部</a>
+      </span>
+    </div>
+  </footer>
+
+  <!-- ===== 登录弹窗 ===== -->
+  <div class="modal" id="loginModal">
+    <div class="modal-card modal-wrap">
+      <button class="modal-close" data-close>×</button>
+      <h3>成员登录</h3>
+      <p class="sub">使用星环终端成员账号 · 未登录也可浏览本站全部内容</p>
+      <form id="loginForm">
+        <div class="field"><label>账号</label><input id="loginUser" type="text" autocomplete="username" placeholder="成员账号" required /></div>
+        <div class="field"><label>密码</label><input id="loginPwd" type="password" autocomplete="current-password" placeholder="登录密码" required /></div>
+        <button class="modal-btn" id="loginSubmit" type="submit">登 录</button>
+        <div class="modal-msg" id="loginMsg"></div>
+      </form>
+      <div class="modal-others">
+        <a href="#" id="registerHint">注册需邀请码 · 联系管理员</a>
+        <a href="portal.html" target="_blank">老版工作台</a>
+      </div>
     </div>
   </div>
 
-  <div class="overlay sea-overlay" id="seaOverlay" aria-hidden="true">
-    <div class="sea-sheet" role="dialog" aria-modal="true" aria-labelledby="seaTitle">
-      <header class="sea-head">
-        <div>
-          <h2 id="seaTitle">星海漫游</h2>
-          <p>拖动移动视角，滚轮/双指缩放，点击星点阅读星座故事。</p>
-        </div>
-        <button class="sheet-close" id="seaClose" type="button" aria-label="关闭星海漫游">×</button>
-      </header>
-      <div class="sea-stage">
-        <canvas id="seaCanvas" aria-label="可拖动的星海漫游画布"></canvas>
-        <div class="sea-hud">
-          <span class="sea-zoom" id="seaZoom">1.0×</span>
-          <button class="btn" id="seaReset" type="button">重置视角</button>
-        </div>
-        <div class="sea-info" id="seaInfo" hidden>
-          <h3 id="seaInfoName">北斗七星</h3>
-          <p class="en" id="seaInfoEn">BIG DIPPER</p>
-          <p id="seaInfoDesc">北天最容易被认出的星群之一。</p>
+  <!-- ===== 社团大事件月历 ===== -->
+  <div class="modal" id="calModal">
+    <div class="modal-card cal-card modal-wrap">
+      <button class="modal-close" data-close>×</button>
+      <h3>社团大事件</h3>
+      <p class="sub">已有活动 · 即将发生</p>
+      <div class="cal-head">
+        <span class="cal-month" id="calMonth"></span>
+        <div class="cal-nav">
+          <button type="button" id="calPrev">‹</button>
+          <button type="button" id="calNext">›</button>
         </div>
       </div>
-      <footer class="sea-foot">
-        <div class="sea-legend" id="seaLegend"></div>
-        <span class="sea-credit">星图交互 · <b>星环终端</b></span>
-      </footer>
+      <div class="cal-grid" id="calGrid"></div>
+      <div class="cal-legend"><span><i style="color:var(--gold)">●</i> 有活动安排</span><span><i style="color:var(--star)">●</i> 今天</span></div>
+      <div class="cal-events" id="calEvents"></div>
     </div>
   </div>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <!-- ===== 星环 AI 悬浮窗（登录后显示） ===== -->
+  <button id="aiFloat" hidden title="星环 AI">✦</button>
 
+
+  <script src="https://imgcache.qq.com/qcloud/cloudbase-js-sdk/1.7.2/cloudbase.full.js"></script>
   <script>
-    (() => {
-      'use strict';
+  /* ================= 成员数据（members 集合导出，已脱敏） ================= */
+  const WALL = [{"n":"Sun","u":"wx_SJM2kpX0","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"孙一琳","u":"sunyilin","r":"admin","d":"宣传部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"兰竣越","u":"lanjunyue","r":"admin","d":"主席团","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"n":"许钟丹","u":"xuzhongdan","r":"admin","d":"宣传部","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"n":"罗彦邦","u":"luoyanbang","r":"admin","d":"主席团","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"n":"张坦","u":"zhangtan","r":"admin","d":"主席团","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"n":"黄心阳","u":"huangxinyang","r":"admin","d":"活动部","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"n":"黄伟钵","u":"26090031033","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"张皓一","u":"26020041109","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"段嘉琪","u":"25010022012","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"刘铁","u":"26180043028","r":"member","d":"宣传部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"林锦谙","u":"wx_ST0WwyJs","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"佟佩林","u":"26020006133","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"张子宁","u":"26020036112","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"乔海轩","u":"25090012035","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"陈森","u":"26170001011","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"李圣杰","u":"25170001056","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"刘依依","u":"liuyiyi","r":"admin","d":"主席团","s":"中国海洋大学","c":"西海岸校区","t":"","b":""},{"n":"刘佳林","u":"26020046017","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"赵翌彤","u":"26160001130","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"金茂生","u":"jinmaosheng","r":"admin","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"刘畅","u":"25020041051","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"李莹玉","u":"liyingyu","r":"admin","d":"观测理论部","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"n":"YVonne","u":"wx_YoWs6ViA","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"雨","u":"wx_LzDD4W2o","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"欧阳晨笑","u":"26010022063","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"齐英博","u":"25170001088","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"1","u":"wx_Bo5wp2Pk","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"hhh","u":"wx_20DeV1PQ","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"路子浩","u":"26010022058","r":"member","d":"宣传部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"吴宸宇","u":"26090041077","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"宋一诺","u":"24010022060","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"Ptilotsis","u":"wx_ghW-2J-U","r":"member","d":"","s":"中国海洋大学","c":"西海岸校区","t":"","b":""},{"n":"邱墨","u":"25020011016","r":"member","d":"宣传部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"户外协会管理员","u":"huxie","r":"admin","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"宋一诺","u":"songyinuo","r":"admin","d":"观测理论部","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"n":"齐英博","u":"qiyingbo","r":"admin","d":"观测理论部","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"n":"孟文亮","u":"mengwenliang","r":"admin","d":"观测理论部","s":"中国海洋大学","c":"西海岸校区","t":"","b":""},{"n":"张皓辰","u":"zhanghaochen","r":"admin","d":"宣传部","s":"中国海洋大学","c":"西海岸校区","t":"","b":""},{"n":"孟文亮","u":"25170001082","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"白云","u":"wx_tbUy8Aeo","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"🐟","u":"wx_TQuUOBgU","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"神仙鱼头煲","u":"wx_gHz42Pl4","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"素贞","u":"wx_33ufZT88","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"不累不累","u":"wx_JEogzi_M","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"起名好难","u":"wx_DkqsU8xg","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"把","u":"wx_3hV5XHvA","r":"member","d":"","s":"中国海洋大学","c":"崂山校区","t":"","b":""}];
 
-      const CONFIG = {
-        env: 'cloud1-d6gagyei397d315ca',
-        region: 'ap-shanghai',
-        defaultOrg: 'astro',
-        defaultSessionId: 'OUC-2026-01'
+  /* ================= 星点画布 + 鼠标光晕（Hero 光影） ================= */
+  (function () {
+    const cv = document.getElementById('stars');
+    const cx = cv.getContext('2d');
+    let W, H, stars = [], meteors = [];
+    function resize() {
+      W = cv.width = cv.offsetWidth * devicePixelRatio;
+      H = cv.height = cv.offsetHeight * devicePixelRatio;
+      stars = Array.from({ length: Math.min(260, W / 8) }, () => ({
+        x: Math.random() * W, y: Math.random() * H,
+        r: Math.random() * 1.4 + .3, p: Math.random() * Math.PI * 2,
+        s: .15 + Math.random() * .45, d: .3 + Math.random() * .7
+      }));
+    }
+    resize(); addEventListener('resize', resize);
+    let mx = .5, my = .5;
+    addEventListener('mousemove', e => { mx = e.clientX / innerWidth; my = e.clientY / innerHeight; });
+    function tick(t) {
+      cx.clearRect(0, 0, W, H);
+      const ox = (mx - .5) * 40, oy = (my - .5) * 40;
+      for (const s of stars) {
+        s.p += .02;
+        const tw = .35 + Math.abs(Math.sin(s.p)) * .65;
+        cx.globalAlpha = tw * s.d;
+        cx.fillStyle = '#cfe6ff';
+        cx.beginPath();
+        cx.arc(s.x + ox * s.d, s.y + oy * s.d, s.r * devicePixelRatio, 0, 7);
+        cx.fill();
+      }
+      cx.globalAlpha = 1;
+      if (Math.random() < .006 && meteors.length < 2) {
+        meteors.push({ x: Math.random() * W * .8, y: Math.random() * H * .3, vx: 9 + Math.random() * 7, vy: 4 + Math.random() * 3, life: 1 });
+      }
+      meteors = meteors.filter(m => m.life > 0);
+      for (const m of meteors) {
+        const g = cx.createLinearGradient(m.x, m.y, m.x - m.vx * 12, m.y - m.vy * 12);
+        g.addColorStop(0, 'rgba(200,230,255,' + (.8 * m.life) + ')');
+        g.addColorStop(1, 'transparent');
+        cx.strokeStyle = g; cx.lineWidth = 1.6;
+        cx.beginPath(); cx.moveTo(m.x, m.y); cx.lineTo(m.x - m.vx * 12, m.y - m.vy * 12); cx.stroke();
+        m.x += m.vx; m.y += m.vy; m.life -= .016;
+      }
+      requestAnimationFrame(tick);
+    }
+    tick();
+    // 鼠标光晕
+    const n1 = document.querySelector('.nebula.n1'), n2 = document.querySelector('.nebula.n2');
+    addEventListener('mousemove', e => {
+      const dx = (e.clientX / innerWidth - .5), dy = (e.clientY / innerHeight - .5);
+      n1.style.transform = 'translate3d(' + dx * 90 + 'px,' + dy * 90 + 'px,0)';
+      n2.style.transform = 'translate3d(' + dx * -70 + 'px,' + dy * -70 + 'px,0)';
+    });
+  })();
+
+  /* ================= 滚动浮现 + 数字滚动 ================= */
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+  }), { threshold: .12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  const ioNum = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    ioNum.unobserve(e.target);
+    const end = +e.target.dataset.count, t0 = performance.now();
+    (function step(t) {
+      const p = Math.min(1, (t - t0) / 1400);
+      e.target.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(step);
+    })(t0);
+  }), { threshold: .5 });
+  document.querySelectorAll('[data-count]').forEach(el => ioNum.observe(el));
+
+  /* ================= 成员墙渲染 ================= */
+  (function () {
+    const order = ['主席团', '核心团队', '观测理论部', '组织部', '活动部', '宣传部', '会员'];
+    const groups = {};
+    WALL.forEach(m => { const d = m.d || '会员'; (groups[d] = groups[d] || []).push(m); });
+    const box = document.getElementById('deptContainer');
+    const esc = s => String(s || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    order.filter(d => groups[d]).forEach(d => {
+      const list = groups[d].slice().sort((a, b) => (a.n > b.n ? 1 : -1));
+      const dept = document.createElement('div');
+      dept.className = 'dept reveal';
+      dept.innerHTML = '<div class="dept-head"><span class="dept-name">' + esc(d) + '</span><span class="chev">▾</span>' +
+        '<span class="dept-count">' + list.length + ' 人</span><span class="dept-line"></span></div>' +
+        '<div class="member-grid">' + list.map(m =>
+          '<article class="m-card"><div class="m-ava">' + esc((m.n || '?').slice(0, 1)) + '</div>' +
+          '<div class="m-info"><div class="m-name">' + esc(m.n) +
+          (m.r === 'admin' ? '<span class="m-role admin">管理员</span>' : (m.r !== 'member' ? '<span class="m-role">' + esc(m.r) + '</span>' : '')) +
+          '</div><div class="m-meta"><b>' + esc(m.s || '中国海洋大学') + '</b>' +
+          (m.c ? ' · ' + esc(m.c) : '') + (m.t ? '<br>联系方式：' + esc(m.t) : '') + '</div>' +
+          (m.b ? '<div class="m-bio">“' + esc(m.b) + '”</div>' : '') +
+          '</div></article>').join('') + '</div>';
+      box.appendChild(dept);
+      io.observe(dept);
+    });
+  })();
+
+  /* ================= 月历大事件（示例数据，第 2 期接 CloudBase） ================= */
+  (function () {
+    const DEMO = { '2026-11-17': '路边天文 · 满月观测（示例）', '2026-11-21': '社课：深空摄影后期（示例）', '2026-12-13': '双子座流星雨联合观测（示例）' };
+    let base = new Date();
+    const grid = document.getElementById('calGrid'), monthEl = document.getElementById('calMonth'), evBox = document.getElementById('calEvents');
+    function pad(n) { return String(n).padStart(2, '0'); }
+    function render() {
+      const y = base.getFullYear(), m = base.getMonth();
+      monthEl.textContent = y + ' 年 ' + (m + 1) + ' 月';
+      grid.innerHTML = ['日', '一', '二', '三', '四', '五', '六'].map(d => '<div class="cal-dow">' + d + '</div>').join('');
+      const first = new Date(y, m, 1).getDay(), days = new Date(y, m + 1, 0).getDate();
+      const today = new Date(), tKey = today.getFullYear() + '-' + pad(today.getMonth() + 1) + '-' + pad(today.getDate());
+      for (let i = 0; i < first; i++) grid.innerHTML += '<div class="cal-day" style="border-color:transparent"></div>';
+      for (let d = 1; d <= days; d++) {
+        const key = y + '-' + pad(m + 1) + '-' + pad(d);
+        const has = DEMO[key];
+        grid.innerHTML += '<div class="cal-day' + (has ? ' has' : '') + (key === tKey ? ' today' : '') + '" data-key="' + key + '">' + d + (has ? '<i class="dot"></i>' : '') + '</div>';
+      }
+      const evs = Object.keys(DEMO).filter(k => +k.slice(5, 7) === m + 1 && +k.slice(0, 4) === y);
+      evBox.innerHTML = evs.length ? evs.map(k => '<div class="cal-ev"><b>' + k.slice(5) + '</b><span>' + DEMO[k] + '</span></div>').join('')
+        : '<div class="cal-ev"><span>本月暂无安排 · 活动发布后自动同步</span></div>';
+    }
+    document.getElementById('calPrev').onclick = () => { base.setMonth(base.getMonth() - 1); render(); };
+    document.getElementById('calNext').onclick = () => { base.setMonth(base.getMonth() + 1); render(); };
+    render();
+  })();
+
+  /* ================= 弹窗开关 ================= */
+  const $ = id => document.getElementById(id);
+  function openModal(id) { $(id).classList.add('open'); }
+  function closeModal(el) { el.classList.remove('open'); }
+  document.querySelectorAll('[data-close]').forEach(b => b.onclick = e => closeModal(e.target.closest('.modal')));
+  document.querySelectorAll('.modal').forEach(m => m.addEventListener('click', e => { if (e.target === m) closeModal(m); }));
+  $('calBtn').onclick = () => openModal('calModal');
+  $('loginBtn').onclick = () => openModal('loginModal');
+  $('joinLoginBtn').onclick = () => openModal('loginModal');
+
+  /* ================= 登录（复用门户链路：web_login → 票据 → 登录态） ================= */
+  const CFG = { env: 'cloud1-d6gagyei397d315ca' };
+  let cloudapp = null, session = null;
+  function loadScript(src) {
+    return new Promise((res, rej) => {
+      if (document.querySelector('script[src="' + src + '"]')) return res();
+      const s = document.createElement('script'); s.src = src;
+      s.onload = res; s.onerror = () => rej(new Error('SDK 加载失败'));
+      document.head.appendChild(s);
+    });
+  }
+  async function ensureCloud() {
+    if (cloudapp) return cloudapp;
+    await loadScript('https://imgcache.qq.com/qcloud/cloudbase-js-sdk/1.7.2/cloudbase.full.js');
+    cloudapp = cloudbase.init({ env: CFG.env });
+    try { await cloudapp.auth({ persistence: 'local' }).signInAnonymously(); } catch (e) { console.warn('[portal] 匿名会话失败', e); }
+    return cloudapp;
+  }
+  async function callFn(name, action, data) {
+    const app = await ensureCloud();
+    const res = await app.callFunction({ name, data: Object.assign({ action }, data || {}) });
+    return res && res.result !== undefined ? res.result : res;
+  }
+
+  // 恢复会话（cloudbase 本地持久化）
+  ensureCloud().then(async app => {
+    const loginState = await app.auth().getLoginState();
+    if (loginState) {
+      const u = await app.auth().getCurrentUser();
+      if (u) showAuthed({ nickname: u.nickname || '成员' });
+    }
+  }).catch(() => {});
+
+  $('loginForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const msg = $('loginMsg'), btn = $('loginSubmit');
+    msg.className = 'modal-msg'; msg.textContent = '';
+    btn.disabled = true; btn.textContent = '登录中…';
+    try {
+      const r = await callFn('memberService', 'web_login', { username: $('loginUser').value.trim(), password: $('loginPwd').value });
+      if (!r || r.code !== 0) {
+        msg.className = 'modal-msg error'; msg.textContent = (r && r.message) || '登录失败';
+        return;
+      }
+      const app = await ensureCloud();
+      await app.auth().signInWithTicket(r.ticket);
+      session = r.member || {};
+      showAuthed(session);
+      closeModal($('loginModal'));
+      msg.textContent = '';
+    } catch (err) {
+      msg.className = 'modal-msg error'; msg.textContent = '登录异常：' + (err.message || err);
+    } finally {
+      btn.disabled = false; btn.textContent = '登 录';
+    }
+  });
+
+  function showAuthed(u) {
+    $('authArea').innerHTML =
+      '<span class="tb-user"><span class="avatar">' + String(u.nickname || u.name || '成').slice(0, 1) + '</span>' +
+      '<span class="uname">' + (u.nickname || u.name || '成员') + '</span>' +
+      '<a class="tb-btn" href="portal.html" target="_blank">工作台</a></span>';
+    $('aiFloat').hidden = false; // 星环 AI 悬浮窗（第 3 期接入对话）
+  }
+
+  $('aiFloat').onclick = () => alert('星环 AI 即将上线（第 3 期接入星海课堂智能助教）。\n先移步「老版工作台」体验完整功能。');
+
+  /* ================= 折叠窗口（活动板块 / 成员部门） ================= */
+  (function () {
+    const saved = JSON.parse(localStorage.getItem('ouc_collapsed') || '{}');
+    const blocks = () => document.querySelectorAll('.act-block, .dept');
+    blocks().forEach(b => {
+      const key = b.dataset.key || (b.querySelector('.act-name,.dept-name') || {}).textContent || '';
+      b.dataset.key = key;
+      if (saved[key]) b.classList.add('collapsed');
+    });
+    document.addEventListener('click', e => {
+      const head = e.target.closest('.act-head, .dept-head');
+      if (!head) return;
+      const b = head.parentElement;
+      b.classList.toggle('collapsed');
+      const st = JSON.parse(localStorage.getItem('ouc_collapsed') || '{}');
+      st[b.dataset.key] = b.classList.contains('collapsed');
+      localStorage.setItem('ouc_collapsed', JSON.stringify(st));
+    });
+    function bindAll(btnId, selector) {
+      const btn = document.getElementById(btnId);
+      if (!btn) return;
+      btn.onclick = () => {
+        const list = document.querySelectorAll(selector);
+        const anyOpen = Array.from(list).some(b => !b.classList.contains('collapsed'));
+        list.forEach(b => b.classList.toggle('collapsed', anyOpen));
+        const st = JSON.parse(localStorage.getItem('ouc_collapsed') || '{}');
+        list.forEach(b => st[b.dataset.key] = b.classList.contains('collapsed'));
+        localStorage.setItem('ouc_collapsed', JSON.stringify(st));
+        btn.textContent = anyOpen ? '▸ 展开全部' : '▾ 收起全部';
       };
-      const SDK_URL = 'https://static.cloudbase.net/cloudbase-js-sdk/3.11.1/cloudbase.full.js';
-      const params = new URLSearchParams(location.search);
-      const $ = (id) => document.getElementById(id);
+    }
+    bindAll('collapseActs', '.act-block');
+    bindAll('collapseDepts', '.dept');
+  })();
 
-      const ORGS = {
-        astro: { name: '天文协会', full: '中国海洋大学天文协会', school: '中国海洋大学', color: '#D4C4A8' },
-        outdoor: { name: '户外协会', full: '中国海洋大学户外协会', school: '中国海洋大学', color: '#A2B5C4' },
-        bio: { name: '生物科技协会', full: '中国海洋大学生物科技协会', school: '中国海洋大学', color: '#A6C0B5' },
-        nankai_astro: { name: '南开天协', full: '南开大学天文协会', school: '南开大学', color: '#8C4799' }
-      };
 
-      const PAGES = {
-        workbench: { label: '工作台', title: '工作台 · 中国海洋大学天文协会' },
-        courses: { label: '我的课程', title: '我的课程 · 中国海洋大学天文协会' },
-        resources: { label: '学习资源', title: '学习资源 · 中国海洋大学天文协会' },
-        experiments: { label: '实验数据', title: '实验数据 · 中国海洋大学天文协会' },
-        console: { label: '控制台', title: '控制台 · 中国海洋大学天文协会', admin: true }
-      };
-
-      const state = {
-        user: null,
-        token: '',
-        org: CONFIG.defaultOrg,
-        demo: false,
-        sync: 'idle',
-        canManage: false,
-        app: null,
-        auth: null,
-        db: null,
-        courses: [],
-        currentCourse: null,
-        classroom: null,
-        chats: [],
-        experiments: [],
-        resources: [],
-        selectedExperiment: null,
-        page: 'workbench',
-        watchers: [],
-        pollTimer: null,
-        demoTimer: null,
-        toastTimer: null,
-        sea: null
-      };
-
-      const el = {
-        loginScreen: $('loginScreen'), appScreen: $('appScreen'),
-        loginForm: $('loginForm'), studentId: $('studentId'), studentPwd: $('studentPwd'),
-        loginBtn: $('loginBtn'), loginBtnLabel: $('loginBtnLabel'), loginMsg: $('loginMsg'),
-        demoBtn: $('demoBtn'), configHint: $('configHint'), scanReady: $('scanReady'), scanReadyText: $('scanReadyText'),
-        appMain: $('appMain'), appStatus: $('appStatus'), avatarBtn: $('avatarBtn'), avatarText: $('avatarText'),
-        breadcrumb: $('breadcrumbCurrent'), breadcrumbHome: $('breadcrumbHome'), tabbar: $('tabbar'), consoleNav: $('consoleNav'),
-        workbenchEmpty: $('workbenchEmpty'), workbenchContent: $('workbenchContent'),
-        wbLive: $('wbLive'), wbSessionId: $('wbSessionId'), wbRole: $('wbRole'),
-        wbCourseName: $('wbCourseName'), wbCourseMeta: $('wbCourseMeta'),
-        wbCheckinCount: $('wbCheckinCount'), wbQuestionCount: $('wbQuestionCount'),
-        wbExperimentCount: $('wbExperimentCount'), wbSessionStatus: $('wbSessionStatus'),
-        checkinPhase: $('checkinPhase'), checkinHintText: $('checkinHintText'), wbCheckinCode: $('wbCheckinCode'),
-        wbCheckinBtn: $('wbCheckinBtn'), wbCheckinStatus: $('wbCheckinStatus'),
-        wbAskInput: $('wbAskInput'), wbAskAnon: $('wbAskAnon'), wbAskBtn: $('wbAskBtn'), wbAskState: $('wbAskState'),
-        wbQuestionMeta: $('wbQuestionMeta'), wbChatFeed: $('wbChatFeed'),
-        openSeaBtn: $('openSeaBtn'),
-        joinCodeInput: $('joinCodeInput'), joinCourseBtn: $('joinCourseBtn'), joinCourseState: $('joinCourseState'),
-        courseGrid: $('courseGrid'), courseEmpty: $('courseEmpty'),
-        resourceGrid: $('resourceGrid'), resourceEmpty: $('resourceEmpty'),
-        experimentGrid: $('experimentGrid'), experimentEmpty: $('experimentEmpty'),
-        experimentChartCard: $('experimentChartCard'), experimentChartTitle: $('experimentChartTitle'),
-        experimentChartMeta: $('experimentChartMeta'), expLine: $('expLine'), expArea: $('expArea'), expDots: $('expDots'),
-        consoleOrgName: $('consoleOrgName'), consoleOrgMeta: $('consoleOrgMeta'), consoleRole: $('consoleRole'),
-        consoleMembers: $('consoleMembers'), consolePending: $('consolePending'), consoleCourses: $('consoleCourses'),
-        consoleCheckins: $('consoleCheckins'), consoleMemberRows: $('consoleMemberRows'),
-        profileOverlay: $('profileOverlay'), profileClose: $('profileClose'), profileAvatar: $('profileAvatar'),
-        profileName: $('profileName'), profileUsername: $('profileUsername'), profileOrg: $('profileOrg'),
-        profileDept: $('profileDept'), profileRole: $('profileRole'), profileStatus: $('profileStatus'),
-        logoutBtn: $('logoutBtn'),
-        seaOverlay: $('seaOverlay'), seaClose: $('seaClose'), seaCanvas: $('seaCanvas'),
-        seaZoom: $('seaZoom'), seaReset: $('seaReset'), seaInfo: $('seaInfo'),
-        seaInfoName: $('seaInfoName'), seaInfoEn: $('seaInfoEn'), seaInfoDesc: $('seaInfoDesc'), seaLegend: $('seaLegend'),
-        toast: $('toast')
-      };
-
-      const SEA_CATALOG = [
-        { id: 'beidou', name: '北斗七星', en: 'BIG DIPPER', color: '#e6c78f', desc: '北天最容易被认出的星群之一。沿着斗口两星连线延长约五倍，可以找到北极星。', stars: [[320, 220], [380, 250], [445, 275], [505, 330], [475, 405], [405, 430], [355, 395]], lines: [[0, 1], [1, 2], [2, 3], [3, 4], [4, 5], [5, 6], [6, 3]] },
-        { id: 'orion', name: '猎户座', en: 'ORION', color: '#9cc9e8', desc: '冬季星空的王者。腰带三星几乎排成一线，猎户座大星云位于腰带下方。', stars: [[690, 470], [760, 500], [830, 480], [735, 560], [765, 560], [795, 560], [710, 680], [820, 695]], lines: [[0, 3], [1, 4], [2, 5], [3, 4], [4, 5], [3, 6], [5, 7], [0, 1], [1, 2]] },
-        { id: 'cassiopeia', name: '仙后座', en: 'CASSIOPEIA', color: '#c7a6e8', desc: '呈 W 形的北天星座。与北斗七星分居北极星两侧，是寻找北极星的好帮手。', stars: [[880, 180], [930, 230], [985, 195], [1040, 240], [1100, 205]], lines: [[0, 1], [1, 2], [2, 3], [3, 4]] },
-        { id: 'summer', name: '夏季大三角', en: 'SUMMER TRIANGLE', color: '#8ec9ae', desc: '由织女星、牛郎星和天津四组成。夏夜抬头，几乎横跨整个银河。', stars: [[260, 760], [560, 930], [900, 760]], lines: [[0, 1], [1, 2], [2, 0]] }
-      ];
-
-      const DEMO_COURSES = [
-        { _id: 'demo-course-1', name: '星海观测与天文摄影', teacher_name: '李忠尚', org: 'astro', role: 'student', student_count: 28, current_session_id: 'demo-session-1', status: 'active' },
-        { _id: 'demo-course-2', name: '深空天体与光变曲线', teacher_name: '陈星野', org: 'astro', role: 'student', student_count: 16, current_session_id: '', status: 'active' }
-      ];
-
-      function init() {
-        document.title = '登录 · 中国海洋大学天文协会';
-        bindEvents();
-        buildSeaLegend();
-        startBackgroundStars();
-        const courseId = params.get('course_id') || '';
-        const sessionId = params.get('session_id') || params.get('session') || '';
-        const code = params.get('code') || '';
-        if (courseId || sessionId || code) {
-          el.scanReady.hidden = false;
-          el.scanReadyText.textContent = code ? ('签到码 ' + code) : (sessionId ? '课堂签到' : '课程已识别');
-        }
-        const org = params.get('org');
-        if (org) state.org = normalizeOrg(org);
-        renderLoginMeta();
-      }
-
-      function bindEvents() {
-        el.loginForm.addEventListener('submit', handleLogin);
-        el.demoBtn.addEventListener('click', enterDemo);
-        document.querySelectorAll('[data-page]').forEach((button) => {
-          if (button.classList.contains('nav-btn')) button.addEventListener('click', () => goPage(button.dataset.page));
-        });
-        document.querySelectorAll('[data-go]').forEach((button) => {
-          button.addEventListener('click', () => goPage(button.dataset.go));
-        });
-        el.avatarBtn.addEventListener('click', openProfile);
-        if (el.breadcrumbHome) el.breadcrumbHome.addEventListener('click', () => goPage('workbench'));
-        el.profileClose.addEventListener('click', closeProfile);
-        el.profileOverlay.addEventListener('click', (event) => { if (event.target === el.profileOverlay) closeProfile(); });
-        el.logoutBtn.addEventListener('click', handleLogout);
-        el.wbCheckinBtn.addEventListener('click', handleCheckin);
-        el.wbAskBtn.addEventListener('click', handleAsk);
-        el.joinCourseBtn.addEventListener('click', handleJoinCourse);
-        el.openSeaBtn.addEventListener('click', openSea);
-        el.seaClose.addEventListener('click', closeSea);
-        el.seaOverlay.addEventListener('click', (event) => { if (event.target === el.seaOverlay) closeSea(); });
-        el.seaReset.addEventListener('click', resetSeaView);
-        window.addEventListener('keydown', (event) => {
-          if (event.key !== 'Escape') return;
-          if (el.seaOverlay.classList.contains('open')) closeSea();
-          else if (el.profileOverlay.classList.contains('open')) closeProfile();
-        });
-      }
-
-      function renderLoginMeta() {
-        const org = ORGS[state.org] || ORGS.astro;
-        el.configHint.textContent = '通过 memberService.web_login 校验已有成员账号 · 当前环境 ' + CONFIG.env + ' · ' + org.full;
-      }
-
-      function normalizeOrg(value) {
-        const raw = String(value || '').toLowerCase();
-        if (raw.includes('nankai') || raw.includes('南开')) return 'nankai_astro';
-        if (raw.includes('outdoor') || raw.includes('户外')) return 'outdoor';
-        if (raw.includes('bio') || raw.includes('生物') || raw.includes('生科')) return 'bio';
-        return 'astro';
-      }
-
-      function roleLabel(user) {
-        if (!user) return '成员';
-        if (user.super_admin) return '最高权限';
-        const role = user.role || 'member';
-        return { admin: '管理员', dept_head: '部门主管', member: '成员' }[role] || role;
-      }
-
-      function isAdmin(user) {
-        if (!user) return false;
-        if (user.super_admin) return true;
-        if (user.role === 'admin') return true;
-        const identities = user.org_identities || {};
-        return Object.keys(identities).some((key) => identities[key] && identities[key].role === 'admin');
-      }
-
-      function setLoginMessage(text, kind) {
-        el.loginMsg.textContent = text || '';
-        el.loginMsg.className = 'login-msg' + (kind ? ' ' + kind : '');
-      }
-
-      function setBusy(busy) {
-        el.loginBtn.disabled = busy;
-        el.loginBtnLabel.textContent = busy ? '正在验证…' : '进入星海课堂';
-      }
-
-      async function handleLogin(event) {
-        event.preventDefault();
-        if (el.loginBtn.disabled) return;
-        const username = el.studentId.value.trim();
-        const password = el.studentPwd.value;
-        if (!username || !password) { setLoginMessage('请输入账号和密码', 'error'); return; }
-        setBusy(true);
-        setLoginMessage('正在连接 CloudBase 并校验成员账号…');
-        try {
-          await ensureCloud();
-          const payload = await callFunction('memberService', 'web_login', { username, password }, false);
-          if (!payload || !payload.ticket) throw new Error('登录未返回票据');
-          await signInWithTicket(payload.ticket);
-          state.token = payload.token || '';
-          state.user = { ...(payload.user || {}), token: state.token };
-          const allowedOrgs = (Array.isArray(state.user.orgs) && state.user.orgs.length ? state.user.orgs : [state.user.org]).map(normalizeOrg);
-          const urlOrg = params.get('org') ? normalizeOrg(params.get('org')) : '';
-          state.org = (urlOrg && allowedOrgs.includes(urlOrg)) ? urlOrg : normalizeOrg(state.user.org);
-          try {
-            const fresh = await callFunction('memberService', 'whoami', { token: state.token });
-            if (fresh) state.user = { ...state.user, ...fresh };
-          } catch (error) { console.warn('[星海课堂] whoami 失败，使用登录返回信息', error); }
-          state.canManage = isAdmin(state.user);
-          state.demo = false;
-          await enterApp();
-          setLoginMessage('登录成功', 'success');
-        } catch (error) {
-          console.error('[星海课堂] 登录失败', error);
-          setLoginMessage(error.message || String(error), 'error');
-          setStatus('error');
-        } finally {
-          setBusy(false);
-        }
-      }
-
-      async function ensureCloud() {
-        if (state.app) return;
-        if (!window.cloudbase) await loadScript(SDK_URL, () => window.cloudbase);
-        const app = window.cloudbase.init({ env: CONFIG.env, region: CONFIG.region });
-        state.app = app;
-        state.auth = app.auth();
-        state.db = app.database();
-        try {
-          if (typeof state.auth.signInAnonymously === 'function') {
-            const result = await state.auth.signInAnonymously();
-            if (result && result.error) throw result.error;
-          }
-        } catch (error) {
-          console.warn('[星海课堂] 匿名会话建立失败，继续尝试成员票据登录', error);
-        }
-      }
-
-      async function signInWithTicket(ticket) {
-        const attempts = [
-          () => state.auth.signInWithCustomTicket(() => Promise.resolve(ticket)),
-          () => state.auth.signInWithCustomTicket(ticket),
-          () => state.auth.customAuthProvider && state.auth.customAuthProvider().signIn(ticket)
-        ];
-        let last = null;
-        for (const attempt of attempts) {
-          try {
-            const result = await attempt();
-            if (result && result.error) throw result.error;
-            return;
-          } catch (error) {
-            last = error;
-          }
-        }
-        throw last || new Error('自定义票据登录失败');
-      }
-
-      async function callFunction(name, action, extra, includeToken = true) {
-        if (!state.app) throw new Error('CloudBase 尚未连接');
-        const data = { action, ...(extra || {}) };
-        if (includeToken && state.token) data.token = state.token;
-        if (includeToken && state.org) data.org = state.org;
-        const response = await state.app.callFunction({ name, data });
-        let payload = response && response.result;
-        if (typeof payload === 'string') {
-          try { payload = JSON.parse(payload); } catch (error) { payload = { code: 1, message: payload }; }
-        }
-        if (!payload || payload.code !== 0) {
-          const error = new Error((payload && (payload.message || payload.msg)) || '服务调用失败');
-          error.code = payload && payload.code;
-          throw error;
-        }
-        return payload.data;
-      }
-
-      function enterDemo() {
-        state.demo = true;
-        state.canManage = true;
-        state.sync = 'demo';
-        state.org = 'astro';
-        state.user = { username: '20261234', name: '演示成员', role: 'admin', super_admin: true, org: 'astro', orgs: ['astro'], department: '观测理论部', org_identities: { astro: { role: 'admin', department: '观测理论部' } }, status: 'active' };
-        state.courses = DEMO_COURSES.map((course) => ({ ...course }));
-        state.currentCourse = state.courses[0];
-        state.classroom = createDemoClassroom();
-        state.chats = state.classroom.chats;
-        state.experiments = state.classroom.experiments;
-        state.resources = [
-          { _id: 'v1', title: 'Stellarium 星空软件入门', unlocked: true, url: 'https://stellarium.org/' },
-          { _id: 'v2', title: '深空摄影：从对极轴到叠加', unlocked: false, url: '' },
-          { _id: 'v3', title: '光变曲线观测实验导览', unlocked: true, url: '#' }
-        ];
-        enterApp().then(() => {
-          startDemoTicker();
-          toast('已进入演示工作台');
-        });
-      }
-
-      function createDemoClassroom() {
-        return {
-          role: 'student',
-          course: DEMO_COURSES[0],
-          current_session: {
-            _id: 'demo-session-1',
-            phase: 'checkin',
-            status: 'running',
-            title: '星海观测与天文摄影',
-            phase_payload: { checkin: { checkins: Array.from({ length: 9 }, (_, i) => ({ member_id: 'demo-' + i, member_name: ['陈星野', '林望舒', '周予安', '许知远', '沈观澜', '宋清和', '顾南星', '叶听雪', '陆星河'][i], submitted_at_ms: Date.now() - (9 - i) * 40000 })) } }
-          },
-          checkin_summary: { checked_count: 9, total_count: 28, items: [] },
-          quiz_summary: { responded_count: 0, total_count: 28, correct_count: 0, response_items: [] },
-          my_checkin: null,
-          chats: [
-            { _id: 'c1', content: '今晚的观测窗口大概从几点开始？', student_name: '陈星野', is_anonymous: false, time: Date.now() - 140000 },
-            { _id: 'c2', content: '如何用手机稳定地拍摄银河？', student_name: '匿名同学', is_anonymous: true, time: Date.now() - 260000 },
-            { _id: 'c3', content: '光污染对目视观测的影响有多大？', student_name: '林望舒', is_anonymous: false, time: Date.now() - 380000 }
-          ],
-          experiments: [
-            { _id: 'e1', member_name: '演示成员', experiment_type: 'light_curve', group_id: '第 3 组', source: 'real', created_at_ms: Date.now() - 3600000, data: Array.from({ length: 18 }, (_, i) => ({ time: i * 1.5, brightness: 4.2 - Math.pow((i - 8) / 7, 2) * 0.9 + (i % 3) * 0.04 })) },
-            { _id: 'e2', member_name: '演示成员', experiment_type: 'light_curve', group_id: '第 3 组', source: 'simulation', created_at_ms: Date.now() - 7200000, data: Array.from({ length: 16 }, (_, i) => ({ time: i * 1.5, brightness: 3.8 - Math.pow((i - 7) / 6, 2) * 0.75 })) }
-          ],
-          chat_settings: { allow_anonymous_questions: true }
-        };
-      }
-
-      async function enterApp() {
-        el.loginScreen.hidden = true;
-        el.appScreen.hidden = false;
-        el.consoleNav.hidden = !state.canManage;
-        el.tabbar.classList.toggle('role-hidden', !state.canManage);
-        renderUserChrome();
-        goPage('workbench');
-        if (!state.demo) {
-          setStatus('live');
-          await loadCourses();
-        } else {
-          setStatus('demo');
-          renderAll();
-        }
-      }
-
-      function renderUserChrome() {
-        const name = (state.user && state.user.name) || (state.user && state.user.username) || '成员';
-        el.avatarText.textContent = name.slice(0, 1);
-        el.profileName.textContent = name;
-        el.profileAvatar.textContent = name.slice(0, 1);
-        el.profileUsername.textContent = '@' + ((state.user && state.user.username) || '--');
-        el.profileOrg.textContent = (ORGS[state.org] || ORGS.astro).full;
-        el.profileDept.textContent = (state.user && state.user.department) || '未分部门';
-        el.profileRole.textContent = roleLabel(state.user);
-        el.profileStatus.textContent = state.demo ? 'DEMO' : ((state.user && state.user.status) || 'ACTIVE');
-        el.consoleRole.textContent = state.demo ? 'DEMO ADMIN' : roleLabel(state.user);
-        el.consoleOrgName.textContent = (ORGS[state.org] || ORGS.astro).name;
-        el.consoleOrgMeta.textContent = (ORGS[state.org] || ORGS.astro).school + ' · ' + (state.user && state.user.department || '社团成员');
-      }
-
-      function setStatus(mode) {
-        state.sync = mode;
-        const map = { live: ['LIVE', ''], demo: ['DEMO', 'demo'], connecting: ['SYNC', ''], error: ['OFFLINE', 'error'], idle: ['OFFLINE', ''] };
-        const [label, cls] = map[mode] || map.idle;
-        el.appStatus.textContent = label;
-        el.appStatus.className = 'app-status' + (cls ? ' ' + cls : '');
-        el.wbLive.textContent = label;
-      }
-
-      async function loadCourses() {
-        try {
-          const data = await callFunction('courseService', 'list_courses', { org: state.org });
-          state.courses = (data && data.courses) || [];
-          if (data && data.org) state.org = normalizeOrg(data.org);
-          state.currentCourse = pickCourse();
-          renderCourses();
-          await loadClassroom();
-        } catch (error) {
-          console.error('[星海课堂] 课程读取失败', error);
-          state.courses = [];
-          state.currentCourse = null;
-          renderCourses();
-          renderWorkbench();
-          toast('课程读取失败：' + (error.message || error), true);
-        }
-      }
-
-      function pickCourse() {
-        const urlCourseId = params.get('course_id');
-        const urlSessionId = params.get('session_id') || params.get('session');
-        if (urlCourseId) {
-          const byId = state.courses.find((course) => String(course._id) === String(urlCourseId));
-          if (byId) return byId;
-        }
-        if (urlSessionId) {
-          const bySession = state.courses.find((course) => String(course.current_session_id) === String(urlSessionId));
-          if (bySession) return bySession;
-        }
-        if (state.currentCourse && state.courses.some((course) => course._id === state.currentCourse._id)) return state.currentCourse;
-        return state.courses.find((course) => course.current_session_id) || state.courses[0] || null;
-      }
-
-      async function selectCourse(course) {
-        state.currentCourse = course;
-        renderCourses();
-        goPage('workbench');
-        await loadClassroom();
-      }
-
-      async function loadClassroom() {
-        closeWatchers();
-        if (state.demo) { renderAll(); return; }
-        if (!state.currentCourse) { state.classroom = null; state.chats = []; state.experiments = []; renderAll(); return; }
-        try {
-          const data = await callFunction('courseService', 'get_classroom_state', { course_id: state.currentCourse._id });
-          state.classroom = data;
-          state.chats = (data && data.chats) || [];
-          state.experiments = (data && data.experiments) || [];
-          if (state.currentCourse) state.currentCourse = data.course || state.currentCourse;
-          renderAll();
-          startChatWatch();
-          startPolling();
-        } catch (error) {
-          console.error('[星海课堂] 课堂读取失败', error);
-          state.classroom = null;
-          state.chats = [];
-          state.experiments = [];
-          renderAll();
-          toast('课堂读取失败：' + (error.message || error), true);
-        }
-      }
-
-      function startChatWatch() {
-        if (state.demo || !state.db) return;
-        const session = state.classroom && state.classroom.current_session;
-        if (!session || !session._id) return;
-        try {
-          const watcher = state.db.collection('classroom_chats').where({ session_id: session._id }).watch({
-            onChange: (snapshot) => {
-              const docs = (snapshot && snapshot.docs) || (snapshot && snapshot.data && snapshot.data.docs) || [];
-              if (docs.length) {
-                state.chats = docs.slice().sort((a, b) => Number(a.time || 0) - Number(b.time || 0));
-                renderChats();
-              }
-            },
-            onError: (error) => console.warn('[星海课堂] 聊天实时监听失败', error)
-          });
-          if (watcher && typeof watcher.close === 'function') state.watchers.push(watcher);
-        } catch (error) { console.warn('[星海课堂] 聊天实时监听不可用', error); }
-      }
-
-      function startPolling() {
-        clearInterval(state.pollTimer);
-        if (state.demo) return;
-        state.pollTimer = setInterval(() => {
-          if (!state.currentCourse || state.page !== 'workbench') return;
-          callFunction('courseService', 'get_classroom_state', { course_id: state.currentCourse._id })
-            .then((data) => { state.classroom = data; state.chats = data.chats || []; state.experiments = data.experiments || []; renderAll(); })
-            .catch(() => {});
-        }, 6000);
-      }
-
-      function closeWatchers() {
-        state.watchers.forEach((watcher) => { try { if (watcher && typeof watcher.close === 'function') watcher.close(); } catch (error) {} });
-        state.watchers = [];
-        clearInterval(state.pollTimer);
-        state.pollTimer = null;
-      }
-
-      function renderAll() {
-        renderWorkbench();
-        renderCourses();
-        renderResources();
-        renderExperiments();
-        renderConsole();
-      }
-
-      function renderWorkbench() {
-        const classroom = state.classroom;
-        const course = state.currentCourse || (classroom && classroom.course);
-        if (!course) {
-          el.workbenchEmpty.hidden = false;
-          el.workbenchContent.hidden = true;
-          return;
-        }
-        el.workbenchEmpty.hidden = true;
-        el.workbenchContent.hidden = false;
-        const session = classroom && classroom.current_session;
-        const summary = (classroom && classroom.checkin_summary) || {};
-        const chats = (classroom && classroom.chats) || state.chats || [];
-        const experiments = (classroom && classroom.experiments) || state.experiments || [];
-        el.wbCourseName.textContent = course.name || '未命名课程';
-        el.wbCourseMeta.textContent = [course.teacher_name ? '授课 · ' + course.teacher_name : '', course.org ? ORGS[normalizeOrg(course.org)].name : ''].filter(Boolean).join(' · ') || '课程已同步';
-        el.wbSessionId.textContent = 'SESSION / ' + (session ? session._id : '--');
-        el.wbRole.textContent = (classroom && classroom.role) === 'teacher' ? '授课视角' : '学生视角';
-        el.wbCheckinCount.textContent = summary.checked_count || 0;
-        el.wbQuestionCount.textContent = chats.length;
-        el.wbExperimentCount.textContent = experiments.length;
-        el.wbSessionStatus.textContent = session ? ({ checkin: '签到中', quiz: '答题中', task: '任务中', discuss: '讨论中', idle: '进行中' }[session.phase] || '进行中') : '未开始';
-        const myCheckin = classroom && classroom.my_checkin;
-        const checked = Boolean(myCheckin);
-        el.wbCheckinBtn.disabled = checked;
-        el.wbCheckinBtn.textContent = checked ? '已签到' : '签到';
-        el.checkinPhase.textContent = session && session.phase === 'checkin' ? 'CHECK-IN OPEN' : (session ? 'PHASE / ' + (session.phase || 'IDLE') : 'NO SESSION');
-        el.checkinHintText.textContent = checked ? '签到记录已同步' : (session && session.phase === 'checkin' ? '老师已开启签到，点击右侧按钮' : '当前不在签到环节');
-        el.wbCheckinCode.textContent = params.get('code') ? '扫码签到码 · ' + params.get('code') : '';
-        el.wbCheckinStatus.textContent = checked ? '已签到 · ' + formatTime(myCheckin.submitted_at_ms || myCheckin.created_at) : '尚未签到';
-        el.wbCheckinStatus.className = 'checkin-status' + (checked ? ' success' : '');
-        el.wbQuestionMeta.textContent = chats.length + ' 条';
-        renderChats();
-      }
-
-      function renderChats() {
-        const chats = (state.classroom && state.classroom.chats) || state.chats || [];
-        const list = chats.slice().sort((a, b) => Number(b.time || b.created_at || 0) - Number(a.time || a.created_at || 0)).slice(0, 8);
-        el.wbChatFeed.innerHTML = '';
-        if (!list.length) {
-          el.wbChatFeed.innerHTML = '<div class="empty-feed">课堂提问会实时出现在这里</div>';
-          return;
-        }
-        list.forEach((chat) => {
-          const name = chat.is_anonymous ? '匿名同学' : (chat.student_name || '成员');
-          const item = document.createElement('div');
-          item.className = 'mini-question';
-          item.innerHTML = '<p>' + escapeHtml(chat.content || '') + '</p><span>' + escapeHtml(name) + ' · ' + escapeHtml(formatTime(chat.time || chat.created_at)) + '</span>';
-          el.wbChatFeed.appendChild(item);
-        });
-      }
-
-      function renderCourses() {
-        el.courseGrid.innerHTML = '';
-        if (!state.courses.length) {
-          el.courseEmpty.hidden = false;
-          return;
-        }
-        el.courseEmpty.hidden = true;
-        state.courses.forEach((course) => {
-          const isCurrent = state.currentCourse && state.currentCourse._id === course._id;
-          const article = document.createElement('article');
-          article.className = 'card course-card';
-          const role = course.role === 'teacher' ? '授课' : '学生';
-          article.innerHTML =
-            '<div class="course-top"><span class="course-role">' + escapeHtml(role) + '</span><span class="course-role" style="border-color:rgba(156,201,232,.18);color:rgba(156,201,232,.6)">' + escapeHtml(ORGS[normalizeOrg(course.org)].name) + '</span></div>' +
-            '<h3 class="course-name">' + escapeHtml(course.name || '未命名课程') + '</h3>' +
-            '<p class="course-meta">' + escapeHtml(course.teacher_name ? '授课 · ' + course.teacher_name : '教师待同步') + ' · ' + Number(course.student_count || 0) + ' 名成员</p>' +
-            '<div class="course-foot"><span>' + (course.current_session_id ? '课次进行中' : '暂无进行中的课次') + (isCurrent ? ' · 当前课程' : '') + '</span><button class="btn ' + (isCurrent ? 'btn-gold' : '') + '" type="button" data-course="' + escapeHtml(course._id) + '">' + (isCurrent ? '回到工作台' : '进入工作台') + '</button></div>';
-          el.courseGrid.appendChild(article);
-        });
-        el.courseGrid.querySelectorAll('[data-course]').forEach((button) => {
-          const course = state.courses.find((item) => String(item._id) === String(button.dataset.course));
-          if (course) button.addEventListener('click', () => selectCourse(course));
-        });
-      }
-
-      async function handleJoinCourse() {
-        if (!state.user) return;
-        const code = (el.joinCodeInput.value || '').trim();
-        if (!/^\d{6}$/.test(code)) { el.joinCourseState.textContent = '请输入 6 位数字加入码'; el.joinCourseState.className = 'join-state error'; return; }
-        el.joinCourseBtn.disabled = true;
-        el.joinCourseState.textContent = '正在加入…';
-        el.joinCourseState.className = 'join-state';
-        try {
-          if (state.demo) {
-            const course = { _id: 'demo-joined-' + Date.now(), name: '新加入的课程', teacher_name: '授课教师', org: state.org, role: 'student', student_count: 1, current_session_id: '', status: 'active' };
-            state.courses.push(course);
-            el.joinCodeInput.value = '';
-            el.joinCourseState.textContent = '已加入课程（演示）';
-            renderCourses();
-          } else {
-            await callFunction('courseService', 'join_course', { join_code: code });
-            el.joinCodeInput.value = '';
-            el.joinCourseState.textContent = '加入成功';
-            await loadCourses();
-          }
-        } catch (error) {
-          el.joinCourseState.textContent = error.message || String(error);
-          el.joinCourseState.className = 'join-state error';
-        } finally {
-          el.joinCourseBtn.disabled = false;
-        }
-      }
-
-      async function handleCheckin() {
-        if (!state.currentCourse) return;
-        if (state.demo) {
-          if (!state.classroom.my_checkin) {
-            state.classroom.my_checkin = { member_name: state.user.name, submitted_at_ms: Date.now() };
-            if (state.classroom.checkin_summary) state.classroom.checkin_summary.checked_count = (state.classroom.checkin_summary.checked_count || 0) + 1;
-            renderWorkbench();
-            toast('签到成功（演示）');
-          }
-          return;
-        }
-        el.wbCheckinBtn.disabled = true;
-        el.wbCheckinStatus.textContent = '正在签到…';
-        try {
-          await callFunction('courseService', 'submit_checkin', { course_id: state.currentCourse._id });
-          await loadClassroom();
-          toast('签到成功');
-        } catch (error) {
-          el.wbCheckinStatus.textContent = error.message || String(error);
-          el.wbCheckinStatus.className = 'checkin-status error';
-          el.wbCheckinBtn.disabled = false;
-        }
-      }
-
-      async function handleAsk() {
-        if (!state.currentCourse) return;
-        const content = (el.wbAskInput.value || '').trim();
-        if (content.length < 2) { el.wbAskState.textContent = '至少写 2 个字符'; el.wbAskState.className = 'ask-state error'; return; }
-        el.wbAskBtn.disabled = true;
-        el.wbAskState.textContent = '正在发送…';
-        el.wbAskState.className = 'ask-state';
-        try {
-          if (state.demo) {
-            state.classroom.chats.push({ _id: 'demo-chat-' + Date.now(), content, is_anonymous: el.wbAskAnon.checked, student_name: el.wbAskAnon.checked ? '匿名同学' : state.user.name, time: Date.now() });
-            state.chats = state.classroom.chats;
-            el.wbAskInput.value = '';
-            el.wbAskState.textContent = '已发送到课堂（演示）';
-            renderWorkbench();
-          } else {
-            await callFunction('courseService', 'send_classroom_chat', { course_id: state.currentCourse._id, content, is_anonymous: el.wbAskAnon.checked });
-            el.wbAskInput.value = '';
-            el.wbAskState.textContent = '已发送到课堂';
-            await loadClassroom();
-          }
-        } catch (error) {
-          el.wbAskState.textContent = error.message || String(error);
-          el.wbAskState.className = 'ask-state error';
-        } finally {
-          el.wbAskBtn.disabled = false;
-        }
-      }
-
-      async function loadResources() {
-        if (state.demo) { renderResources(); return; }
-        try {
-          const list = await callFunction('videoService', 'list', {});
-          state.resources = Array.isArray(list) ? list : [];
-          renderResources();
-        } catch (error) {
-          state.resources = [];
-          renderResources();
-          toast('学习资源读取失败：' + (error.message || error), true);
-        }
-      }
-
-      function renderResources() {
-        el.resourceGrid.innerHTML = '';
-        if (!state.resources.length) { el.resourceEmpty.hidden = false; return; }
-        el.resourceEmpty.hidden = true;
-        state.resources.forEach((item) => {
-          const article = document.createElement('article');
-          article.className = 'card resource-card';
-          const unlocked = item.unlocked === true;
-          article.innerHTML =
-            '<div class="resource-top"><span class="resource-state ' + (unlocked ? '' : 'locked') + '">' + (unlocked ? 'UNLOCKED' : 'LOCKED') + '</span><span class="course-role" style="border-color:rgba(156,201,232,.18);color:rgba(156,201,232,.58)">VIDEO</span></div>' +
-            '<h3 class="resource-title">' + escapeHtml(item.title || '学习资源') + '</h3>' +
-            '<p class="resource-desc">' + (unlocked ? '已解锁 · 点击打开学习' : '完成小程序内观看与暗号验证后解锁') + '</p>' +
-            '<div class="resource-actions"></div>';
-          const button = document.createElement('button');
-          button.className = 'btn ' + (unlocked ? 'btn-gold' : '');
-          button.type = 'button';
-          button.textContent = unlocked ? '打开资源' : '查看解锁方式';
-          button.addEventListener('click', () => {
-            if (unlocked && item.url && item.url !== '#') window.open(item.url, '_blank', 'noopener');
-            else toast('请先在微信小程序完成该视频的观看与暗号验证', true);
-          });
-          article.querySelector('.resource-actions').appendChild(button);
-          el.resourceGrid.appendChild(article);
-        });
-      }
-
-      async function loadExperiments() {
-        if (!state.currentCourse) { state.experiments = []; renderExperiments(); return; }
-        if (state.demo) { renderExperiments(); return; }
-        if (!state.classroom) {
-          try { await loadClassroom(); } catch (error) {}
-        }
-        state.experiments = (state.classroom && state.classroom.experiments) || [];
-        renderExperiments();
-      }
-
-      function renderExperiments() {
-        el.experimentGrid.innerHTML = '';
-        if (!state.experiments.length) {
-          el.experimentEmpty.hidden = false;
-          el.experimentChartCard.hidden = true;
-          return;
-        }
-        el.experimentEmpty.hidden = true;
-        state.experiments.forEach((experiment) => {
-          const article = document.createElement('article');
-          article.className = 'card experiment-card' + (state.selectedExperiment && state.selectedExperiment._id === experiment._id ? ' active' : '');
-          article.innerHTML =
-            '<div class="experiment-top"><span class="experiment-name">' + escapeHtml(experiment.group_id ? experiment.group_id + ' · 光变曲线' : '光变曲线实验') + '</span><span class="card-meta">' + escapeHtml(experiment.source === 'real' ? '实测' : '模拟') + '</span></div>' +
-            '<p class="experiment-meta">' + escapeHtml(experiment.member_name || '成员') + ' · ' + (experiment.data || []).length + ' 个数据点 · ' + escapeHtml(formatDateTime(experiment.created_at_ms || experiment.created_at)) + '</p>';
-          article.addEventListener('click', () => {
-            state.selectedExperiment = experiment;
-            renderExperiments();
-          });
-          el.experimentGrid.appendChild(article);
-        });
-        const selected = state.selectedExperiment || state.experiments[0];
-        state.selectedExperiment = selected;
-        drawExperiment(selected);
-      }
-
-      function drawExperiment(experiment) {
-        if (!experiment) { el.experimentChartCard.hidden = true; return; }
-        el.experimentChartCard.hidden = false;
-        el.experimentChartTitle.textContent = (experiment.group_id ? experiment.group_id + ' · ' : '') + '光变曲线';
-        el.experimentChartMeta.textContent = (experiment.source === 'real' ? 'REAL DATA' : 'SIMULATION') + ' · ' + (experiment.data || []).length + ' POINTS';
-        const points = (experiment.data || []).map((point) => ({ t: Number(point.time), v: Number(point.brightness) })).filter((point) => Number.isFinite(point.t) && Number.isFinite(point.v));
-        if (!points.length) { el.expLine.setAttribute('points', ''); el.expArea.setAttribute('d', ''); el.expDots.innerHTML = ''; return; }
-        const left = 28, right = 400, top = 20, bottom = 148;
-        const minT = Math.min(...points.map((p) => p.t)), maxT = Math.max(...points.map((p) => p.t)) || 1;
-        const minV = Math.min(...points.map((p) => p.v)), maxV = Math.max(...points.map((p) => p.v));
-        const spanV = Math.max(0.001, maxV - minV);
-        const coords = points.map((p) => ({
-          x: left + ((p.t - minT) / Math.max(0.001, maxT - minT)) * (right - left),
-          y: bottom - ((p.v - minV) / spanV) * (bottom - top)
-        }));
-        el.expLine.setAttribute('points', coords.map((p) => p.x.toFixed(1) + ',' + p.y.toFixed(1)).join(' '));
-        el.expArea.setAttribute('d', 'M ' + left + ' ' + bottom + ' L ' + coords.map((p) => p.x.toFixed(1) + ' ' + p.y.toFixed(1)).join(' L ') + ' L ' + right + ' ' + bottom + ' Z');
-        el.expDots.innerHTML = '';
-        coords.forEach((p) => {
-          const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-          circle.setAttribute('cx', p.x);
-          circle.setAttribute('cy', p.y);
-          circle.setAttribute('r', '2');
-          circle.setAttribute('fill', '#f8ebd0');
-          circle.setAttribute('opacity', '0.75');
-          el.expDots.appendChild(circle);
-        });
-      }
-
-      async function loadConsole() {
-        if (!state.canManage) return;
-        renderConsole();
-        if (state.demo) return;
-        try {
-          const [members, pending] = await Promise.all([
-            callFunction('memberService', 'admin_list', { org: state.org }).catch(() => []),
-            callFunction('memberService', 'admin_review_list', { org: state.org }).catch(() => [])
-          ]);
-          state.console = {
-            members: Array.isArray(members) ? members : [],
-            pending: Array.isArray(pending) ? pending : []
-          };
-          renderConsole();
-        } catch (error) {
-          console.warn('[星海课堂] 控制台读取失败', error);
-        }
-      }
-
-      function renderConsole() {
-        if (!state.canManage) return;
-        const members = state.console && state.console.members ? state.console.members : (state.demo ? DEMO_MEMBERS : []);
-        const pending = state.console && state.console.pending ? state.console.pending : [];
-        el.consoleMembers.textContent = state.demo ? DEMO_MEMBERS.length : (state.console ? members.length : '--');
-        el.consolePending.textContent = state.demo ? 2 : (state.console ? pending.length : '--');
-        el.consoleCourses.textContent = state.courses.length || '--';
-        el.consoleCheckins.textContent = state.classroom && state.classroom.checkin_summary ? (state.classroom.checkin_summary.checked_count || 0) : '0';
-        el.consoleMemberRows.innerHTML = '';
-        const list = (members.length ? members : DEMO_MEMBERS).slice(0, 12);
-        if (!list.length) {
-          el.consoleMemberRows.innerHTML = '<tr><td colspan="3">暂无成员数据</td></tr>';
-          return;
-        }
-        list.forEach((member) => {
-          const tr = document.createElement('tr');
-          tr.innerHTML = '<td>' + escapeHtml(member.name || member.username || '成员') + '</td><td>' + escapeHtml(roleLabel(member)) + '</td><td>' + escapeHtml(member.department || '未分部门') + '</td>';
-          el.consoleMemberRows.appendChild(tr);
-        });
-      }
-
-      const DEMO_MEMBERS = [
-        { name: '李忠尚', role: 'admin', department: '学术部' },
-        { name: '陈星野', role: 'dept_head', department: '观测理论部' },
-        { name: '林望舒', role: 'member', department: '宣传部' },
-        { name: '周予安', role: 'member', department: '活动部' },
-        { name: '许知远', role: 'member', department: '观测理论部' }
-      ];
-
-      function goPage(page) {
-        if (!PAGES[page]) page = 'workbench';
-        if (PAGES[page].admin && !state.canManage) page = 'workbench';
-        state.page = page;
-        document.querySelectorAll('.page[data-page]').forEach((section) => {
-          section.hidden = section.dataset.page !== page;
-        });
-        document.querySelectorAll('.nav-btn').forEach((button) => {
-          button.classList.toggle('active', button.dataset.page === page);
-        });
-        el.breadcrumb.textContent = PAGES[page].label;
-        document.title = PAGES[page].title;
-        el.appMain.scrollTop = 0;
-        if (page === 'resources') loadResources();
-        if (page === 'experiments') loadExperiments();
-        if (page === 'console') loadConsole();
-      }
-
-      function openProfile() {
-        el.profileOverlay.classList.add('open');
-        el.profileOverlay.setAttribute('aria-hidden', 'false');
-      }
-      function closeProfile() {
-        el.profileOverlay.classList.remove('open');
-        el.profileOverlay.setAttribute('aria-hidden', 'true');
-      }
-
-      function startDemoTicker() {
-        clearInterval(state.demoTimer);
-        state.demoTimer = setInterval(() => {
-          if (!state.demo || !state.classroom || state.page !== 'workbench') return;
-          state.classroom.chats.push({
-            _id: 'demo-chat-' + Date.now(),
-            content: '演示课堂的新提问：今晚的限时观测目标是什么？',
-            is_anonymous: true,
-            student_name: '匿名同学',
-            time: Date.now()
-          });
-          state.chats = state.classroom.chats;
-          if (state.classroom.checkin_summary) state.classroom.checkin_summary.checked_count = Math.min(28, (state.classroom.checkin_summary.checked_count || 0) + 1);
-          renderWorkbench();
-        }, 9000);
-      }
-
-      async function handleLogout() {
-        closeWatchers();
-        clearInterval(state.demoTimer);
-        state.demoTimer = null;
-        if (state.auth && !state.demo) { try { await state.auth.signOut(); } catch (error) {} }
-        state.app = null; state.auth = null; state.db = null; state.token = ''; state.user = null; state.demo = false; state.canManage = false;
-        state.courses = []; state.currentCourse = null; state.classroom = null; state.chats = []; state.experiments = []; state.resources = [];
-        state.console = null;
-        closeProfile(); closeSea();
-        el.appScreen.hidden = true;
-        el.loginScreen.hidden = false;
-        document.title = '登录 · 中国海洋大学天文协会';
-        setBusy(false);
-        setLoginMessage('');
-        el.studentPwd.value = '';
-        setStatus('idle');
-      }
-
-      /* ---------- 星海 ---------- */
-      function openSea() {
-        el.seaOverlay.classList.add('open');
-        el.seaOverlay.setAttribute('aria-hidden', 'false');
-        startSea();
-      }
-      function closeSea() {
-        el.seaOverlay.classList.remove('open');
-        el.seaOverlay.setAttribute('aria-hidden', 'true');
-        stopSea();
-      }
-
-      function startSea() {
-        if (state.sea && state.sea.running) return;
-        const canvas = el.seaCanvas;
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-        state.sea = state.sea || {};
-        const sea = state.sea;
-        sea.ctx = ctx;
-        sea.offsetX = sea.offsetX || 0;
-        sea.offsetY = sea.offsetY || 0;
-        sea.zoom = sea.zoom || 1;
-        sea.running = true;
-        sea.selected = null;
-        sea.dragging = false;
-        sea.moved = false;
-        sea.t = 0;
-        el.seaInfo.hidden = true;
-        resizeSea();
-        bindSeaEvents();
-        const loop = () => {
-          if (!sea.running) return;
-          sea.t += 0.016;
-          drawSea();
-          sea.raf = requestAnimationFrame(loop);
-        };
-        sea.raf = requestAnimationFrame(loop);
-      }
-      function stopSea() {
-        if (!state.sea) return;
-        state.sea.running = false;
-        if (state.sea.raf) cancelAnimationFrame(state.sea.raf);
-        state.sea.raf = null;
-      }
-      function resizeSea() {
-        if (!state.sea) return;
-        const canvas = el.seaCanvas;
-        const rect = canvas.getBoundingClientRect();
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        state.sea.w = Math.max(1, rect.width);
-        state.sea.h = Math.max(1, rect.height);
-        canvas.width = Math.round(state.sea.w * dpr);
-        canvas.height = Math.round(state.sea.h * dpr);
-        state.sea.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      }
-      function bindSeaEvents() {
-        if (!state.sea || state.sea.bound) return;
-        const sea = state.sea;
-        const canvas = el.seaCanvas;
-        sea.bound = true;
-        sea.pointers = new Map();
-        canvas.addEventListener('pointerdown', (event) => {
-          canvas.setPointerCapture(event.pointerId);
-          sea.pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
-          sea.dragging = true;
-          sea.moved = false;
-          sea.lastX = event.clientX;
-          sea.lastY = event.clientY;
-          canvas.classList.add('dragging');
-        });
-        canvas.addEventListener('pointermove', (event) => {
-          if (!sea.dragging || !sea.pointers.has(event.pointerId)) return;
-          const dx = event.clientX - sea.lastX;
-          const dy = event.clientY - sea.lastY;
-          if (Math.abs(dx) + Math.abs(dy) > 1) sea.moved = true;
-          sea.offsetX += dx;
-          sea.offsetY += dy;
-          sea.lastX = event.clientX;
-          sea.lastY = event.clientY;
-        });
-        const end = (event) => {
-          if (!sea.pointers.has(event.pointerId)) return;
-          sea.pointers.delete(event.pointerId);
-          if (sea.pointers.size === 0) {
-            sea.dragging = false;
-            canvas.classList.remove('dragging');
-            if (!sea.moved) pickSea(event.clientX, event.clientY);
-          }
-        };
-        canvas.addEventListener('pointerup', end);
-        canvas.addEventListener('pointercancel', end);
-        canvas.addEventListener('wheel', (event) => {
-          event.preventDefault();
-          const factor = event.deltaY < 0 ? 1.12 : 0.89;
-          sea.zoom = Math.min(2.6, Math.max(0.65, sea.zoom * factor));
-          el.seaZoom.textContent = sea.zoom.toFixed(1) + '×';
-        }, { passive: false });
-      }
-      function worldToScreen(x, y) {
-        const sea = state.sea;
-        if (!sea) return { x: 0, y: 0 };
-        return { x: sea.w / 2 + (x - 640) * sea.zoom + (sea.offsetX || 0), y: sea.h / 2 + (y - 520) * sea.zoom + (sea.offsetY || 0) };
-      }
-      function drawSea() {
-        const sea = state.sea;
-        if (!sea || !sea.ctx) return;
-        const { ctx, w, h } = sea;
-        ctx.clearRect(0, 0, w, h);
-        const grad = ctx.createRadialGradient(w / 2, h * 0.55, 30, w / 2, h * 0.55, Math.max(w, h) * 0.7);
-        grad.addColorStop(0, 'rgba(34, 56, 102, 0.24)');
-        grad.addColorStop(0.6, 'rgba(10, 17, 32, 0.18)');
-        grad.addColorStop(1, 'rgba(2, 4, 10, 0)');
-        ctx.fillStyle = grad; ctx.fillRect(0, 0, w, h);
-        for (let i = 0; i < 130; i += 1) {
-          const p = worldToScreen((i * 137.17) % 1280, (i * 83.31) % 1040);
-          if (p.x < -10 || p.x > w + 10 || p.y < -10 || p.y > h + 10) continue;
-          ctx.globalAlpha = 0.16 + (i % 7) * 0.035;
-          ctx.fillStyle = i % 5 === 0 ? 'rgba(230,199,143,1)' : 'rgba(190,210,240,1)';
-          ctx.beginPath(); ctx.arc(p.x, p.y, 0.6 + (i % 3) * 0.25, 0, Math.PI * 2); ctx.fill();
-        }
-        ctx.globalAlpha = 1;
-        SEA_CATALOG.forEach((group) => {
-          const points = group.stars.map(([x, y]) => worldToScreen(x, y));
-          ctx.strokeStyle = group.id === (sea.selected || '').split(':')[0] ? 'rgba(230,199,143,0.5)' : 'rgba(156,201,232,0.16)';
-          ctx.lineWidth = group.id === (sea.selected || '').split(':')[0] ? 1.2 : 0.8;
-          group.lines.forEach(([a, b]) => {
-            if (!points[a] || !points[b]) return;
-            ctx.beginPath(); ctx.moveTo(points[a].x, points[a].y); ctx.lineTo(points[b].x, points[b].y); ctx.stroke();
-          });
-          group.stars.forEach(([x, y], index) => {
-            const p = worldToScreen(x, y);
-            const selected = sea.selected === group.id + ':' + index;
-            const twinkle = 0.75 + 0.25 * Math.sin(sea.t * 1.8 + index);
-            const radius = (selected ? 3.6 : 2.2) * Math.max(0.75, sea.zoom * 0.9);
-            ctx.globalAlpha = selected ? 1 : twinkle;
-            ctx.fillStyle = group.color;
-            ctx.shadowColor = group.color;
-            ctx.shadowBlur = selected ? 18 : 8;
-            ctx.beginPath(); ctx.arc(p.x, p.y, radius, 0, Math.PI * 2); ctx.fill();
-            ctx.shadowBlur = 0; ctx.globalAlpha = 1;
-          });
-          if (points[0]) {
-            ctx.globalAlpha = 0.55; ctx.fillStyle = group.color;
-            ctx.font = '10px "Noto Sans SC", "PingFang SC", sans-serif';
-            ctx.fillText(group.name, points[0].x + 8, points[0].y - 8);
-            ctx.globalAlpha = 1;
-          }
-        });
-      }
-      function pickSea(clientX, clientY) {
-        const sea = state.sea;
-        if (!sea) return;
-        const rect = el.seaCanvas.getBoundingClientRect();
-        const localX = clientX - rect.left, localY = clientY - rect.top;
-        let best = null;
-        SEA_CATALOG.forEach((group) => group.stars.forEach(([x, y], index) => {
-          const p = worldToScreen(x, y);
-          const distance = Math.hypot(p.x - localX, p.y - localY);
-          if (distance < 26 && (!best || distance < best.distance)) best = { group, index, distance };
-        }));
-        if (best) {
-          sea.selected = best.group.id + ':' + best.index;
-          el.seaInfo.hidden = false;
-          el.seaInfoName.textContent = best.group.name;
-          el.seaInfoEn.textContent = best.group.en;
-          el.seaInfoDesc.textContent = best.group.desc;
-        }
-      }
-      function resetSeaView() {
-        if (!state.sea) return;
-        state.sea.offsetX = 0; state.sea.offsetY = 0; state.sea.zoom = 1; state.sea.selected = null;
-        el.seaZoom.textContent = '1.0×'; el.seaInfo.hidden = true;
-      }
-      function buildSeaLegend() {
-        el.seaLegend.innerHTML = '';
-        SEA_CATALOG.forEach((group) => {
-          const button = document.createElement('button');
-          button.type = 'button';
-          button.textContent = group.name;
-          button.addEventListener('click', () => {
-            if (!state.sea) state.sea = {};
-            state.sea.selected = group.id + ':0';
-            el.seaInfo.hidden = false;
-            el.seaInfoName.textContent = group.name;
-            el.seaInfoEn.textContent = group.en;
-            el.seaInfoDesc.textContent = group.desc;
-          });
-          el.seaLegend.appendChild(button);
-        });
-      }
-
-      function formatTime(value) {
-        const n = Number(value || 0);
-        if (!Number.isFinite(n) || !n) return '--:--';
-        const d = new Date(n);
-        return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
-      }
-      function formatDateTime(value) {
-        const n = Number(value || 0);
-        if (!Number.isFinite(n) || !n) return '--';
-        const d = new Date(n);
-        return String(d.getMonth() + 1).padStart(2, '0') + '/' + String(d.getDate()).padStart(2, '0') + ' ' + formatTime(n);
-      }
-      function escapeHtml(value) {
-        return String(value == null ? '' : value).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-      }
-      function toast(message, isError) {
-        clearTimeout(state.toastTimer);
-        el.toast.textContent = message;
-        el.toast.classList.toggle('error', Boolean(isError));
-        el.toast.classList.add('show');
-        state.toastTimer = setTimeout(() => el.toast.classList.remove('show'), 3000);
-      }
-      function loadScript(src, predicate) {
-        return new Promise((resolve, reject) => {
-          if (predicate()) return resolve();
-          const existing = document.querySelector('script[data-xh-src="' + src + '"]');
-          if (existing) { existing.addEventListener('load', () => resolve()); return; }
-          const script = document.createElement('script');
-          script.src = src; script.async = true; script.dataset.xhSrc = src;
-          script.onload = () => predicate() ? resolve() : reject(new Error('脚本已加载但未注册'));
-          script.onerror = () => reject(new Error('脚本加载失败'));
-          document.head.appendChild(script);
-        });
-      }
-
-      /* ---------- 背景星空 ---------- */
-      let bg = { canvas: null, ctx: null, w: 0, h: 0, stars: [], t: 0, raf: 0 };
-      function startBackgroundStars() {
-        const canvas = $('bgStars');
-        if (!canvas) return;
-        bg.canvas = canvas; bg.ctx = canvas.getContext('2d');
-        resizeBg();
-        window.addEventListener('resize', () => {
-          resizeBg();
-          if (state.sea && state.sea.running) resizeSea();
-        }, { passive: true });
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { drawBg(0); return; }
-        let last = performance.now();
-        const loop = (now) => {
-          const dt = Math.min((now - last) / 1000, 0.05); last = now; bg.t += dt;
-          if (!document.hidden) drawBg(bg.t);
-          bg.raf = requestAnimationFrame(loop);
-        };
-        bg.raf = requestAnimationFrame(loop);
-      }
-      function resizeBg() {
-        if (!bg.canvas) return;
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
-        const w = window.innerWidth, h = window.innerHeight;
-        bg.w = w; bg.h = h;
-        bg.canvas.width = Math.round(w * dpr); bg.canvas.height = Math.round(h * dpr);
-        bg.canvas.style.width = w + 'px'; bg.canvas.style.height = h + 'px';
-        bg.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        bg.stars = Array.from({ length: Math.min(140, Math.round(w * h / 14000)) }, () => ({ x: Math.random() * w, y: Math.random() * h, r: 0.3 + Math.random() * 1.1, depth: 0.2 + Math.random() * 0.8, phase: Math.random() * Math.PI * 2, speed: 0.4 + Math.random() * 1.2 }));
-      }
-      function drawBg(t) {
-        if (!bg.ctx || !bg.w) return;
-        bg.ctx.clearRect(0, 0, bg.w, bg.h);
-        for (const star of bg.stars) {
-          const x = ((star.x + t * (0.05 + star.depth * 0.7)) % bg.w + bg.w) % bg.w;
-          bg.ctx.globalAlpha = (0.12 + star.depth * 0.34) * (0.55 + 0.45 * Math.sin(t * star.speed + star.phase));
-          bg.ctx.fillStyle = star.depth > 0.7 ? 'rgba(220,232,255,1)' : 'rgba(180,200,232,1)';
-          bg.ctx.beginPath(); bg.ctx.arc(x, star.y, star.r * star.depth, 0, Math.PI * 2); bg.ctx.fill();
-        }
-        bg.ctx.globalAlpha = 1;
-      }
-
-      init();
-    })();
+  $('registerHint').onclick = e => { e.preventDefault(); alert('注册需邀请码：招新季现场获取，或联系协会管理员（sun yilin）。'); };
   </script>
+
 </body>
 </html>

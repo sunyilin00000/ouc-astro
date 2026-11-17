@@ -911,17 +911,18 @@
         try { await att(); signed = true; break; } catch (e) {}
       }
       if (!signed) throw new Error('票据登录失败，请刷新重试');
-      session = r.member || r.user || {}; // v7 web_login 返回成员信息在 user 字段
-      console.warn('LOGIN_RAW', JSON.stringify(r).slice(0, 500)); // v3.2.0 诊断：打印登录原始返回
-      if (!session.name && r.token) {
-        // v3.1.9 双保险：部分云端版本字段位置不同，用 whoami 兜底取姓名
+      // v3.2.1 修复：v7 的 ok() 会把内容包在 data 里 → {code:0, data:{ticket, token, user}}
+      const d = (r && r.data) || r || {};
+      session = d.member || d.user || {};
+      console.warn('LOGIN_RAW', JSON.stringify(r).slice(0, 500)); // 诊断：打印登录原始返回
+      if (!session.name && (d.token || r.token)) {
         try {
-          const w = await callFn('memberService', 'whoami', { token: r.token });
+          const w = await callFn('memberService', 'whoami', { token: d.token || r.token });
           const wi = w && (w.data || w.member);
           if (wi && (wi.name || wi.username)) session = wi;
         } catch (e) {}
       }
-      sessionToken = r.token || sessionToken;
+      sessionToken = d.token || r.token || sessionToken;
       if (sessionToken) localStorage.setItem('ouc_token', sessionToken);
       showAuthed(session);
       syncHubLink();

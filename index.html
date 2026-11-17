@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>中国海洋大学天文协会 · 星海课堂</title>
+<link rel="icon" type="image/png" href="logo.png" />
 <meta name="description" content="中国海洋大学天文协会官方网站 · 行远书院指导 · 普及天文知识，引导会员探索星空" />
 <style>
     :root{
@@ -269,6 +270,51 @@
     .ai-input input:focus{border-color:var(--star)}
     .ai-input button{padding:0 22px;border:0;border-radius:999px;background:linear-gradient(135deg,#2f7fe0,#1c5cb8);
       color:#fff;font-size:13px;cursor:pointer;font-family:inherit}
+  
+    /* ===== v3.0.3 登录/注册双标签 ===== */
+    .auth-tabs{display:flex;gap:8px}
+    .auth-tab{flex:1;padding:11px;border:1px solid var(--line);border-radius:12px;background:none;color:var(--muted);
+      font-size:15px;letter-spacing:.3em;cursor:pointer;font-family:inherit;transition:.25s}
+    .auth-tab.active{border-color:rgba(124,199,255,.6);background:rgba(124,199,255,.09);color:var(--star)}
+    .logout-btn{margin-left:8px;padding:6px 14px;border:1px solid rgba(255,139,139,.35);border-radius:999px;
+      background:none;color:#f0a8a8;font-size:12px;cursor:pointer;font-family:inherit}
+    .logout-btn:hover{background:rgba(255,139,139,.1)}
+  
+    /* ===== v3.1 后台管理面板 ===== */
+    #adminPanel{position:fixed;inset:0;z-index:80;display:none;flex-direction:column;background:rgba(4,7,15,.98)}
+    #adminPanel.open{display:flex}
+    .ap-head{display:flex;align-items:center;gap:26px;padding:16px 3vw;border-bottom:1px solid var(--line);background:rgba(7,13,26,.9)}
+    .ap-title{font-size:17px;letter-spacing:.2em;color:var(--gold)}
+    .ap-tabs{display:flex;gap:8px}
+    .ap-tab{padding:9px 24px;border:1px solid var(--line);border-radius:999px;background:none;color:var(--muted);font-size:13px;cursor:pointer;font-family:inherit;letter-spacing:.1em}
+    .ap-tab.active{border-color:rgba(230,199,143,.55);color:var(--gold);background:rgba(230,199,143,.07)}
+    #apClose{margin-left:auto;background:none;border:0;color:var(--faint);font-size:26px;cursor:pointer}
+    .ap-body{flex:1;overflow-y:auto;padding:34px 0 60px}
+    .ap-toolbar{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+    .ap-toolbar input{flex:0 1 340px;padding:11px 18px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.03);color:var(--ink);font-size:13.5px;font-family:inherit;outline:none}
+    .ap-toolbar input:focus{border-color:var(--star)}
+    #apCount{color:var(--faint);font-size:12px}
+    .ap-table-wrap{border:1px solid var(--line);border-radius:14px;overflow:auto;background:var(--card)}
+    .ap-table{width:100%;border-collapse:collapse;font-size:13px}
+    .ap-table th{padding:13px 16px;text-align:left;color:var(--faint);font-weight:400;border-bottom:1px solid var(--line);white-space:nowrap;position:sticky;top:0;background:#0a1220}
+    .ap-table td{padding:12px 16px;border-bottom:1px solid rgba(124,167,220,.07);color:var(--muted);white-space:nowrap}
+    .ap-table td:first-child{color:var(--ink);font-weight:500}
+    .ap-table tr:last-child td{border-bottom:0}
+    .ap-rowbtns{display:flex;gap:6px;flex-wrap:wrap}
+    .ap-mini{padding:5px 12px;border:1px solid var(--line);border-radius:999px;background:none;color:var(--muted);font-size:11px;cursor:pointer;font-family:inherit}
+    .ap-mini:hover{color:var(--star);border-color:var(--star)}
+    .ap-mini.danger:hover{color:#f0a8a8;border-color:#f0a8a8}
+    .ap-tag{display:inline-block;padding:2px 10px;border-radius:999px;font-size:10px;border:1px solid rgba(124,199,255,.35);color:var(--star);margin-right:6px}
+    .ap-tag.sub{border-color:rgba(230,199,143,.4);color:var(--gold)}
+    .ap-act-form{display:flex;gap:12px;margin-bottom:22px;flex-wrap:wrap}
+    .ap-act-form input{padding:11px 16px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.03);color:var(--ink);font-size:13.5px;font-family:inherit;outline:none}
+    .ap-act-form input:focus{border-color:var(--star)}
+    #apActTitle{flex:1;min-width:220px}
+    .ap-list{display:grid;gap:10px}
+    .ap-li{display:flex;align-items:center;gap:14px;padding:13px 18px;border:1px solid var(--line);border-radius:12px;background:var(--card);font-size:13px;color:var(--muted)}
+    .ap-li b{color:var(--ink);font-weight:500}
+    .ap-li .grow{flex:1;min-width:0}
+    .ap-li time{color:var(--faint);white-space:nowrap}
   </style>
 </head>
 <body>
@@ -289,7 +335,7 @@
       <a href="#join">加入</a>
     </nav>
     <button class="tb-btn gold" id="calBtn">☷ 社团大事件</button>
-    <a class="tb-btn" href="portal.html" target="_blank">老版工作台</a>
+    <a class="tb-btn" href="portal.html" target="_blank">旧版工作台</a>
     <span id="authArea">
       <button class="tb-btn" id="loginBtn" style="border-color:rgba(124,199,255,.45);color:var(--star)">登录 / 注册</button>
     </span>
@@ -426,12 +472,95 @@
     </div>
   </section>
 
+
+  <!-- ===== 后台管理面板 ===== -->
+  <div id="adminPanel">
+    <div class="ap-head">
+      <span class="ap-title">后台管理</span>
+      <div class="ap-tabs">
+        <button class="ap-tab active" data-apt="members" type="button">成员管理</button>
+        <button class="ap-tab" data-apt="acts" type="button">活动管理</button>
+        <button class="ap-tab" data-apt="logs" type="button">日志</button>
+      </div>
+      <button id="apClose" type="button">×</button>
+    </div>
+    <div class="ap-body wrap">
+      <div id="apMembers">
+        <div class="ap-toolbar">
+          <input id="apSearch" placeholder="搜索姓名 / 账号 / 部门 / 校区" />
+          <span id="apCount"></span>
+        </div>
+        <div class="ap-table-wrap">
+          <table class="ap-table">
+            <thead><tr><th>姓名</th><th>账号</th><th>组织</th><th>部门</th><th>校区</th><th>身份</th><th style="width:260px">操作</th></tr></thead>
+            <tbody id="apTbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div id="apActs" hidden>
+        <form id="apActForm" class="ap-act-form">
+          <input id="apActTitle" maxlength="60" placeholder="活动标题，如：路边天文 · 满月观测" />
+          <input id="apActDate" type="date" />
+          <input id="apActDesc" maxlength="200" placeholder="补充说明（可空）" />
+          <button class="res-btn solid" type="submit">发起活动</button>
+        </form>
+        <div id="apActList" class="ap-list"></div>
+      </div>
+      <div id="apLogs" hidden>
+        <div class="ap-toolbar">
+          <button class="res-btn" id="apLogLogin" type="button">登录日志</button>
+          <button class="res-btn" id="apLogAdmin" type="button">操作日志</button>
+        </div>
+        <div id="apLogList" class="ap-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 后台：成员编辑弹窗 -->
+  <div class="modal" id="amEditModal">
+    <div class="modal-card modal-wrap">
+      <button class="modal-close" data-close>×</button>
+      <h3>编辑成员</h3><p class="sub" id="amEditWho"></p>
+      <form id="amEditForm">
+        <div class="field"><label>昵称</label><input id="amName" maxlength="20" /></div>
+        <div class="field"><label>学校</label><input id="amSchool" maxlength="50" /></div>
+        <div class="field"><label>校区</label><input id="amCampus" maxlength="50" /></div>
+        <div class="field"><label>所在组织</label><input id="amOrg" maxlength="30" placeholder="如 astro" /></div>
+        <div class="field"><label>部门</label><input id="amDept" maxlength="30" /></div>
+        <button class="modal-btn" type="submit">保 存</button>
+        <div class="modal-msg" id="amEditMsg"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 后台：次级管理员弹窗 -->
+  <div class="modal" id="amSubModal">
+    <div class="modal-card modal-wrap">
+      <button class="modal-close" data-close>×</button>
+      <h3>次级管理员</h3><p class="sub" id="amSubWho"></p>
+      <form id="amSubForm">
+        <label style="display:flex;align-items:center;gap:10px;margin-bottom:16px;color:var(--muted);font-size:14px">
+          <input type="checkbox" id="amSubOn" style="width:18px;height:18px" /> 启用次级管理员
+        </label>
+        <div id="amSubPerms" style="display:grid;gap:10px;color:var(--muted);font-size:13px">
+          <label><input type="checkbox" data-p="member_edit" /> 编辑成员信息</label>
+          <label><input type="checkbox" data-p="member_delete" /> 删除成员</label>
+          <label><input type="checkbox" data-p="password_reset" /> 重置成员密码</label>
+          <label><input type="checkbox" data-p="activity_manage" /> 发起 / 删除活动</label>
+          <label><input type="checkbox" data-p="subadmin_manage" /> 管理其他次级管理员</label>
+        </div>
+        <button class="modal-btn" type="submit" style="margin-top:22px">保 存</button>
+        <div class="modal-msg" id="amSubMsg"></div>
+      </form>
+    </div>
+  </div>
+
   <!-- ===== 页脚 ===== -->
   <footer>
     <div class="wrap foot-grid">
       <span>中国海洋大学天文协会 · 指导与管理单位：行远书院 · © 2016–2026</span>
       <span>
-        <a href="portal.html" target="_blank">老版工作台</a>
+        <a href="portal.html" target="_blank">旧版工作台</a>
         <a href="https://sunyilin00000.github.io/xinghuan-web/" target="_blank">星环·教学中枢</a>
         <a href="#top">回到顶部</a>
       </span>
@@ -442,17 +571,27 @@
   <div class="modal" id="loginModal">
     <div class="modal-card modal-wrap">
       <button class="modal-close" data-close>×</button>
-      <h3>成员登录</h3>
-      <p class="sub">使用星环终端成员账号 · 未登录也可浏览本站全部内容</p>
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" data-t="login">登 录</button>
+        <button type="button" class="auth-tab" data-t="reg">注 册</button>
+      </div>
+      <p class="sub" style="margin-top:14px">使用星环终端成员账号 · 未登录也可浏览本站全部内容</p>
       <form id="loginForm">
         <div class="field"><label>账号</label><input id="loginUser" type="text" autocomplete="username" placeholder="成员账号" required /></div>
         <div class="field"><label>密码</label><input id="loginPwd" type="password" autocomplete="current-password" placeholder="登录密码" required /></div>
         <button class="modal-btn" id="loginSubmit" type="submit">登 录</button>
         <div class="modal-msg" id="loginMsg"></div>
       </form>
+      <form id="regForm" hidden>
+        <div class="field"><label>邀请码</label><input id="regCode" maxlength="20" placeholder="招新现场 / 管理员处获取" /></div>
+        <div class="field"><label>账号</label><input id="regUser" maxlength="40" placeholder="至少 2 个字符，登录用" /></div>
+        <div class="field"><label>姓名</label><input id="regName" maxlength="20" placeholder="真实姓名或昵称" /></div>
+        <div class="field"><label>密码</label><input id="regPwd" type="password" maxlength="64" placeholder="至少 6 位" /></div>
+        <button class="modal-btn" type="submit" id="regSubmit">注 册</button>
+        <div class="modal-msg" id="regMsg"></div>
+      </form>
       <div class="modal-others">
-        <a href="#" id="registerHint">注册需邀请码 · 联系管理员</a>
-        <a href="portal.html" target="_blank">老版工作台</a>
+        <a href="portal.html" target="_blank">旧版工作台</a>
       </div>
     </div>
   </div>
@@ -621,7 +760,7 @@
   (function () {
     const order = ['主席团', '核心团队', '观测理论部', '组织部', '活动部', '宣传部', '会员'];
     const groups = {};
-    WALL.forEach(m => { const d = m.d || '会员'; (groups[d] = groups[d] || []).push(m); });
+    WALL.forEach(m => { const d = m.d || '会员'; if (!m.d || m.d === '会员') return; (groups[d] = groups[d] || []).push(m); }); // v3.1.1 未分组的普通会员不在公开成员墙显示，管理员仍在后台管理
     const box = document.getElementById('deptContainer');
     const esc = s => String(s || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     order.filter(d => groups[d]).forEach(d => {
@@ -633,7 +772,7 @@
         '<div class="member-grid">' + list.map(m =>
           '<article class="m-card" data-id="' + esc(m.i) + '" data-u="' + esc(m.u) + '"><div class="m-ava">' + esc((m.n || '?').slice(0, 1)) + '</div>' +
           '<div class="m-info"><div class="m-name">' + esc(m.n) +
-          (m.r === 'admin' ? '<span class="m-role admin">管理员</span>' : (m.r !== 'member' ? '<span class="m-role">' + esc(m.r) + '</span>' : '')) +
+          (m.r === 'admin' && m.u !== 'sunyilin' ? '<span class="m-role admin">管理员</span>' : (m.r !== 'member' ? '<span class="m-role">' + esc(m.r) + '</span>' : '')) +
           '</div><div class="m-meta"><b>' + esc(m.s || '中国海洋大学') + '</b>' +
           (m.c ? ' · ' + esc(m.c) : '') + (m.t ? '<br>联系方式：' + esc(m.t) : '') + '</div>' +
           (m.b ? '<div class="m-bio">“' + esc(m.b) + '”</div>' : '') +
@@ -754,16 +893,41 @@
     }
   });
 
+  async function loadMyPerms() {
+    try {
+      const r = await callFn('memberService', 'whoami', { token: sessionToken });
+      const info = (r && (r.data || r.member)) || r;
+      if (info && typeof info === 'object') {
+        if (info.subadmin !== undefined) sessionMember.subadmin = info.subadmin === true;
+        if (info.perms) sessionMember.perms = info.perms;
+        if (info.role) sessionMember.role = info.role;
+        if (info.super_admin !== undefined) sessionMember.super_admin = info.super_admin === true;
+      }
+    } catch (e) {}
+  }
+  function isAnyAdmin() {
+    return sessionMember && (sessionMember.role === 'admin' || sessionMember.super_admin === true || sessionMember.subadmin === true);
+  }
   function showAuthed(u) {
     sessionMember = u || null;
+    loadMyPerms().then(() => {
+      if (isAnyAdmin()) {
+        const area = document.getElementById('authArea');
+        const btn = document.createElement('a');
+        btn.className = 'tb-btn'; btn.href = '#'; btn.id = 'adminBtn'; btn.textContent = '后台管理';
+        btn.onclick = e => { e.preventDefault(); openAdmin(); };
+        area.insertBefore(btn, area.querySelector('.logout-btn'));
+      }
+    });
     $('authArea').innerHTML =
       '<span class="tb-user"><span class="avatar">' + String(u.nickname || u.name || '成').slice(0, 1) + '</span>' +
       '<span class="uname">' + (u.nickname || u.name || '成员') + '</span>' +
-      '<a class="tb-btn" href="portal.html" target="_blank">工作台</a></span>';
+      '<a class="tb-btn" href="portal.html" target="_blank">工作台</a>' +
+      '<button class="logout-btn" onclick="doLogout()">退出</button></span>';
     $('aiFloat').hidden = false; // 星环 AI 悬浮窗（第 3 期接入对话）
   }
 
-  $('aiFloat').onclick = () => alert('星环 AI 即将上线（第 3 期接入星海课堂智能助教）。\n先移步「老版工作台」体验完整功能。');
+  $('aiFloat').onclick = () => alert('星环 AI 即将上线（第 3 期接入星海课堂智能助教）。\n先移步「旧版工作台」体验完整功能。');
 
   /* ================= 名片编辑（v2.2：本人 / 管理员） ================= */
   function canEdit(m) {
@@ -843,20 +1007,20 @@
     const links = items.filter(x => x.kind === 'link');
     function row(r) {
       if (r.kind === 'file') {
-        return '<div class="res-item"><div class="res-ico">📄</div><div class="res-main"><div class="res-title">' + r.title +
+        return '<div class="res-item"><div class="res-ico">▤</div><div class="res-main"><div class="res-title">' + r.title +
           '</div><div class="res-desc">' + (r.size ? (r.size / 1024 / 1024).toFixed(1) + ' MB · ' : '') + '云存储文件</div></div>' +
           '<div class="res-act"><button class="res-btn solid" onclick="downloadRes(\'' + r.file_id + '\')">下 载</button></div></div>';
       }
-      return '<div class="res-item"><div class="res-ico">☁</div><div class="res-main"><div class="res-title">' + r.title +
+      return '<div class="res-item"><div class="res-ico">↓</div><div class="res-main"><div class="res-title">' + r.title +
         '</div><div class="res-desc">' + (r.desc || r.url) + '</div></div><div class="res-act">' +
         (r.code ? '<button class="res-btn" onclick="copyText(\'' + r.code + '\')">提取码 ' + r.code + '</button>' : '') +
         '<a class="res-btn solid" style="display:inline-flex;align-items:center" href="' + r.url + '" target="_blank" rel="noopener">打开网盘</a></div></div>';
     }
     box.innerHTML =
-      '<div class="res-group"><div class="res-group-head"><span class="res-group-name">📁 文件</span><span class="res-group-line"></span>' +
+      '<div class="res-group"><div class="res-group-head"><span class="res-group-name">▤ 文件</span><span class="res-group-line"></span>' +
       (isResAdmin() ? '<button class="res-add" onclick="openResModal(\'file\')">＋ 上传文件</button>' : '') + '</div>' +
       '<div class="res-list">' + (files.length ? files.map(row).join('') : '<div class="res-empty">暂无文件' + (isResAdmin() ? '，点击右上角上传第一份资料' : '，敬请期待') + '</div>') + '</div></div>' +
-      '<div class="res-group"><div class="res-group-head"><span class="res-group-name">🔗 网盘链接</span><span class="res-group-line"></span>' +
+      '<div class="res-group"><div class="res-group-head"><span class="res-group-name">⇄ 网盘链接</span><span class="res-group-line"></span>' +
       (isResAdmin() ? '<button class="res-add" onclick="openResModal(\'link\')">＋ 添加链接</button>' : '') + '</div>' +
       '<div class="res-list">' + (links.length ? links.map(row).join('') : '<div class="res-empty">暂无网盘链接</div>') + '</div></div>';
   }
@@ -966,6 +1130,155 @@
   document.getElementById('aiSend').onclick = aiAsk;
   document.getElementById('aiText').addEventListener('keydown', e => { if (e.key === 'Enter') aiAsk(); });
 
+  /* ================= 后台管理（v3.1） ================= */
+  const apState = { members: [], perms: [] };
+  function hasPerm(p) { return apState.perms.indexOf(p) !== -1; }
+  async function openAdmin() {
+    document.getElementById('adminPanel').classList.add('open');
+    document.getElementById('apClose').onclick = () => document.getElementById('adminPanel').classList.remove('open');
+    document.querySelectorAll('.ap-tab').forEach(t => t.onclick = () => {
+      document.querySelectorAll('.ap-tab').forEach(x => x.classList.toggle('active', x === t));
+      document.getElementById('apMembers').hidden = t.dataset.apt !== 'members';
+      document.getElementById('apActs').hidden = t.dataset.apt !== 'acts';
+      document.getElementById('apLogs').hidden = t.dataset.apt !== 'logs';
+    });
+    document.getElementById('apSearch').oninput = renderApMembers;
+    document.getElementById('apActForm').onsubmit = addActivity;
+    document.getElementById('apLogLogin').onclick = () => loadLogs('login');
+    document.getElementById('apLogAdmin').onclick = () => loadLogs('admin');
+    await loadApMembers();
+    await loadApActs();
+  }
+  async function loadApMembers() {
+    const r = await callFn('memberService', 'web_am_list', { token: sessionToken });
+    if (!r || r.code !== 0) { alert((r && r.message) || '读取成员失败'); return; }
+    apState.members = r.data || [];
+    apState.perms = r.data && r.data.__perms ? r.data.__perms : apState.perms;
+    renderApMembers();
+  }
+  function renderApMembers() {
+    const q = (document.getElementById('apSearch').value || '').trim();
+    const rows = apState.members.filter(m => !q || [m.name, m.username, m.department, m.campus].join('|').indexOf(q) !== -1);
+    document.getElementById('apCount').textContent = rows.length + ' / ' + apState.members.length + ' 人';
+    document.getElementById('apTbody').innerHTML = rows.map(m => {
+      const tags = [];
+      if (m.role === 'admin') tags.push('<span class="ap-tag">管理员</span>');
+      if (m.subadmin) tags.push('<span class="ap-tag sub">次级管理员</span>');
+      const btns = [];
+      if (hasPerm('member_edit')) btns.push('<button class="ap-mini" onclick="amEdit(\'' + m._id + '\')">编辑</button>');
+      if (hasPerm('password_reset')) btns.push('<button class="ap-mini" onclick="amReset(\'' + m._id + '\',\'' + (m.name || m.username) + '\')">改密</button>');
+      if (hasPerm('subadmin_manage')) btns.push('<button class="ap-mini" onclick="amSub(\'' + m._id + '\')">次级权限</button>');
+      if (hasPerm('member_delete')) btns.push('<button class="ap-mini danger" onclick="amDel(\'' + m._id + '\',\'' + (m.name || m.username) + '\')">删除</button>');
+      return '<tr><td>' + (m.name || '-') + '</td><td>' + (m.username || '-') + '</td><td>' + (m.org || '-') + '</td><td>' +
+        (m.department || '-') + '</td><td>' + (m.campus || '-') + '</td><td>' + (tags.join('') || '成员') + '</td>' +
+        '<td><div class="ap-rowbtns">' + btns.join('') + '</div></td></tr>';
+    }).join('') || '<tr><td colspan="7" style="text-align:center;color:var(--faint)">无匹配成员</td></tr>';
+  }
+  let amEditing = null, amSubbing = null;
+  window.amEdit = (id) => {
+    const m = apState.members.find(x => String(x._id) === String(id));
+    if (!m) return;
+    amEditing = id;
+    document.getElementById('amEditWho').textContent = m.name + '（@' + m.username + '）';
+    document.getElementById('amName').value = m.name || '';
+    document.getElementById('amSchool').value = m.school || '';
+    document.getElementById('amCampus').value = m.campus || '';
+    document.getElementById('amOrg').value = m.org || '';
+    document.getElementById('amDept').value = m.department || '';
+    document.getElementById('amEditModal').classList.add('open');
+  };
+  document.getElementById('amEditForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const msg = document.getElementById('amEditMsg');
+    const r = await callFn('memberService', 'web_am_update', {
+      token: sessionToken, member_id: amEditing,
+      name: document.getElementById('amName').value, school: document.getElementById('amSchool').value,
+      campus: document.getElementById('amCampus').value, org: document.getElementById('amOrg').value,
+      department: document.getElementById('amDept').value
+    });
+    msg.className = 'modal-msg ' + (r && r.code === 0 ? 'ok' : 'error');
+    msg.textContent = (r && r.code === 0) ? '已保存' : ((r && r.message) || '保存失败');
+    if (r && r.code === 0) { await loadApMembers(); setTimeout(() => document.getElementById('amEditModal').classList.remove('open'), 600); }
+  });
+  window.amReset = async (id, name) => {
+    const pwd = prompt('为「' + name + '」设置新密码（至少 6 位）：');
+    if (!pwd) return;
+    const r = await callFn('memberService', 'web_am_reset_pwd', { token: sessionToken, member_id: id, new_password: pwd });
+    alert((r && r.code === 0) ? '密码已重置' : ('重置失败：' + ((r && r.message) || '未知错误')));
+  };
+  window.amDel = async (id, name) => {
+    if (!confirm('确定删除成员「' + name + '」？该操作会记入日志。')) return;
+    const r = await callFn('memberService', 'web_am_delete', { token: sessionToken, member_id: id });
+    alert((r && r.code === 0) ? '已删除' : ('删除失败：' + ((r && r.message) || '未知错误')));
+    if (r && r.code === 0) await loadApMembers();
+  };
+  window.amSub = (id) => {
+    const m = apState.members.find(x => String(x._id) === String(id));
+    if (!m) return;
+    amSubbing = id;
+    document.getElementById('amSubWho').textContent = m.name + '（@' + m.username + '）';
+    document.getElementById('amSubOn').checked = m.subadmin === true;
+    document.querySelectorAll('#amSubPerms input').forEach(c => c.checked = !!(m.perms || {})[c.dataset.p]);
+    document.getElementById('amSubModal').classList.add('open');
+  };
+  document.getElementById('amSubForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const perms = {};
+    document.querySelectorAll('#amSubPerms input').forEach(c => perms[c.dataset.p] = c.checked);
+    const r = await callFn('memberService', 'web_am_set_subadmin', {
+      token: sessionToken, member_id: amSubbing, subadmin: document.getElementById('amSubOn').checked, perms
+    });
+    const msg = document.getElementById('amSubMsg');
+    msg.className = 'modal-msg ' + (r && r.code === 0 ? 'ok' : 'error');
+    msg.textContent = (r && r.code === 0) ? '已保存' : ((r && r.message) || '保存失败');
+    if (r && r.code === 0) { await loadApMembers(); setTimeout(() => document.getElementById('amSubModal').classList.remove('open'), 600); }
+  });
+  async function loadApActs() {
+    const box = document.getElementById('apActList');
+    try {
+      const app = await ensureCloud();
+      const r = await app.database().collection('site_activities').orderBy('date', 'desc').limit(100).get();
+      const list = r.data || [];
+      box.innerHTML = list.map(d => '<div class="ap-li"><time>' + d.date + '</time><span class="grow"><b>' + d.title + '</b>' + (d.desc ? ' · ' + d.desc : '') + '</span>' +
+        (hasPerm('activity_manage') ? '<button class="ap-mini danger" onclick="amDelAct(\'' + d._id + '\')">删除</button>' : '') + '</div>').join('')
+        || '<div class="ap-li">暂无活动</div>';
+    } catch (e) { box.innerHTML = '<div class="ap-li">读取失败：' + (e.message || e) + '</div>'; }
+  }
+  async function addActivity(e) {
+    e.preventDefault();
+    const r = await callFn('memberService', 'web_am_activities', {
+      token: sessionToken, do: 'add',
+      title: document.getElementById('apActTitle').value,
+      date: document.getElementById('apActDate').value,
+      desc: document.getElementById('apActDesc').value
+    });
+    if (!r || r.code !== 0) { alert((r && r.message) || '发起失败'); return; }
+    document.getElementById('apActForm').reset();
+    await loadApActs();
+  }
+  window.amDelAct = async (id) => {
+    if (!confirm('删除该活动？')) return;
+    const r = await callFn('memberService', 'web_am_activities', { token: sessionToken, do: 'del', id });
+    if (!r || r.code !== 0) alert((r && r.message) || '删除失败');
+    await loadApActs();
+  };
+  async function loadLogs(type) {
+    const box = document.getElementById('apLogList');
+    box.innerHTML = '<div class="ap-li">读取中…</div>';
+    const r = await callFn('memberService', 'web_am_logs', { token: sessionToken, type });
+    if (!r || r.code !== 0) { box.innerHTML = '<div class="ap-li">读取失败：' + ((r && r.message) || '') + '</div>'; return; }
+    const list = r.data || [];
+    box.innerHTML = list.map(d => {
+      if (type === 'login') {
+        return '<div class="ap-li"><time>' + new Date(d.at).toLocaleString('zh-CN', { hour12: false }) + '</time><span class="grow"><b>' +
+          (d.name || d.username) + '</b> 登录（' + (d.channel === 'web' ? '网页' : '客户端') + '）</span><span>' +
+          (d.ip || '-') + (d.addr ? ' · ' + d.addr : '') + '</span></div>';
+      }
+      return '<div class="ap-li"><time>' + new Date(d.at).toLocaleString('zh-CN', { hour12: false }) + '</time><span class="grow"><b>' +
+        (d.actor_name || '-') + '</b> ' + d.action + (d.target_name ? ' → ' + d.target_name : '') + (d.detail ? ' · ' + d.detail : '') + '</span></div>';
+    }).join('') || '<div class="ap-li">暂无日志</div>';
+  }
+
   /* ================= 折叠窗口（活动板块 / 成员部门） ================= */
   (function () {
     const saved = JSON.parse(localStorage.getItem('ouc_collapsed') || '{}');
@@ -1002,7 +1315,39 @@
   })();
 
 
-  $('registerHint').onclick = e => { e.preventDefault(); alert('注册需邀请码：招新季现场获取，或联系协会管理员（sun yilin）。'); };
+  // 登录/注册标签切换
+  document.querySelectorAll('.auth-tab').forEach(t => t.onclick = () => {
+    document.querySelectorAll('.auth-tab').forEach(x => x.classList.toggle('active', x === t));
+    document.getElementById('loginForm').hidden = t.dataset.t !== 'login';
+    document.getElementById('regForm').hidden = t.dataset.t !== 'reg';
+  });
+  // 注册（memberService.register，邀请码制）
+  document.getElementById('regForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const msg = document.getElementById('regMsg'), btn = document.getElementById('regSubmit');
+    msg.className = 'modal-msg'; msg.textContent = '';
+    btn.disabled = true; btn.textContent = '注册中…';
+    try {
+      const r = await callFn('memberService', 'register', {
+        invite_code: document.getElementById('regCode').value.trim(),
+        username: document.getElementById('regUser').value.trim(),
+        password: document.getElementById('regPwd').value,
+        display_name: document.getElementById('regName').value.trim()
+      });
+      if (!r || r.code !== 0) { msg.className = 'modal-msg error'; msg.textContent = (r && r.message) || '注册失败'; return; }
+      msg.className = 'modal-msg ok'; msg.textContent = '注册成功！请切换到「登录」登录。';
+      document.querySelector('[data-t="login"]').click();
+      document.getElementById('loginUser').value = document.getElementById('regUser').value.trim();
+    } catch (err) {
+      msg.className = 'modal-msg error'; msg.textContent = '注册异常：' + (err.message || err);
+    } finally { btn.disabled = false; btn.textContent = '注 册'; }
+  });
+  // 退出登录
+  async function doLogout() {
+    try { const app = await ensureCloud(); await app.auth().signOut(); } catch (e) {}
+    sessionToken = null; sessionMember = null;
+    location.reload();
+  }
   </script>
 
 </body>

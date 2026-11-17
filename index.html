@@ -276,9 +276,17 @@
     .auth-tab{flex:1;padding:11px;border:1px solid var(--line);border-radius:12px;background:none;color:var(--muted);
       font-size:15px;letter-spacing:.3em;cursor:pointer;font-family:inherit;transition:.25s}
     .auth-tab.active{border-color:rgba(124,199,255,.6);background:rgba(124,199,255,.09);color:var(--star)}
-    .logout-btn{margin-left:8px;padding:6px 14px;border:1px solid rgba(255,139,139,.35);border-radius:999px;
-      background:none;color:#f0a8a8;font-size:12px;cursor:pointer;font-family:inherit}
-    .logout-btn:hover{background:rgba(255,139,139,.1)}
+    .tb-user{position:relative}
+    .tb-user-main{display:flex;align-items:center;gap:9px;padding:6px 14px 6px 6px;border:1px solid var(--line);
+      border-radius:999px;background:rgba(255,255,255,.03);cursor:pointer;font-family:inherit;transition:.25s}
+    .tb-user-main:hover{border-color:rgba(124,199,255,.5)}
+    .tb-user-main .caret{color:var(--faint);font-size:11px}
+    .user-menu{position:absolute;top:calc(100% + 10px);right:0;min-width:170px;padding:8px;display:none;
+      flex-direction:column;border:1px solid var(--line);border-radius:14px;background:#0a1220;
+      box-shadow:0 20px 60px rgba(0,0,0,.55)}
+    .user-menu.open{display:flex}
+    .user-menu a{padding:10px 14px;border-radius:9px;font-size:13px;color:var(--muted)}
+    .user-menu a:hover{background:rgba(124,199,255,.08);color:var(--ink)}
   
     /* ===== v3.1 后台管理面板 ===== */
     #adminPanel{position:fixed;inset:0;z-index:80;display:none;flex-direction:column;background:rgba(4,7,15,.98)}
@@ -335,7 +343,6 @@
       <a href="#join">加入</a>
     </nav>
     <button class="tb-btn gold" id="calBtn">☷ 社团大事件</button>
-    <a class="tb-btn" href="portal.html" target="_blank">旧版工作台</a>
     <span id="authArea">
       <button class="tb-btn" id="loginBtn" style="border-color:rgba(124,199,255,.45);color:var(--star)">登录 / 注册</button>
     </span>
@@ -880,7 +887,17 @@
         return;
       }
       const app = await ensureCloud();
-      await app.auth().signInWithTicket(r.ticket);
+      // v3 SDK 票据登录：方法名为 signInWithCustomTicket，兼容函数/字符串两种入参
+      const auth = app.auth();
+      const attempts = [
+        () => auth.signInWithCustomTicket(() => Promise.resolve(r.ticket)),
+        () => auth.signInWithCustomTicket(r.ticket)
+      ];
+      let signed = false;
+      for (const att of attempts) {
+        try { await att(); signed = true; break; } catch (e) {}
+      }
+      if (!signed) throw new Error('票据登录失败，请刷新重试');
       session = r.member || {};
       sessionToken = r.token || sessionToken;
       showAuthed(session);
@@ -910,20 +927,26 @@
   }
   function showAuthed(u) {
     sessionMember = u || null;
+    const area = document.getElementById('authArea');
+    area.innerHTML =
+      '<span class="tb-user"><button class="tb-user-main" id="userMenuBtn" type="button">' +
+      '<span class="avatar">' + String(u.nickname || u.name || '成').slice(0, 1) + '</span>' +
+      '<span class="uname">' + (u.nickname || u.name || '成员') + '</span><span class="caret">▾</span></button>' +
+      '<div class="user-menu" id="userMenu">' +
+      '<a href="portal.html" target="_blank">工作台（旧版）</a>' +
+      '<a href="#" id="menuAdmin" hidden>后台管理</a>' +
+      '<a href="#" id="menuLogout">退出登录</a></div></span>';
+    document.getElementById('menuLogout').onclick = e => { e.preventDefault(); doLogout(); };
+    const mm = document.getElementById('userMenuBtn');
+    mm.onclick = ev => { ev.stopPropagation(); document.getElementById('userMenu').classList.toggle('open'); };
+    document.addEventListener('click', () => document.getElementById('userMenu').classList.remove('open'));
     loadMyPerms().then(() => {
       if (isAnyAdmin()) {
-        const area = document.getElementById('authArea');
-        const btn = document.createElement('a');
-        btn.className = 'tb-btn'; btn.href = '#'; btn.id = 'adminBtn'; btn.textContent = '后台管理';
-        btn.onclick = e => { e.preventDefault(); openAdmin(); };
-        area.insertBefore(btn, area.querySelector('.logout-btn'));
+        const a = document.getElementById('menuAdmin');
+        a.hidden = false;
+        a.onclick = e => { e.preventDefault(); document.getElementById('userMenu').classList.remove('open'); openAdmin(); };
       }
     });
-    $('authArea').innerHTML =
-      '<span class="tb-user"><span class="avatar">' + String(u.nickname || u.name || '成').slice(0, 1) + '</span>' +
-      '<span class="uname">' + (u.nickname || u.name || '成员') + '</span>' +
-      '<a class="tb-btn" href="portal.html" target="_blank">工作台</a>' +
-      '<button class="logout-btn" onclick="doLogout()">退出</button></span>';
     $('aiFloat').hidden = false; // 星环 AI 悬浮窗（第 3 期接入对话）
   }
 

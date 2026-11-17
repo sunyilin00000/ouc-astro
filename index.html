@@ -879,7 +879,7 @@
       sessionToken = savedToken;
       const r = await callFn('memberService', 'whoami', { token: savedToken });
       const info = r && (r.data || r.member);
-      if (info && (info.username || info.name)) showAuthed(info);
+      if (info && (info.username || info.name)) { showAuthed(info); syncHubLink(); }
       else { localStorage.removeItem('ouc_token'); sessionToken = null; }
     } catch (e) {}
   });
@@ -911,6 +911,7 @@
       sessionToken = r.token || sessionToken;
       if (sessionToken) localStorage.setItem('ouc_token', sessionToken);
       showAuthed(session);
+      syncHubLink();
       closeModal($('loginModal'));
       msg.textContent = '';
     } catch (err) {
@@ -935,6 +936,13 @@
   function isAnyAdmin() {
     return sessionMember && (sessionMember.role === 'admin' || sessionMember.super_admin === true || sessionMember.subadmin === true);
   }
+
+  // 教学中枢 SSO：登录后菜单链接携带令牌，跳转免登录
+  function syncHubLink() {
+    const a = document.getElementById('menuHub');
+    if (a && sessionToken) a.href = 'https://sunyilin00000.github.io/xinghuan-web/#sso=' + sessionToken;
+  }
+
   function showAuthed(u) {
     sessionMember = u || null;
     const area = document.getElementById('authArea');
@@ -943,7 +951,7 @@
       '<span class="avatar">' + String(u.nickname || u.name || '成').slice(0, 1) + '</span>' +
       '<span class="uname">' + (u.nickname || u.name || '成员') + '</span><span class="caret">▾</span></button>' +
       '<div class="user-menu" id="userMenu">' +
-      '<a href="https://sunyilin00000.github.io/xinghuan-web/" target="_blank">教学中枢</a>' +
+      '<a id="menuHub" href="https://sunyilin00000.github.io/xinghuan-web/" target="_blank">教学中枢</a>' +
       '<a href="portal.html" target="_blank">工作台（旧版）</a>' +
       '<a href="#" id="menuAdmin" hidden>后台管理</a>' +
       '<a href="#" id="menuLogout">退出登录</a></div></span>';
@@ -953,6 +961,13 @@
     document.addEventListener('click', () => document.getElementById('userMenu').classList.remove('open'));
     loadMyPerms().then(() => {
       if (isAnyAdmin()) {
+        // 顶栏直接亮出控制台入口（v3.1.7）
+        if (!document.getElementById('consoleBtn')) {
+          const cb = document.createElement('button');
+          cb.className = 'tb-btn gold'; cb.id = 'consoleBtn'; cb.textContent = '控制台';
+          cb.onclick = e => { e.preventDefault(); openAdmin(); };
+          document.querySelector('.topbar').insertBefore(cb, document.getElementById('authArea'));
+        }
         const a = document.getElementById('menuAdmin');
         a.hidden = false;
         a.onclick = e => { e.preventDefault(); document.getElementById('userMenu').classList.remove('open'); openAdmin(); };

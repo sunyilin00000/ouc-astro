@@ -767,7 +767,12 @@
   (function () {
     const order = ['主席团', '核心团队', '观测理论部', '组织部', '活动部', '宣传部', '会员'];
     const groups = {};
-    WALL.forEach(m => { const d = m.d || '会员'; if (!m.d || m.d === '会员') return; (groups[d] = groups[d] || []).push(m); }); // v3.1.1 未分组的普通会员不在公开成员墙显示，管理员仍在后台管理
+    const seen = {};
+    WALL.slice().sort((a, b) => (b.d ? 1 : 0) - (a.d ? 1 : 0)).forEach(m => {
+      if (seen[m.u]) return; seen[m.u] = 1;
+      const d = m.d || '会员'; if (!m.d || m.d === '会员') return;
+      (groups[d] = groups[d] || []).push(m);
+    }); // v3.1.1 未分组的普通会员不在公开成员墙显示，管理员仍在后台管理
     const box = document.getElementById('deptContainer');
     const esc = s => String(s || '').replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
     order.filter(d => groups[d]).forEach(d => {
@@ -779,7 +784,7 @@
         '<div class="member-grid">' + list.map(m =>
           '<article class="m-card" data-id="' + esc(m.i) + '" data-u="' + esc(m.u) + '"><div class="m-ava">' + esc((m.n || '?').slice(0, 1)) + '</div>' +
           '<div class="m-info"><div class="m-name">' + esc(m.n) +
-          (m.r === 'admin' && m.u !== 'sunyilin' ? '<span class="m-role admin">管理员</span>' : (m.r !== 'member' ? '<span class="m-role">' + esc(m.r) + '</span>' : '')) +
+          (m.r === 'admin' && m.u !== 'sunyilin' ? '<span class="m-role admin">管理员</span>' : (m.r !== 'member' && m.r !== 'admin' ? '<span class="m-role">' + esc(m.r) + '</span>' : '')) +
           '</div><div class="m-meta"><b>' + esc(m.s || '中国海洋大学') + '</b>' +
           (m.c ? ' · ' + esc(m.c) : '') + (m.t ? '<br>联系方式：' + esc(m.t) : '') + '</div>' +
           (m.b ? '<div class="m-bio">“' + esc(m.b) + '”</div>' : '') +
@@ -908,6 +913,14 @@
       }
       if (!signed) throw new Error('票据登录失败，请刷新重试');
       session = r.member || r.user || {}; // v7 web_login 返回成员信息在 user 字段
+      if (!session.name && r.token) {
+        // v3.1.9 双保险：部分云端版本字段位置不同，用 whoami 兜底取姓名
+        try {
+          const w = await callFn('memberService', 'whoami', { token: r.token });
+          const wi = w && (w.data || w.member);
+          if (wi && (wi.name || wi.username)) session = wi;
+        } catch (e) {}
+      }
       sessionToken = r.token || sessionToken;
       if (sessionToken) localStorage.setItem('ouc_token', sessionToken);
       showAuthed(session);

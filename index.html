@@ -507,7 +507,7 @@
       <div id="apActs" hidden>
         <form id="apActForm" class="ap-act-form">
           <input id="apActTitle" maxlength="60" placeholder="活动标题，如：路边天文 · 满月观测" />
-          <input id="apActDate" type="date" />
+          <input id="apActDate" placeholder="日期 2026-11-21" style="min-width:170px" />
           <input id="apActDesc" maxlength="200" placeholder="补充说明（可空）" />
           <button class="res-btn solid" type="submit">发起活动</button>
         </form>
@@ -1195,7 +1195,11 @@
 
   /* ================= 后台管理（v3.1） ================= */
   const apState = { members: [], perms: [] };
-  function hasPerm(p) { return apState.perms.indexOf(p) !== -1; }
+  function hasPerm(p) {
+    // v3.2.2 修复：主管理员恒全权限；次级管理员按 whoami 下发的 perms
+    if (sessionMember && (sessionMember.role === 'admin' || sessionMember.super_admin === true)) return true;
+    return !!(sessionMember && sessionMember.perms && sessionMember.perms[p] === true);
+  }
   async function openAdmin() {
     document.getElementById('adminPanel').classList.add('open');
     document.getElementById('apClose').onclick = () => document.getElementById('adminPanel').classList.remove('open');
@@ -1212,11 +1216,17 @@
     await loadApMembers();
     await loadApActs();
   }
+  const ALL_PERMS = ['member_edit', 'member_delete', 'password_reset', 'activity_manage', 'subadmin_manage'];
   async function loadApMembers() {
     const r = await callFn('memberService', 'web_am_list', { token: sessionToken });
     if (!r || r.code !== 0) { alert((r && r.message) || '读取成员失败'); return; }
     apState.members = r.data || [];
-    apState.perms = r.data && r.data.__perms ? r.data.__perms : apState.perms;
+    // v3.2.2 修复：权限从当前登录者身份推导（web_am_list 返回的是数组，不含权限位）
+    if (sessionMember && (sessionMember.super_admin === true || sessionMember.role === 'admin')) {
+      apState.perms = ALL_PERMS.slice();
+    } else if (sessionMember && sessionMember.subadmin === true) {
+      apState.perms = ALL_PERMS.filter(pp => (sessionMember.perms || {})[pp] === true);
+    }
     renderApMembers();
   }
   function renderApMembers() {

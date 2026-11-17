@@ -867,13 +867,22 @@
   }
 
   // 恢复会话（cloudbase 本地持久化）
+  // v3.1.4 会话恢复：仅"票据登录(CUSTOM)"算已登录；匿名登录不算（此前误把游客当登录）
   ensureCloud().then(async app => {
-    const loginState = await app.auth().getLoginState();
-    if (loginState) {
+    try {
+      const loginState = await app.auth().getLoginState();
+      if (!loginState) return;
       const u = await app.auth().getCurrentUser();
-      if (u) showAuthed({ nickname: u.nickname || '成员' });
-    }
-  }).catch(() => {});
+      if (!u || u.loginType !== 'CUSTOM') return;
+      const savedToken = localStorage.getItem('ouc_token');
+      if (!savedToken) return;
+      sessionToken = savedToken;
+      const r = await callFn('memberService', 'whoami', { token: savedToken });
+      const info = r && (r.data || r.member);
+      if (info && (info.username || info.name)) showAuthed(info);
+      else { localStorage.removeItem('ouc_token'); sessionToken = null; }
+    } catch (e) {}
+  });
 
   $('loginForm').addEventListener('submit', async e => {
     e.preventDefault();
@@ -900,6 +909,7 @@
       if (!signed) throw new Error('票据登录失败，请刷新重试');
       session = r.member || {};
       sessionToken = r.token || sessionToken;
+      if (sessionToken) localStorage.setItem('ouc_token', sessionToken);
       showAuthed(session);
       closeModal($('loginModal'));
       msg.textContent = '';
@@ -1369,6 +1379,7 @@
   async function doLogout() {
     try { const app = await ensureCloud(); await app.auth().signOut(); } catch (e) {}
     sessionToken = null; sessionMember = null;
+    localStorage.removeItem('ouc_token');
     location.reload();
   }
   </script>

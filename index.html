@@ -221,6 +221,54 @@
     .m-edit{margin-top:10px;padding:6px 16px;border:1px solid rgba(124,199,255,.4);border-radius:999px;
       background:rgba(124,199,255,.07);color:var(--star);font-size:12px;cursor:pointer;font-family:inherit;transition:.25s}
     .m-edit:hover{background:rgba(124,199,255,.16)}
+  
+    /* ===== v3.0 学习资源 ===== */
+    .res-tabs{display:flex;justify-content:center;gap:12px;margin-bottom:44px}
+    .res-tab{padding:11px 34px;border:1px solid var(--line);border-radius:999px;background:none;color:var(--muted);
+      font-size:15px;cursor:pointer;font-family:inherit;letter-spacing:.12em;transition:.25s}
+    .res-tab.active{border-color:rgba(124,199,255,.6);background:rgba(124,199,255,.09);color:var(--star)}
+    .res-group{margin-bottom:40px}
+    .res-group-head{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+    .res-group-name{font-size:16px;letter-spacing:.2em;color:var(--muted)}
+    .res-group-line{flex:1;height:1px;background:var(--line)}
+    .res-add{padding:6px 18px;border:1px dashed rgba(124,199,255,.4);border-radius:999px;background:none;color:var(--star);
+      font-size:12px;cursor:pointer;font-family:inherit}
+    .res-add:hover{background:rgba(124,199,255,.08)}
+    .res-list{display:grid;gap:12px}
+    .res-item{display:flex;align-items:center;gap:16px;padding:16px 20px;border:1px solid var(--line);border-radius:14px;
+      background:var(--card);transition:.3s}
+    .res-item:hover{border-color:rgba(124,199,255,.35);transform:translateX(4px)}
+    .res-ico{width:42px;height:42px;flex:0 0 42px;border-radius:12px;display:grid;place-items:center;font-size:18px;
+      background:linear-gradient(135deg,#123055,#0a1830);border:1px solid var(--line)}
+    .res-main{min-width:0;flex:1}
+    .res-title{font-size:15px;font-weight:500}
+    .res-desc{font-size:12px;color:var(--faint);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .res-act{display:flex;gap:8px;flex-shrink:0}
+    .res-btn{padding:8px 18px;border-radius:999px;border:1px solid rgba(124,199,255,.4);background:rgba(124,199,255,.07);
+      color:var(--star);font-size:12px;cursor:pointer;font-family:inherit;transition:.25s;white-space:nowrap}
+    .res-btn:hover{background:rgba(124,199,255,.16)}
+    .res-btn.solid{background:linear-gradient(135deg,#2f7fe0,#1c5cb8);color:#fff;border:0}
+    .res-btn.solid:hover{filter:brightness(1.15)}
+    .res-empty{padding:28px;border:1px dashed var(--line);border-radius:14px;color:var(--faint);font-size:13px;text-align:center}
+
+    /* ===== v3.0 星环 AI 抽屉 ===== */
+    #aiDrawer{position:fixed;top:0;right:0;bottom:0;z-index:90;width:min(400px,92vw);display:flex;flex-direction:column;
+      background:rgba(6,11,20,.97);border-left:1px solid var(--line);box-shadow:-30px 0 80px rgba(0,0,0,.5);
+      transform:translateX(105%);transition:transform .45s cubic-bezier(.22,1,.36,1)}
+    #aiDrawer.open{transform:none}
+    .ai-head{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--line);
+      font-size:15px;letter-spacing:.15em;color:var(--star)}
+    .ai-head button{background:none;border:0;color:var(--faint);font-size:22px;cursor:pointer}
+    .ai-msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:12px}
+    .ai-msg{max-width:85%;padding:12px 16px;border-radius:16px;font-size:13.5px;line-height:1.7;white-space:pre-wrap;word-break:break-word}
+    .ai-msg.user{align-self:flex-end;background:linear-gradient(135deg,#2f7fe0,#1c5cb8);color:#fff;border-bottom-right-radius:4px}
+    .ai-msg.bot{align-self:flex-start;background:rgba(124,167,220,.1);border:1px solid var(--line);border-bottom-left-radius:4px}
+    .ai-input{display:flex;gap:10px;padding:16px 18px;border-top:1px solid var(--line)}
+    .ai-input input{flex:1;min-width:0;padding:12px 16px;border:1px solid var(--line);border-radius:999px;background:rgba(255,255,255,.04);
+      color:var(--ink);font-size:13.5px;font-family:inherit;outline:none}
+    .ai-input input:focus{border-color:var(--star)}
+    .ai-input button{padding:0 22px;border:0;border-radius:999px;background:linear-gradient(135deg,#2f7fe0,#1c5cb8);
+      color:#fff;font-size:13px;cursor:pointer;font-family:inherit}
   </style>
 </head>
 <body>
@@ -236,6 +284,7 @@
     <nav class="nav">
       <a href="#about">协会</a>
       <a href="#activities">活动</a>
+      <a href="#resources">资源</a>
       <a href="#members">成员</a>
       <a href="#join">加入</a>
     </nav>
@@ -327,6 +376,23 @@
           <article class="act-card"><div class="act-img"><span>♁</span></div><div class="act-body"><span class="act-tag">共建</span><h4>青岛观象台合作</h4><p>特邀观象台专家来校报告，会员走进百年观象台研学。</p></div></article>
         </div>
       </div>
+    </div>
+  </section>
+
+
+  <!-- ===== 学习资源 ===== -->
+  <section id="resources">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <p class="sec-kicker">Library</p>
+        <h2 class="sec-title">学习资源</h2>
+        <div class="sec-line"></div>
+      </div>
+      <div class="res-tabs reveal">
+        <button class="res-tab active" data-cat="theory">天文学理论</button>
+        <button class="res-tab" data-cat="observe">观测理论</button>
+      </div>
+      <div id="resBody"></div>
     </div>
   </section>
 
@@ -430,6 +496,42 @@
         <button class="modal-btn" type="submit" id="editSubmit">保 存</button>
         <div class="modal-msg" id="editMsg"></div>
       </form>
+    </div>
+  </div>
+
+
+  <!-- ===== 资源上传/添加弹窗 ===== -->
+  <div class="modal" id="resModal">
+    <div class="modal-card modal-wrap">
+      <button class="modal-close" data-close>×</button>
+      <h3 id="resModalTitle">添加资源</h3>
+      <p class="sub">管理员操作 · 全站可见</p>
+      <form id="resForm">
+        <div class="field"><label>标题</label><input id="resTitle" maxlength="60" placeholder="如：秋季社课 · 轨道力学讲义" /></div>
+        <div class="field" id="resFileField"><label>选择文件</label><input id="resFile" type="file" style="padding:11px 16px" /></div>
+        <div class="field" id="resUrlField" hidden><label>网盘链接</label><input id="resUrl" placeholder="https://pan.baidu.com/s/..." /></div>
+        <div class="field" id="resCodeField" hidden><label>提取码（可空）</label><input id="resCode" maxlength="10" /></div>
+        <div class="field"><label>所属分类</label>
+          <select id="resCat" style="width:100%;padding:13px 16px;border:1px solid var(--line);border-radius:12px;background:#0b1526;color:var(--ink);font-size:15px;font-family:inherit">
+            <option value="theory">天文学理论</option><option value="observe">观测理论</option>
+          </select>
+        </div>
+        <button class="modal-btn" type="submit" id="resSubmit">发 布</button>
+        <div class="modal-msg" id="resMsg"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== 星环 AI 抽屉 ===== -->
+  <div id="aiDrawer">
+    <div class="ai-head">
+      <span>✦ 星环 AI</span>
+      <button id="aiClose" type="button">×</button>
+    </div>
+    <div class="ai-msgs" id="aiMsgs"></div>
+    <div class="ai-input">
+      <input id="aiText" maxlength="500" placeholder="问点什么…（天文知识、协会事务）" />
+      <button id="aiSend" type="button">发送</button>
     </div>
   </div>
 
@@ -591,6 +693,7 @@
 
   /* ================= 登录（复用门户链路：web_login → 票据 → 登录态） ================= */
   const CFG = { env: 'cloud1-d6gagyei397d315ca' };
+  let sessionToken = null, sessionMember = null; // v3.0 修复：原漏声明致登录成功后 ReferenceError
   let cloudapp = null, session = null;
   function loadScript(src) {
     return new Promise((res, rej) => {
@@ -715,6 +818,152 @@
       msg.className = 'modal-msg error'; msg.textContent = '保存异常：' + (err.message || err);
     } finally { btn.disabled = false; btn.textContent = '保 存'; }
   });
+
+  /* ================= 学习资源（v3.0：理论/观测 × 文件/网盘链接，管理员可传） ================= */
+  const RES_DEMO = [
+    { cat: 'observe', kind: 'link', title: '天文仪器简易操作教学', desc: '仪器入门（半成品，持续更新）· 感谢艾博宇学长制作', url: 'https://pan.baidu.com/s/13ToIQRvubydfxkz5GzPxug', code: 'ouc1' },
+    { cat: 'observe', kind: 'link', title: 'Stellarium 基础教学（5.29 更新）', desc: '免费强大的 PC 端星图软件入门', url: 'https://pan.baidu.com/s/1T35RXV_ZYkmDhy8ngStA_Q', code: 'ABYY' },
+    { cat: 'observe', kind: 'link', title: '天文摄影基础 · 出摊实战流程', desc: 'zwo 天文盒子完整深空观测流程', url: 'https://pan.baidu.com/s/1tRZKvh2SA6jkO6wDWZaKXw', code: '6Tst' },
+    { cat: 'observe', kind: 'link', title: '月面叠加 & PixInsight', desc: '月面后期处理 · 夸克网盘', url: 'https://pan.quark.cn/s/4300c1b9a9fd', code: '' },
+    { cat: 'observe', kind: 'link', title: '郭辰洋学长的软件包（掩星/太阳）', desc: '观测小工具合集', url: 'https://pan.baidu.com/s/1hd2qpHovTHNVOounaqVcBQ', code: 'digy' },
+    { cat: 'observe', kind: 'link', title: '摄影师看 Kan · NINA/SIRIL 教程', desc: '附练习素材', url: 'https://pan.baidu.com/s/1Vz-5RFwG0p3ZMe7IUKJ-Kw', code: 'uuhp' }
+  ];
+  const resState = { cat: 'theory', items: RES_DEMO.slice(), liveLoaded: false };
+  const RES_CAT_NAME = { theory: '天文学理论', observe: '观测理论' };
+  function isResAdmin() { return sessionMember && (sessionMember.role === 'admin' || sessionMember.super_admin === true); }
+  function copyText(t) {
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(() => alert('已复制：' + t));
+    else alert('提取码：' + t);
+  }
+  function renderRes() {
+    const box = document.getElementById('resBody');
+    const items = resState.items.filter(x => x.cat === resState.cat);
+    const files = items.filter(x => x.kind === 'file');
+    const links = items.filter(x => x.kind === 'link');
+    function row(r) {
+      if (r.kind === 'file') {
+        return '<div class="res-item"><div class="res-ico">📄</div><div class="res-main"><div class="res-title">' + r.title +
+          '</div><div class="res-desc">' + (r.size ? (r.size / 1024 / 1024).toFixed(1) + ' MB · ' : '') + '云存储文件</div></div>' +
+          '<div class="res-act"><button class="res-btn solid" onclick="downloadRes(\'' + r.file_id + '\')">下 载</button></div></div>';
+      }
+      return '<div class="res-item"><div class="res-ico">☁</div><div class="res-main"><div class="res-title">' + r.title +
+        '</div><div class="res-desc">' + (r.desc || r.url) + '</div></div><div class="res-act">' +
+        (r.code ? '<button class="res-btn" onclick="copyText(\'' + r.code + '\')">提取码 ' + r.code + '</button>' : '') +
+        '<a class="res-btn solid" style="display:inline-flex;align-items:center" href="' + r.url + '" target="_blank" rel="noopener">打开网盘</a></div></div>';
+    }
+    box.innerHTML =
+      '<div class="res-group"><div class="res-group-head"><span class="res-group-name">📁 文件</span><span class="res-group-line"></span>' +
+      (isResAdmin() ? '<button class="res-add" onclick="openResModal(\'file\')">＋ 上传文件</button>' : '') + '</div>' +
+      '<div class="res-list">' + (files.length ? files.map(row).join('') : '<div class="res-empty">暂无文件' + (isResAdmin() ? '，点击右上角上传第一份资料' : '，敬请期待') + '</div>') + '</div></div>' +
+      '<div class="res-group"><div class="res-group-head"><span class="res-group-name">🔗 网盘链接</span><span class="res-group-line"></span>' +
+      (isResAdmin() ? '<button class="res-add" onclick="openResModal(\'link\')">＋ 添加链接</button>' : '') + '</div>' +
+      '<div class="res-list">' + (links.length ? links.map(row).join('') : '<div class="res-empty">暂无网盘链接</div>') + '</div></div>';
+  }
+  document.querySelectorAll('.res-tab').forEach(t => t.onclick = () => {
+    document.querySelectorAll('.res-tab').forEach(x => x.classList.toggle('active', x === t));
+    resState.cat = t.dataset.cat;
+    renderRes();
+  });
+  window.copyText = copyText;
+  window.downloadRes = async (fileId) => {
+    try {
+      const app = await ensureCloud();
+      const r = await app.getTempFileURL([fileId]);
+      const url = r.fileList && r.fileList[0] && r.fileList[0].tempFileURL;
+      if (url) window.open(url, '_blank');
+      else alert('下载链接生成失败');
+    } catch (e) { alert('下载失败：' + (e.message || e)); }
+  };
+  let resKind = 'file';
+  window.openResModal = (kind) => {
+    resKind = kind;
+    document.getElementById('resModalTitle').textContent = kind === 'file' ? '上传文件' : '添加网盘链接';
+    document.getElementById('resFileField').hidden = kind !== 'file';
+    document.getElementById('resUrlField').hidden = kind !== 'link';
+    document.getElementById('resCodeField').hidden = kind !== 'link';
+    document.getElementById('resForm').reset();
+    document.getElementById('resMsg').textContent = '';
+    document.getElementById('resModal').classList.add('open');
+  };
+  document.getElementById('resForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const msg = document.getElementById('resMsg'), btn = document.getElementById('resSubmit');
+    msg.className = 'modal-msg'; msg.textContent = '';
+    const title = document.getElementById('resTitle').value.trim();
+    const cat = document.getElementById('resCat').value;
+    if (!title) { msg.className = 'modal-msg error'; msg.textContent = '请填写标题'; return; }
+    btn.disabled = true; btn.textContent = '发布中…';
+    try {
+      const app = await ensureCloud();
+      const col = app.database().collection('site_resources');
+      if (resKind === 'file') {
+        const f = document.getElementById('resFile').files[0];
+        if (!f) { msg.className = 'modal-msg error'; msg.textContent = '请选择文件'; btn.disabled = false; btn.textContent = '发 布'; return; }
+        msg.textContent = '上传文件中…（大文件请耐心等待）';
+        const up = await app.uploadFile({ cloudPath: 'resources/' + Date.now() + '_' + f.name, filePath: f });
+        await col.add({ title, cat, kind: 'file', file_id: up.fileID, size: f.size, at: Date.now() });
+      } else {
+        const url = document.getElementById('resUrl').value.trim();
+        if (!url) { msg.className = 'modal-msg error'; msg.textContent = '请填写网盘链接'; btn.disabled = false; btn.textContent = '发 布'; return; }
+        await col.add({ title, cat, kind: 'link', url, code: document.getElementById('resCode').value.trim(), desc: '', at: Date.now() });
+      }
+      msg.className = 'modal-msg ok'; msg.textContent = '发布成功';
+      document.getElementById('resModal').classList.remove('open');
+      const r = await col.limit(200).get();
+      if (r.data) { resState.items = RES_DEMO.concat(r.data); renderRes(); }
+    } catch (err) {
+      msg.className = 'modal-msg error'; msg.textContent = '发布失败：' + (err.message || err);
+    } finally { btn.disabled = false; btn.textContent = '发 布'; }
+  });
+  // 登录态变化后刷新资源区（显示管理员按钮）
+  const _origShowAuthed = showAuthed;
+  showAuthed = function (u) { _origShowAuthed(u); renderRes(); };
+  // 拉云端资源
+  (async () => {
+    try {
+      const app = await ensureCloud();
+      const r = await app.database().collection('site_resources').limit(200).get();
+      if (r.data && r.data.length) { resState.items = RES_DEMO.concat(r.data); renderRes(); }
+      else renderRes();
+    } catch (e) { renderRes(); }
+  })();
+
+  /* ================= 星环 AI 抽屉（v3.0：aiService.chat） ================= */
+  const aiHistory = [];
+  const aiDrawer = document.getElementById('aiDrawer');
+  document.getElementById('aiFloat').onclick = () => {
+    if (!sessionToken) { alert('请先登录（顶栏「登录 / 注册」），登录后即可使用星环 AI。'); return; }
+    aiDrawer.classList.toggle('open');
+  };
+  document.getElementById('aiClose').onclick = () => aiDrawer.classList.remove('open');
+  function aiPush(role, text) {
+    const box = document.getElementById('aiMsgs');
+    const div = document.createElement('div');
+    div.className = 'ai-msg ' + (role === 'user' ? 'user' : 'bot');
+    div.textContent = text;
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
+  }
+  async function aiAsk() {
+    const input = document.getElementById('aiText');
+    const q = input.value.trim();
+    if (!q || !sessionToken) return;
+    input.value = '';
+    aiPush('user', q);
+    aiHistory.push({ role: 'user', content: q });
+    aiPush('bot', '思考中…');
+    const thinking = document.getElementById('aiMsgs').lastChild;
+    try {
+      const r = await callFn('aiService', 'chat', { token: sessionToken, messages: aiHistory });
+      const reply = (r && r.data && (r.data.reply || r.data.answer)) || (r && (r.reply || r.answer)) || (r && r.code === 0 && typeof r.data === 'string' ? r.data : null);
+      thinking.textContent = reply || ('暂时没有回应' + (r && r.message ? '：' + r.message : ''));
+      if (reply) aiHistory.push({ role: 'assistant', content: reply });
+    } catch (e) {
+      thinking.textContent = '连接失败：' + (e.message || e);
+    }
+  }
+  document.getElementById('aiSend').onclick = aiAsk;
+  document.getElementById('aiText').addEventListener('keydown', e => { if (e.key === 'Enter') aiAsk(); });
 
   /* ================= 折叠窗口（活动板块 / 成员部门） ================= */
   (function () {

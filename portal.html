@@ -394,6 +394,14 @@
       /* 顶栏更舒展 */
       .app-top { padding: 14px 44px; }
     }
+  
+    /* ===== v1.2 可读性与按钮美化（桌面版补丁） ===== */
+    body { zoom: 1.13; }
+    .btn { border-radius: 12px !important; letter-spacing: .08em; transition: all .25s ease; }
+    .btn-gold { background: linear-gradient(135deg, #2f7fe0, #1c5cb8) !important; color: #fff !important;
+      border: 0 !important; box-shadow: 0 8px 26px rgba(47,127,224,.35); }
+    .btn-gold:hover { filter: brightness(1.14); transform: translateY(-2px); box-shadow: 0 14px 36px rgba(47,127,224,.5); }
+    .btn-gold:active { transform: translateY(0); }
   </style>
 </head>
 <body>

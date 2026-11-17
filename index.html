@@ -216,6 +216,11 @@
     .collapsed.dept .dept-head{margin-bottom:0}
     .act-block .act-head{margin-bottom:30px;transition:margin .4s}
     .collapsed.act-block .act-head{margin-bottom:0}
+  
+    /* ===== v2.2 名片编辑 ===== */
+    .m-edit{margin-top:10px;padding:6px 16px;border:1px solid rgba(124,199,255,.4);border-radius:999px;
+      background:rgba(124,199,255,.07);color:var(--star);font-size:12px;cursor:pointer;font-family:inherit;transition:.25s}
+    .m-edit:hover{background:rgba(124,199,255,.16)}
   </style>
 </head>
 <body>
@@ -405,6 +410,29 @@
     </div>
   </div>
 
+
+  <!-- ===== 名片编辑弹窗 ===== -->
+  <div class="modal" id="editModal">
+    <div class="modal-card modal-wrap">
+      <button class="modal-close" data-close>×</button>
+      <h3>编辑名片</h3>
+      <p class="sub" id="editWho"></p>
+      <form id="editForm">
+        <div class="field"><label>部门</label>
+          <select id="editDept" style="width:100%;padding:13px 16px;border:1px solid var(--line);border-radius:12px;background:#0b1526;color:var(--ink);font-size:15px;font-family:inherit">
+            <option value="">未分组</option><option>主席团</option><option>核心团队</option><option>观测理论部</option>
+            <option>组织部</option><option>活动部</option><option>宣传部</option><option>会员</option>
+          </select>
+        </div>
+        <div class="field"><label>校区</label><input id="editCampus" maxlength="50" placeholder="如：崂山校区 / 鱼山校区 / 西海岸校区" /></div>
+        <div class="field"><label>联系方式</label><input id="editContact" maxlength="100" placeholder="微信 / QQ / 邮箱（公开显示）" /></div>
+        <div class="field"><label>个人简介</label><input id="editBio" maxlength="300" placeholder="一句话介绍自己（300字内）" /></div>
+        <button class="modal-btn" type="submit" id="editSubmit">保 存</button>
+        <div class="modal-msg" id="editMsg"></div>
+      </form>
+    </div>
+  </div>
+
   <!-- ===== 星环 AI 悬浮窗（登录后显示） ===== -->
   <button id="aiFloat" hidden title="星环 AI">✦</button>
 
@@ -412,7 +440,7 @@
   <script src="https://imgcache.qq.com/qcloud/cloudbase-js-sdk/1.7.2/cloudbase.full.js"></script>
   <script>
   /* ================= 成员数据（members 集合导出，已脱敏） ================= */
-  const WALL = [{"n":"Sun","u":"wx_SJM2kpX0","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"孙一琳","u":"sunyilin","r":"admin","d":"宣传部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"兰竣越","u":"lanjunyue","r":"admin","d":"主席团","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"n":"许钟丹","u":"xuzhongdan","r":"admin","d":"宣传部","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"n":"罗彦邦","u":"luoyanbang","r":"admin","d":"主席团","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"n":"张坦","u":"zhangtan","r":"admin","d":"主席团","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"n":"黄心阳","u":"huangxinyang","r":"admin","d":"活动部","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"n":"黄伟钵","u":"26090031033","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"张皓一","u":"26020041109","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"段嘉琪","u":"25010022012","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"刘铁","u":"26180043028","r":"member","d":"宣传部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"林锦谙","u":"wx_ST0WwyJs","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"佟佩林","u":"26020006133","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"张子宁","u":"26020036112","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"乔海轩","u":"25090012035","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"陈森","u":"26170001011","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"李圣杰","u":"25170001056","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"刘依依","u":"liuyiyi","r":"admin","d":"主席团","s":"中国海洋大学","c":"西海岸校区","t":"","b":""},{"n":"刘佳林","u":"26020046017","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"赵翌彤","u":"26160001130","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"金茂生","u":"jinmaosheng","r":"admin","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"刘畅","u":"25020041051","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"李莹玉","u":"liyingyu","r":"admin","d":"观测理论部","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"n":"YVonne","u":"wx_YoWs6ViA","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"雨","u":"wx_LzDD4W2o","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"欧阳晨笑","u":"26010022063","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"齐英博","u":"25170001088","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"1","u":"wx_Bo5wp2Pk","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"hhh","u":"wx_20DeV1PQ","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"路子浩","u":"26010022058","r":"member","d":"宣传部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"吴宸宇","u":"26090041077","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"宋一诺","u":"24010022060","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"Ptilotsis","u":"wx_ghW-2J-U","r":"member","d":"","s":"中国海洋大学","c":"西海岸校区","t":"","b":""},{"n":"邱墨","u":"25020011016","r":"member","d":"宣传部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"户外协会管理员","u":"huxie","r":"admin","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"宋一诺","u":"songyinuo","r":"admin","d":"观测理论部","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"n":"齐英博","u":"qiyingbo","r":"admin","d":"观测理论部","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"n":"孟文亮","u":"mengwenliang","r":"admin","d":"观测理论部","s":"中国海洋大学","c":"西海岸校区","t":"","b":""},{"n":"张皓辰","u":"zhanghaochen","r":"admin","d":"宣传部","s":"中国海洋大学","c":"西海岸校区","t":"","b":""},{"n":"孟文亮","u":"25170001082","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"n":"白云","u":"wx_tbUy8Aeo","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"🐟","u":"wx_TQuUOBgU","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"神仙鱼头煲","u":"wx_gHz42Pl4","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"素贞","u":"wx_33ufZT88","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"不累不累","u":"wx_JEogzi_M","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"起名好难","u":"wx_DkqsU8xg","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"n":"把","u":"wx_3hV5XHvA","r":"member","d":"","s":"中国海洋大学","c":"崂山校区","t":"","b":""}];
+  const WALL = [{"i":"f27612116af41b8001bd5cac0022d19c","n":"Sun","u":"wx_SJM2kpX0","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"i":"76dc6f266af421b00037819303acbae3","n":"孙一琳","u":"sunyilin","r":"admin","d":"宣传部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"76dc6f266af4235b00378e0f459a689b","n":"兰竣越","u":"lanjunyue","r":"admin","d":"主席团","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"i":"7cc5dc476af4274e00652b3e1562c8b9","n":"许钟丹","u":"xuzhongdan","r":"admin","d":"宣传部","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"i":"f27612116af427fd01c0ca75371787c0","n":"罗彦邦","u":"luoyanbang","r":"admin","d":"主席团","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"i":"f27612116af428ab01c0f72c4fa60f48","n":"张坦","u":"zhangtan","r":"admin","d":"主席团","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"i":"76dc6f266af429830037cfed0dc542c9","n":"黄心阳","u":"huangxinyang","r":"admin","d":"活动部","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"i":"67b1497e6af42c050039e1857c9b88cd","n":"黄伟钵","u":"26090031033","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"7cc5dc476af42c3f00658a1d031702ff","n":"张皓一","u":"26020041109","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"f27612116af42c5001c20ef361a69c43","n":"段嘉琪","u":"25010022012","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"76dc6f266af42c6c0037ec7e5c634a82","n":"刘铁","u":"26180043028","r":"member","d":"宣传部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"76dc6f266af42c9a0037ee5205e396a7","n":"林锦谙","u":"wx_ST0WwyJs","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"i":"76dc6f266af42cb90037ef575c15cc09","n":"佟佩林","u":"26020006133","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"7cc5dc476af42cbd00658f75693ad219","n":"张子宁","u":"26020036112","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"67b1497e6af42cdb0039ecab74154074","n":"乔海轩","u":"25090012035","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"f27612116af42d2201c259fc010df8e1","n":"陈森","u":"26170001011","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"7cc5dc476af42e2900659d4468a44736","n":"李圣杰","u":"25170001056","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"67b1497e6af42e5a003a006a13310a39","n":"刘依依","u":"liuyiyi","r":"admin","d":"主席团","s":"中国海洋大学","c":"西海岸校区","t":"","b":""},{"i":"7cc5dc476af42eb40065a483269df24b","n":"刘佳林","u":"26020046017","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"f27612116af42f8c01c2ec4f3aee2253","n":"赵翌彤","u":"26160001130","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"7cc5dc476af430340065c2437914089c","n":"金茂生","u":"jinmaosheng","r":"admin","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"i":"76dc6f266af4308900383b244271c398","n":"刘畅","u":"25020041051","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"76dc6f266af430f200383e577703e36e","n":"李莹玉","u":"liyingyu","r":"admin","d":"观测理论部","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"i":"f27612116af431b901c3604f569aa343","n":"YVonne","u":"wx_YoWs6ViA","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"i":"f27612116af432a801c397d3588171d3","n":"雨","u":"wx_LzDD4W2o","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"i":"f27612116af43c8801c6c3395b67b176","n":"欧阳晨笑","u":"26010022063","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"f27612116af4588201cf49036be3d53f","n":"齐英博","u":"25170001088","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"76dc6f266af47657003b0597388a6e72","n":"1","u":"wx_Bo5wp2Pk","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"i":"f27612116af582ff0223540e632bb10f","n":"hhh","u":"wx_20DeV1PQ","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"i":"67b1497e6af5bd2100489f7758dc45ea","n":"路子浩","u":"26010022058","r":"member","d":"宣传部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"76dc6f266af5d6f5004698a142babcf9","n":"吴宸宇","u":"26090041077","r":"member","d":"组织部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"76dc6f266af5d79e00469c564d281653","n":"宋一诺","u":"24010022060","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"7cc5dc476af5d85a007de45f3fcde5cc","n":"Ptilotsis","u":"wx_ghW-2J-U","r":"member","d":"","s":"中国海洋大学","c":"西海岸校区","t":"","b":""},{"i":"76dc6f266af5eb4800473a40651895dd","n":"邱墨","u":"25020011016","r":"member","d":"宣传部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"76dc6f266af66bef0049a3cf208b944c","n":"户外协会管理员","u":"huxie","r":"admin","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"i":"f27612116af6b9a3027b316a0b0201a8","n":"宋一诺","u":"songyinuo","r":"admin","d":"观测理论部","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"i":"7cc5dc476af6b9a4008a0f015c1ee426","n":"齐英博","u":"qiyingbo","r":"admin","d":"观测理论部","s":"中国海洋大学","c":"崂山校区","t":"","b":""},{"i":"f27612116af6b9a4027b316d39b8b487","n":"孟文亮","u":"mengwenliang","r":"admin","d":"观测理论部","s":"中国海洋大学","c":"西海岸校区","t":"","b":""},{"i":"7cc5dc476af6b9a4008a0f041b674cbd","n":"张皓辰","u":"zhanghaochen","r":"admin","d":"宣传部","s":"中国海洋大学","c":"西海岸校区","t":"","b":""},{"i":"76dc6f266af6ee99004f4f976a0ac649","n":"孟文亮","u":"25170001082","r":"member","d":"观测理论部","s":"中国海洋大学","c":"","t":"","b":""},{"i":"f27612116af70324029040f2521498d2","n":"白云","u":"wx_tbUy8Aeo","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"i":"7cc5dc476af7e285009a1e1e75ffad61","n":"🐟","u":"wx_TQuUOBgU","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"i":"67b1497e6af88b6200626d6923d78909","n":"神仙鱼头煲","u":"wx_gHz42Pl4","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"i":"7cc5dc476af943b700acfc993430dba5","n":"素贞","u":"wx_33ufZT88","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"i":"f27612116af94a190329e2c944aa65e0","n":"不累不累","u":"wx_JEogzi_M","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"i":"f27612116af959d1032d844b6bcaeee1","n":"起名好难","u":"wx_DkqsU8xg","r":"member","d":"","s":"中国海洋大学","c":"","t":"","b":""},{"i":"b75752676afad0ca000437b443cc1dc7","n":"把","u":"wx_3hV5XHvA","r":"member","d":"","s":"中国海洋大学","c":"崂山校区","t":"","b":""}];
 
   /* ================= 星点画布 + 鼠标光晕（Hero 光影） ================= */
   (function () {
@@ -500,12 +528,13 @@
       dept.innerHTML = '<div class="dept-head"><span class="dept-name">' + esc(d) + '</span><span class="chev">▾</span>' +
         '<span class="dept-count">' + list.length + ' 人</span><span class="dept-line"></span></div>' +
         '<div class="member-grid">' + list.map(m =>
-          '<article class="m-card"><div class="m-ava">' + esc((m.n || '?').slice(0, 1)) + '</div>' +
+          '<article class="m-card" data-id="' + esc(m.i) + '" data-u="' + esc(m.u) + '"><div class="m-ava">' + esc((m.n || '?').slice(0, 1)) + '</div>' +
           '<div class="m-info"><div class="m-name">' + esc(m.n) +
           (m.r === 'admin' ? '<span class="m-role admin">管理员</span>' : (m.r !== 'member' ? '<span class="m-role">' + esc(m.r) + '</span>' : '')) +
           '</div><div class="m-meta"><b>' + esc(m.s || '中国海洋大学') + '</b>' +
           (m.c ? ' · ' + esc(m.c) : '') + (m.t ? '<br>联系方式：' + esc(m.t) : '') + '</div>' +
           (m.b ? '<div class="m-bio">“' + esc(m.b) + '”</div>' : '') +
+          (canEdit(m) ? '<button class="m-edit" type="button">✎ 编辑</button>' : '') +
           '</div></article>').join('') + '</div>';
       box.appendChild(dept);
       io.observe(dept);
@@ -537,6 +566,17 @@
     document.getElementById('calPrev').onclick = () => { base.setMonth(base.getMonth() - 1); render(); };
     document.getElementById('calNext').onclick = () => { base.setMonth(base.getMonth() + 1); render(); };
     render();
+    // v2.2：拉取云端真实活动（site_activities 集合，所有用户可读；失败保留示例数据）
+    (async () => {
+      try {
+        const app = await ensureCloud();
+        const r = await app.database().collection('site_activities').limit(200).get();
+        if (r.data && r.data.length) {
+          r.data.forEach(d => { const k = String(d.date || '').slice(0, 10); if (k) DEMO[k] = d.title; });
+          render();
+        }
+      } catch (e) { console.warn('[calendar] 云端活动读取失败，使用示例数据', e); }
+    })();
   })();
 
   /* ================= 弹窗开关 ================= */
@@ -563,6 +603,9 @@
   async function ensureCloud() {
     if (cloudapp) return cloudapp;
     await loadScript('https://imgcache.qq.com/qcloud/cloudbase-js-sdk/1.7.2/cloudbase.full.js');
+    // v2.2 修复：脚本标签可能刚插入还没执行完，轮询等待全局对象就绪
+    for (let i = 0; i < 100 && !window.cloudbase; i++) await new Promise(r => setTimeout(r, 100));
+    if (!window.cloudbase) throw new Error('CloudBase SDK 加载失败，请检查网络后刷新重试');
     cloudapp = cloudbase.init({ env: CFG.env });
     try { await cloudapp.auth({ persistence: 'local' }).signInAnonymously(); } catch (e) { console.warn('[portal] 匿名会话失败', e); }
     return cloudapp;
@@ -596,6 +639,7 @@
       const app = await ensureCloud();
       await app.auth().signInWithTicket(r.ticket);
       session = r.member || {};
+      sessionToken = r.token || sessionToken;
       showAuthed(session);
       closeModal($('loginModal'));
       msg.textContent = '';
@@ -607,6 +651,7 @@
   });
 
   function showAuthed(u) {
+    sessionMember = u || null;
     $('authArea').innerHTML =
       '<span class="tb-user"><span class="avatar">' + String(u.nickname || u.name || '成').slice(0, 1) + '</span>' +
       '<span class="uname">' + (u.nickname || u.name || '成员') + '</span>' +
@@ -615,6 +660,61 @@
   }
 
   $('aiFloat').onclick = () => alert('星环 AI 即将上线（第 3 期接入星海课堂智能助教）。\n先移步「老版工作台」体验完整功能。');
+
+  /* ================= 名片编辑（v2.2：本人 / 管理员） ================= */
+  function canEdit(m) {
+    if (!sessionMember) return false;
+    if (m.u && sessionMember.username && m.u === sessionMember.username) return true;
+    return sessionMember.role === 'admin' || sessionMember.super_admin === true;
+  }
+  let editingId = null;
+  function openEditor(card) {
+    const id = card.dataset.id;
+    const m = WALL.find(x => String(x.i) === String(id));
+    if (!m) return;
+    editingId = id;
+    document.getElementById('editWho').textContent = '正在编辑：' + m.n + ((sessionMember && sessionMember.username !== m.u) ? '（管理员）' : '');
+    document.getElementById('editDept').value = m.d || '';
+    document.getElementById('editCampus').value = m.c || '';
+    document.getElementById('editContact').value = m.t || '';
+    document.getElementById('editBio').value = m.b || '';
+    document.getElementById('editModal').classList.add('open');
+  }
+  document.addEventListener('click', e => {
+    const btn = e.target.closest('.m-edit');
+    if (btn) openEditor(btn.closest('.m-card'));
+  });
+  document.getElementById('editForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const msg = document.getElementById('editMsg'), btn = document.getElementById('editSubmit');
+    msg.className = 'modal-msg'; msg.textContent = '';
+    btn.disabled = true; btn.textContent = '保存中…';
+    try {
+      const r = await callFn('memberService', 'web_update_profile', {
+        token: sessionToken, target_id: editingId,
+        campus: document.getElementById('editCampus').value,
+        contact: document.getElementById('editContact').value,
+        bio: document.getElementById('editBio').value,
+        department: document.getElementById('editDept').value
+      });
+      if (!r || r.code !== 0) { msg.className = 'modal-msg error'; msg.textContent = (r && r.message) || '保存失败（需先部署 memberService v7.2）'; return; }
+      const m = WALL.find(x => String(x.i) === String(editingId));
+      if (m) {
+        m.d = document.getElementById('editDept').value; m.c = document.getElementById('editCampus').value;
+        m.t = document.getElementById('editContact').value; m.b = document.getElementById('editBio').value;
+        const card = document.querySelector('.m-card[data-id="' + editingId + '"]');
+        if (card) {
+          card.querySelector('.m-meta').innerHTML = '<b>' + (m.s || '中国海洋大学') + '</b>' + (m.c ? ' · ' + m.c : '') + (m.t ? '<br>联系方式：' + m.t : '');
+          let bioEl = card.querySelector('.m-bio');
+          if (m.b && !bioEl) { bioEl = document.createElement('div'); bioEl.className = 'm-bio'; card.querySelector('.m-info').insertBefore(bioEl, card.querySelector('.m-edit')); }
+          if (bioEl) { bioEl.style.display = m.b ? '' : 'none'; bioEl.textContent = m.b ? '“' + m.b + '”' : ''; }
+        }
+      }
+      document.getElementById('editModal').classList.remove('open');
+    } catch (err) {
+      msg.className = 'modal-msg error'; msg.textContent = '保存异常：' + (err.message || err);
+    } finally { btn.disabled = false; btn.textContent = '保 存'; }
+  });
 
   /* ================= 折叠窗口（活动板块 / 成员部门） ================= */
   (function () {

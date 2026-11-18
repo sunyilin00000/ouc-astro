@@ -1182,7 +1182,12 @@
     aiPush('bot', '思考中…');
     const thinking = document.getElementById('aiMsgs').lastChild;
     try {
-      const r = await callFn('aiService', 'chat', { token: sessionToken, messages: aiHistory });
+      // v3.2.3 官网 AI 改走 SCF 统一通道（星环AI 人格 + 分类记忆；课堂之外不自称 MOSS）
+      const r = await (await fetch('https://1521583267-cn8t3sbvwc.ap-shanghai.tencentscf.com/ai/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Member-Token': sessionToken },
+        body: JSON.stringify({ messages: aiHistory, channel: 'portal' })
+      })).json();
       const reply = (r && r.data && (r.data.reply || r.data.answer)) || (r && (r.reply || r.answer)) || (r && r.code === 0 && typeof r.data === 'string' ? r.data : null);
       thinking.textContent = reply || ('暂时没有回应' + (r && r.message ? '：' + r.message : ''));
       if (reply) aiHistory.push({ role: 'assistant', content: reply });
